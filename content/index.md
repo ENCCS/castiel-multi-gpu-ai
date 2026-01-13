@@ -10,14 +10,14 @@ prerequisites
 :delim: ;
 :widths: auto
 
-20 min ; {doc}`filename`
+1M ; intro
 ```
 
 ```{toctree}
 :caption: The lesson
 :maxdepth: 1
 
-episode.md
+se/index.md
 ```
 
 ```{toctree}
