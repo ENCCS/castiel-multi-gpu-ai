@@ -18,5 +18,4 @@ echo "Using head node ip: $head_node_ip"
 export rdzv_port=$(expr 10000 + $(echo -n $SLURM_JOBID | tail -c 4))
 echo "Using port: $rdzv_port"
 
-OMP_NUM_THREADS=8 srun torchrun --nproc_per_node=2 --nnodes 1 --rdzv_id $rdzv_port --rdzv_backend c10d --rdzv_endpoint $head_node_ip:$rdzv_port $HOME/castiel-multi-gpu-ai/content/nl/exercises/mnist_classify_ddp_torchrun.py --batch-size 128 --epochs 5 --data-dir $WORK/cvanleeuwen
-
+OMP_NUM_THREADS=8 srun torchrun --nproc_per_node=2 --nnodes 1 --rdzv_id $rdzv_port --rdzv_backend c10d --rdzv_endpoint $head_node_ip:$rdzv_port $HOME/castiel-multi-gpu-ai/content/nl/exercises/mnist_classify_ddp_torchrun.py --batch-size 128 --epochs 5 --data-dir $FAST/data

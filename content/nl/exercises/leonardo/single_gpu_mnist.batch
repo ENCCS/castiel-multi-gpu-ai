@@ -17,4 +17,4 @@ export MASTER_PORT=$(expr 10000 + $(echo -n $SLURM_JOBID | tail -c 4))
 master_addr=$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n 1)
 export MASTER_ADDR=$master_addr
 
-python3 $HOME/castiel-multi-gpu-ai/content/nl/exercises/mnist_classify.py --batch-size 128 --epochs 5 --data-dir $WORK/cvanleeuwen
+python3 $HOME/castiel-multi-gpu-ai/content/nl/exercises/mnist_classify.py --batch-size 128 --epochs 5 --data-dir $FAST/data
