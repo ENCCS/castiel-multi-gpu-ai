@@ -21,6 +21,7 @@ setup
 3-monitor-the-model
 ```
 
+<!-- 
 :::{admonition} Extra reading material
 :class: dropdown
 
@@ -33,6 +34,7 @@ setup
 ```
 
 :::
+ -->
 
 
 ```{toctree}
