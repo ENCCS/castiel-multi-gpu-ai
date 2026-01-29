@@ -54,7 +54,7 @@ myst_enable_extensions = [
 ]
 myst_dmath_double_inline = True
 myst_fence_as_directive = {"mermaid"}
-myst_substitutions = {"author": author}
+myst_substitutions = {"author": author, "repo": f"https://github.com/{github_user}/castiel-multi-gpu-ai/blob/main/content"}
 myst_heading_anchors = 4
 
 # Settings for sphinx-copybutton
