@@ -101,3 +101,8 @@
 .eqno {
     float: right;
 }
+
+/* Logo on the sidebar */
+a.icon.icon-home > img.logo {
+    width: 70%;
+}

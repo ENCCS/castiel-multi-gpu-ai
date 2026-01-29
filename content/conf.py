@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = "CASTIEL2 Multi-GPU AI"
-copyright = "2025, The contributors"
+copyright = "2026, The contributors"
 author = "The contributors"
 github_user = "ENCCS"
 github_repo_name = ""  # auto-detected from dirname if blank
@@ -95,6 +95,15 @@ html_context = {
     "github_repo": github_repo_name or basename(dirname(dirname(realpath(__file__)))),
     "github_version": github_version,
     "conf_py_path": conf_py_path,
+}
+
+html_theme_options = {
+    # Toc options
+    'collapse_navigation': True,
+    'sticky_navigation': True,
+    'navigation_depth': 4,
+    'includehidden': True,
+    'titles_only': False
 }
 
 # Intersphinx mapping.  For example, with this you can use
