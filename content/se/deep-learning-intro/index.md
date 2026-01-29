@@ -40,8 +40,6 @@ setup
 :caption: Reference
 
 reference
-instructor-notes
-learner-profiles
 ```
 
 ## Schedule
