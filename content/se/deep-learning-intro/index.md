@@ -27,7 +27,7 @@ cd castiel-multi-gpu-ai/content/se/deep-learning-intro/notebooks
 To launch jupyter start with {ref}`instructions here <jupyter>` and then use the {download}`notebooks/start_jupyter_for_deep_learning_intro.sh` shown below:
 
 ```{warning}
-To avoid wasting resources, remember to **save** (using the Jupyter interface) and **cancel** (using `scancel`) the jobs at the end of the session.
+To avoid wasting resources, remember to **save** (using the Jupyter interface) and **cancel** (using `scancel --me`) the jobs at the end of the session.
 ```
 
 ```{literalinclude} notebooks/start_jupyter_for_deep_learning_intro.sh

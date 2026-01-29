@@ -28,9 +28,11 @@ head_node_ip=$(srun --nodes=1 --ntasks=1 -w "$head_node" hostname --ip-address)
 jupyter_port=$(($RANDOM%(64511-50000+1)+50000))
 jupyter_token=${USER}_${jupyter_port}
 echo ===================================================
+echo
 echo [INFO]: To access the Jupyter server, remember to open a ssh tunnel from your local machine with: 
 echo ssh -L $jupyter_port:$head_node_ip:$jupyter_port ${USER}@login02-ext.leonardo.cineca.it -N
 echo then you can connect to the jupyter server at http://127.0.0.1:$jupyter_port/lab?token=$jupyter_token
+echo
 echo ===================================================
 
 # Start the head node
