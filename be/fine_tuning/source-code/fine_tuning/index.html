@@ -1,0 +1,942 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Environment setup &mdash; CASTIEL2 Multi-GPU AI  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_lesson.css?v=e9df6548" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/overrides.css?v=d560b895" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=187304be"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=35a8b989"></script>
+      <script src="../../../../_static/minipres.js?v=a0d29692"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../../_static/togglebutton.js?v=1ae7504c"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex/" />
+    <link rel="search" title="Search" href="../../../../search/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../" class="icon icon-home">
+            CASTIEL2 Multi-GPU AI
+              <img src="../../../../_static/CASTIEL2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">The lesson materials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../it/leonardo/README/">1M: Access to Leonardo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../se/deep-learning-intro/">1A: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nl/">2M: PyTorch Distributed Data Parallel</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/">Instructor’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../directives/">Directives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../">CASTIEL2 Multi-GPU AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Environment setup</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/castiel-multi-gpu-ai/blob/main/content/be/fine_tuning/source-code/fine_tuning.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="environment-setup">
+<h1>Environment setup<a class="headerlink" href="#environment-setup" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;BNB_CUDA_VERSION&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;120&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training-data">
+<h1>Training data<a class="headerlink" href="#training-data" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">format_prompt</span><span class="p">(</span><span class="n">example</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;### Question: </span><span class="si">{</span><span class="n">example</span><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s1">### Answer: </span><span class="si">{</span><span class="n">example</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span>
+    <span class="s1">&#39;json&#39;</span><span class="p">,</span>
+    <span class="n">data_files</span><span class="o">=</span><span class="s1">&#39;pandas_data_analysis_questions_train.jsonl&#39;</span><span class="p">,</span>
+    <span class="n">split</span><span class="o">=</span><span class="s1">&#39;train&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "95054e278a114628bbf3304e6ebd1ffd", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_dataset</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span>
+    <span class="s1">&#39;json&#39;</span><span class="p">,</span>
+    <span class="n">data_files</span><span class="o">=</span><span class="s1">&#39;pandas_data_analysis_questions_test.jsonl&#39;</span><span class="p">,</span>
+    <span class="n">split</span><span class="o">=</span><span class="s1">&#39;train&#39;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "a12ee3c91bc54a87a1c027bc3409e895", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="log-in-to-hugging-face">
+<h1>Log in to Hugging Face<a class="headerlink" href="#log-in-to-hugging-face" title="Link to this heading"></a></h1>
+<p>To access models from Hugging Space you need to login. This requires an access token.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">huggingface_hub</span><span class="w"> </span><span class="kn">import</span> <span class="n">notebook_login</span>
+<span class="n">notebook_login</span><span class="p">(</span><span class="n">new_session</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "00e1ec6fafce44b2aa66a6162d5bb410", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="configure-and-download-model">
+<h1>Configure and download model<a class="headerlink" href="#configure-and-download-model" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AutoTokenizer</span><span class="p">,</span>
+    <span class="n">AutoModelForCausalLM</span><span class="p">,</span>
+    <span class="n">BitsAndBytesConfig</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The cache for model files in Transformers v4.22.0 has been updated. Migrating your old cache. This is a one-time only operation. You can interrupt this and resume the migration later on by calling `transformers.utils.move_cache()`.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3c6ef7fe052e4e66a4f38f7d74cbdc38", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base_model_id</span> <span class="o">=</span> <span class="s2">&quot;mistralai/Mistral-7B-v0.1&quot;</span>
+<span class="n">bnb_config</span> <span class="o">=</span> <span class="n">BitsAndBytesConfig</span><span class="p">(</span>
+    <span class="n">load_in_4bit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">bnb_4bit_use_double_quant</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">bnb_4bit_quant_type</span><span class="o">=</span><span class="s2">&quot;nf4&quot;</span><span class="p">,</span>
+    <span class="n">bnb_4bit_compute_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bfloat16</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForCausalLM</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+    <span class="n">base_model_id</span><span class="p">,</span>
+    <span class="n">quantization_config</span><span class="o">=</span><span class="n">bnb_config</span><span class="p">,</span>
+    <span class="n">device_map</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "786b52f325854ed08569e622df2c0808", "version_major": 2, "version_minor": 0}</script><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: BNB_CUDA_VERSION=120 environment variable detected; loading libbitsandbytes_cuda120.so.
+This can be used to load a bitsandbytes version that is different from the PyTorch CUDA version.
+If this was unintended set the BNB_CUDA_VERSION variable to an empty string: export BNB_CUDA_VERSION=
+If you use the manual override make sure the right libcudart.so is in your LD_LIBRARY_PATH
+For example by adding the following to your .bashrc: export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:&lt;path_to_cuda_dir/lib64
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "2de4399ceace481e86a29c70659a44f9", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "0e3d9a65a2ae461bbb94617ccb49ef7c", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "193858eca64f4365aa89f5c955a1b618", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "cc95fdd723684ad48578abbc8a950c5c", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "d4b9362d058f4fc2b0c276c8152574fe", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "823de2bc99374696a62a9df77fe75aa8", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+</section>
+<section id="tokenization">
+<h1>Tokenization<a class="headerlink" href="#tokenization" title="Link to this heading"></a></h1>
+<p>The maximum number of tokens for the input is 200, hence this is used for padding.  Special tokens are added at the start and end of sentences.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+    <span class="n">base_model_id</span><span class="p">,</span>
+    <span class="n">padding_side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+    <span class="n">add_eos_token</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">add_bos_token</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">tokenizer</span><span class="o">.</span><span class="n">pad_token</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">eos_token</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "9e2d746cc63f4212978e91e5c961ccc7", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "671269c325934389965c4cf764b3a5e0", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "2d82b0c8a4f84885955de5a2e24098df", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "9d5b04d1707e44d29ed9e86c7e976b45", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">generate_and_tokenize_prompt</span><span class="p">(</span><span class="n">prompt</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">tokenizer</span><span class="p">(</span>
+        <span class="n">format_prompt</span><span class="p">(</span><span class="n">prompt</span><span class="p">),</span>
+        <span class="n">max_length</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+        <span class="n">padding</span><span class="o">=</span><span class="s2">&quot;max_length&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tokenized_train_dataset</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">generate_and_tokenize_prompt</span><span class="p">)</span>
+<span class="n">tokenized_test_dataset</span> <span class="o">=</span> <span class="n">test_dataset</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">generate_and_tokenize_prompt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "7c332e46b690409890db7f29b2b1cc33", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "e7e13cbbac35408682103ca42dd1be9a", "version_major": 2, "version_minor": 0}</script></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_data_lengths</span><span class="p">(</span><span class="n">tokenized_train_dataset</span><span class="p">,</span> <span class="n">tokenized_val_dataset</span><span class="p">):</span>
+    <span class="n">lengths</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tokenized_train_dataset</span><span class="p">]</span>
+    <span class="n">lengths</span> <span class="o">+=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tokenized_val_dataset</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lengths</span><span class="p">))</span>
+
+    <span class="c1"># Plotting the histogram</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">lengths</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Length of input_ids&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Distribution of Lengths of input_ids&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_data_lengths</span><span class="p">(</span><span class="n">tokenized_train_dataset</span><span class="p">,</span> <span class="n">tokenized_test_dataset</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4000
+</pre></div>
+</div>
+<img alt="../../../../_images/71fb764e144652041197669ff2f0a59d01c190425cbf433589585e8725afcc02.png" src="../../../../_images/71fb764e144652041197669ff2f0a59d01c190425cbf433589585e8725afcc02.png" />
+</div>
+</div>
+</section>
+<section id="base-model-performance">
+<h1>Base model performance<a class="headerlink" href="#base-model-performance" title="Link to this heading"></a></h1>
+<p>To check the performance of the model as is, i.e., without fine-tuning, we can provide a prompt and see the result.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">evaluation_prompt</span> <span class="o">=</span> <span class="s2">&quot;How to concatenate two dataframes along rows?&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Get the tokenizer for the base model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">evaluation_tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+    <span class="n">base_model_id</span><span class="p">,</span>
+    <span class="n">add_bos_token</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Tokenize the evaluation prompt.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model_input</span> <span class="o">=</span> <span class="n">evaluation_tokenizer</span><span class="p">(</span>
+    <span class="n">evaluation_prompt</span><span class="p">,</span>
+    <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&quot;pt&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Put the model in evaluation mode, and infer without keeping track of the gradients.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">evaluation_tokenizer</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
+              <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
+                  <span class="o">**</span><span class="n">model_input</span><span class="p">,</span>
+                  <span class="n">max_new_tokens</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+                  <span class="n">repetition_penalty</span><span class="o">=</span><span class="mf">1.15</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Setting `pad_token_id` to `eos_token_id`:None for open-end generation.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>How to concatenate two dataframes along rows?
+
+I have a dataframe with 10 columns and 250,000 rows. I want to add another dataframe that has the same number of columns but only 30,000 rows. The result should be a new dataframe with 10 columns and 280,000 rows.
+
+How can this be done in pandas?
+
+The following code does not work:
+
+```
+df = pd.concat([df1, df2], axis=0)
+```
+
+It gives me an error message saying that the indexes are different.
+
+Is there any way to do it without reindexing both dataframes?
+</pre></div>
+</div>
+</div>
+</div>
+<p>The result is relevant, but it is a question, not an answer to our prompt.</p>
+</section>
+<section id="model-architecture">
+<h1>Model architecture<a class="headerlink" href="#model-architecture" title="Link to this heading"></a></h1>
+<p>We can visualize the architecture by simply printing it.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MistralForCausalLM(
+  (model): MistralModel(
+    (embed_tokens): Embedding(32000, 4096)
+    (layers): ModuleList(
+      (0-31): 32 x MistralDecoderLayer(
+        (self_attn): MistralSdpaAttention(
+          (q_proj): Linear4bit(in_features=4096, out_features=4096, bias=False)
+          (k_proj): Linear4bit(in_features=4096, out_features=1024, bias=False)
+          (v_proj): Linear4bit(in_features=4096, out_features=1024, bias=False)
+          (o_proj): Linear4bit(in_features=4096, out_features=4096, bias=False)
+          (rotary_emb): MistralRotaryEmbedding()
+        )
+        (mlp): MistralMLP(
+          (gate_proj): Linear4bit(in_features=4096, out_features=14336, bias=False)
+          (up_proj): Linear4bit(in_features=4096, out_features=14336, bias=False)
+          (down_proj): Linear4bit(in_features=14336, out_features=4096, bias=False)
+          (act_fn): SiLU()
+        )
+        (input_layernorm): MistralRMSNorm((4096,), eps=1e-05)
+        (post_attention_layernorm): MistralRMSNorm((4096,), eps=1e-05)
+      )
+    )
+    (norm): MistralRMSNorm((4096,), eps=1e-05)
+  )
+  (lm_head): Linear(in_features=4096, out_features=32000, bias=False)
+)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="peft-parameter-efficient-fine-tuning">
+<h1>PEFT: Parameter-Efficient Fine-Tuning<a class="headerlink" href="#peft-parameter-efficient-fine-tuning" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">peft</span><span class="w"> </span><span class="kn">import</span> <span class="n">prepare_model_for_kbit_training</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">gradient_checkpointing_enable</span><span class="p">()</span>
+<span class="n">kbit_training_model</span> <span class="o">=</span> <span class="n">prepare_model_for_kbit_training</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">peft</span><span class="w"> </span><span class="kn">import</span> <span class="n">LoraConfig</span><span class="p">,</span> <span class="n">get_peft_model</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">LoraConfig</span><span class="p">(</span>
+    <span class="n">r</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">target_modules</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;q_proj&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;k_proj&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;v_proj&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;o_proj&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gate_proj&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;up_proj&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;down_proj&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;lm_head&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">bias</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="n">lora_dropout</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>  <span class="c1"># Conventional</span>
+    <span class="n">task_type</span><span class="o">=</span><span class="s2">&quot;CAUSAL_LM&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">peft_model</span> <span class="o">=</span> <span class="n">get_peft_model</span><span class="p">(</span><span class="n">kbit_training_model</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">print_trainable_parameters</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prints the number of trainable parameters in the model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">trainable_params</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">all_param</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
+        <span class="n">all_param</span> <span class="o">+=</span> <span class="n">param</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">:</span>
+            <span class="n">trainable_params</span> <span class="o">+=</span> <span class="n">param</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;trainable params: </span><span class="si">{</span><span class="n">trainable_params</span><span class="si">}</span><span class="s2"> || all params: </span><span class="si">{</span><span class="n">all_param</span><span class="si">}</span><span class="s2"> || trainable%: </span><span class="si">{</span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">trainable_params</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">all_param</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_trainable_parameters</span><span class="p">(</span><span class="n">peft_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>trainable params: 85041152 || all params: 3837112320 || trainable%: 2.22
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">peft_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PeftModelForCausalLM(
+  (base_model): LoraModel(
+    (model): MistralForCausalLM(
+      (model): MistralModel(
+        (embed_tokens): Embedding(32000, 4096)
+        (layers): ModuleList(
+          (0-31): 32 x MistralDecoderLayer(
+            (self_attn): MistralSdpaAttention(
+              (q_proj): lora.Linear4bit(
+                (base_layer): Linear4bit(in_features=4096, out_features=4096, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=4096, out_features=32, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=32, out_features=4096, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (k_proj): lora.Linear4bit(
+                (base_layer): Linear4bit(in_features=4096, out_features=1024, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=4096, out_features=32, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=32, out_features=1024, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (v_proj): lora.Linear4bit(
+                (base_layer): Linear4bit(in_features=4096, out_features=1024, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=4096, out_features=32, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=32, out_features=1024, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (o_proj): lora.Linear4bit(
+                (base_layer): Linear4bit(in_features=4096, out_features=4096, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=4096, out_features=32, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=32, out_features=4096, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (rotary_emb): MistralRotaryEmbedding()
+            )
+            (mlp): MistralMLP(
+              (gate_proj): lora.Linear4bit(
+                (base_layer): Linear4bit(in_features=4096, out_features=14336, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=4096, out_features=32, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=32, out_features=14336, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (up_proj): lora.Linear4bit(
+                (base_layer): Linear4bit(in_features=4096, out_features=14336, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=4096, out_features=32, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=32, out_features=14336, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (down_proj): lora.Linear4bit(
+                (base_layer): Linear4bit(in_features=14336, out_features=4096, bias=False)
+                (lora_dropout): ModuleDict(
+                  (default): Dropout(p=0.05, inplace=False)
+                )
+                (lora_A): ModuleDict(
+                  (default): Linear(in_features=14336, out_features=32, bias=False)
+                )
+                (lora_B): ModuleDict(
+                  (default): Linear(in_features=32, out_features=4096, bias=False)
+                )
+                (lora_embedding_A): ParameterDict()
+                (lora_embedding_B): ParameterDict()
+                (lora_magnitude_vector): ModuleDict()
+              )
+              (act_fn): SiLU()
+            )
+            (input_layernorm): MistralRMSNorm((4096,), eps=1e-05)
+            (post_attention_layernorm): MistralRMSNorm((4096,), eps=1e-05)
+          )
+        )
+        (norm): MistralRMSNorm((4096,), eps=1e-05)
+      )
+      (lm_head): lora.Linear(
+        (base_layer): Linear(in_features=4096, out_features=32000, bias=False)
+        (lora_dropout): ModuleDict(
+          (default): Dropout(p=0.05, inplace=False)
+        )
+        (lora_A): ModuleDict(
+          (default): Linear(in_features=4096, out_features=32, bias=False)
+        )
+        (lora_B): ModuleDict(
+          (default): Linear(in_features=32, out_features=32000, bias=False)
+        )
+        (lora_embedding_A): ParameterDict()
+        (lora_embedding_B): ParameterDict()
+        (lora_magnitude_vector): ModuleDict()
+      )
+    )
+  )
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">accelerate</span><span class="w"> </span><span class="kn">import</span> <span class="n">Accelerator</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="c1"># If more than 1 GPU</span>
+    <span class="n">peft_model</span><span class="o">.</span><span class="n">is_parallelizable</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">peft_model</span><span class="o">.</span><span class="n">model_parallel</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">accelerator</span> <span class="o">=</span> <span class="n">Accelerator</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">accelerated_model</span> <span class="o">=</span> <span class="n">accelerator</span><span class="o">.</span><span class="n">prepare_model</span><span class="p">(</span><span class="n">peft_model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">transformers</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">project</span> <span class="o">=</span> <span class="s1">&#39;pandas_questions&#39;</span>
+<span class="n">base_model_name</span> <span class="o">=</span> <span class="s2">&quot;mistral&quot;</span>
+<span class="n">run_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">base_model_name</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">project</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="n">output_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;./</span><span class="si">{</span><span class="n">run_name</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">2.5e-5</span>
+
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">transformers</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">accelerated_model</span><span class="p">,</span>
+    <span class="n">train_dataset</span><span class="o">=</span><span class="n">tokenized_train_dataset</span><span class="p">,</span>
+    <span class="n">eval_dataset</span><span class="o">=</span><span class="n">tokenized_test_dataset</span><span class="p">,</span>
+    <span class="n">args</span><span class="o">=</span><span class="n">transformers</span><span class="o">.</span><span class="n">TrainingArguments</span><span class="p">(</span>
+        <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span>
+        <span class="n">warmup_steps</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">per_device_train_batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">gradient_accumulation_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">gradient_checkpointing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">max_steps</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">learning_rate</span><span class="o">=</span><span class="n">learning_rate</span><span class="p">,</span>
+        <span class="n">bf16</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">optim</span><span class="o">=</span><span class="s2">&quot;paged_adamw_8bit&quot;</span><span class="p">,</span>
+        <span class="n">logging_steps</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>              <span class="c1"># When to start reporting loss</span>
+        <span class="n">logging_dir</span><span class="o">=</span><span class="s2">&quot;./logs&quot;</span><span class="p">,</span>        <span class="c1"># Directory for storing logs</span>
+        <span class="n">save_strategy</span><span class="o">=</span><span class="s2">&quot;steps&quot;</span><span class="p">,</span>       <span class="c1"># Save the model checkpoint every logging step</span>
+        <span class="n">save_steps</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>                <span class="c1"># Save checkpoints every 50 steps</span>
+        <span class="n">evaluation_strategy</span><span class="o">=</span><span class="s2">&quot;steps&quot;</span><span class="p">,</span> <span class="c1"># Evaluate the model every logging step</span>
+        <span class="n">eval_steps</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>               <span class="c1"># Evaluate and save checkpoints every 50 steps</span>
+        <span class="n">do_eval</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                <span class="c1"># Perform evaluation at the end of training</span>
+    <span class="p">),</span>
+    <span class="n">data_collator</span><span class="o">=</span><span class="n">transformers</span><span class="o">.</span><span class="n">DataCollatorForLanguageModeling</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">,</span> <span class="n">mlm</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">accelerated_model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">use_cache</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># silence the warnings. Please re-enable for inference!</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/transformers/training_args.py:1568: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+max_steps is given, it will override any value given in num_train_epochs
+</pre></div>
+</div>
+<div class="output text_html">
+    <div>
+      
+      <progress value='326' max='500' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      [326/500 3:15:23 < 1:44:55, 0.03 it/s, Epoch 0.18/1]
+    </div>
+    <table border="1" class="dataframe">
+  <thead>
+ <tr style="text-align: left;">
+      <th>Step</th>
+      <th>Training Loss</th>
+      <th>Validation Loss</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>25</td>
+      <td>0.436900</td>
+      <td>0.184677</td>
+    </tr>
+    <tr>
+      <td>50</td>
+      <td>0.166300</td>
+      <td>0.128236</td>
+    </tr>
+    <tr>
+      <td>75</td>
+      <td>0.136200</td>
+      <td>0.082221</td>
+    </tr>
+    <tr>
+      <td>100</td>
+      <td>0.097600</td>
+      <td>0.081695</td>
+    </tr>
+    <tr>
+      <td>125</td>
+      <td>0.080100</td>
+      <td>0.066059</td>
+    </tr>
+    <tr>
+      <td>150</td>
+      <td>0.071300</td>
+      <td>0.062790</td>
+    </tr>
+    <tr>
+      <td>175</td>
+      <td>0.066600</td>
+      <td>0.054468</td>
+    </tr>
+    <tr>
+      <td>200</td>
+      <td>0.051100</td>
+      <td>0.056787</td>
+    </tr>
+    <tr>
+      <td>225</td>
+      <td>0.053000</td>
+      <td>0.049626</td>
+    </tr>
+    <tr>
+      <td>250</td>
+      <td>0.046900</td>
+      <td>0.051896</td>
+    </tr>
+    <tr>
+      <td>275</td>
+      <td>0.045900</td>
+      <td>0.046977</td>
+    </tr>
+    <tr>
+      <td>300</td>
+      <td>0.043400</td>
+      <td>0.045167</td>
+    </tr>
+    <tr>
+      <td>325</td>
+      <td>0.043900</td>
+      <td>0.044454</td>
+    </tr>
+  </tbody>
+</table><p></div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+/home/gjb/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/peft/utils/save_and_load.py:227: UserWarning: Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.
+  warnings.warn(&quot;Setting `save_embedding_layers` to `True` as embedding layers found in `target_modules`.&quot;)
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
+<span class="nn">File ~/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/torch/serialization.py:850,</span> in <span class="ni">save</span><span class="nt">(obj, f, pickle_module, pickle_protocol, _use_new_zipfile_serialization, _disable_byteorder_record)</span>
+<span class="g g-Whitespace">    </span><span class="mi">849</span> <span class="k">with</span> <span class="n">_open_zipfile_writer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">as</span> <span class="n">opened_zipfile</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">850</span>     <span class="n">_save</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">851</span>         <span class="n">obj</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">852</span>         <span class="n">opened_zipfile</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">853</span>         <span class="n">pickle_module</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">854</span>         <span class="n">pickle_protocol</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">855</span>         <span class="n">_disable_byteorder_record</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">856</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>     <span class="k">return</span>
+
+<span class="nn">File ~/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/torch/serialization.py:1122,</span> in <span class="ni">_save</span><span class="nt">(obj, zip_file, pickle_module, pickle_protocol, _disable_byteorder_record)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1121</span> <span class="c1"># Now that it is on the CPU we can directly copy it into the zip file</span>
+<span class="ne">-&gt; </span><span class="mi">1122</span> <span class="n">zip_file</span><span class="o">.</span><span class="n">write_record</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">num_bytes</span><span class="p">)</span>
+
+<span class="ne">RuntimeError</span>: [enforce fail at inline_container.cc:778] . PytorchStreamWriter failed writing file data/599: file write failed
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">33</span><span class="p">],</span> <span class="n">line</span> <span class="mi">36</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">trainer</span> <span class="o">=</span> <span class="n">transformers</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="n">model</span><span class="o">=</span><span class="n">accelerated_model</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="n">train_dataset</span><span class="o">=</span><span class="n">tokenized_train_dataset</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">32</span>     <span class="n">data_collator</span><span class="o">=</span><span class="n">transformers</span><span class="o">.</span><span class="n">DataCollatorForLanguageModeling</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">,</span> <span class="n">mlm</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+<span class="g g-Whitespace">     </span><span class="mi">33</span> <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">35</span> <span class="n">accelerated_model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">use_cache</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># silence the warnings. Please re-enable for inference!</span>
+<span class="ne">---&gt; </span><span class="mi">36</span> <span class="n">trainer</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+
+<span class="nn">File ~/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/transformers/trainer.py:2123,</span> in <span class="ni">Trainer.train</span><span class="nt">(self, resume_from_checkpoint, trial, ignore_keys_for_eval, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2121</span>         <span class="n">hf_hub_utils</span><span class="o">.</span><span class="n">enable_progress_bars</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">2122</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2123</span>     <span class="k">return</span> <span class="n">inner_training_loop</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2124</span>         <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2125</span>         <span class="n">resume_from_checkpoint</span><span class="o">=</span><span class="n">resume_from_checkpoint</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2126</span>         <span class="n">trial</span><span class="o">=</span><span class="n">trial</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2127</span>         <span class="n">ignore_keys_for_eval</span><span class="o">=</span><span class="n">ignore_keys_for_eval</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2128</span>     <span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/transformers/trainer.py:2548,</span> in <span class="ni">Trainer._inner_training_loop</span><span class="nt">(self, batch_size, args, resume_from_checkpoint, trial, ignore_keys_for_eval)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2546</span>     <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">epoch</span> <span class="o">=</span> <span class="n">epoch</span> <span class="o">+</span> <span class="p">(</span><span class="n">step</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">steps_skipped</span><span class="p">)</span> <span class="o">/</span> <span class="n">steps_in_epoch</span>
+<span class="g g-Whitespace">   </span><span class="mi">2547</span>     <span class="bp">self</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback_handler</span><span class="o">.</span><span class="n">on_step_end</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">2548</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_log_save_evaluate</span><span class="p">(</span><span class="n">tr_loss</span><span class="p">,</span> <span class="n">grad_norm</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">ignore_keys_for_eval</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2549</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2550</span>     <span class="bp">self</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback_handler</span><span class="o">.</span><span class="n">on_substep_end</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/transformers/trainer.py:3007,</span> in <span class="ni">Trainer._maybe_log_save_evaluate</span><span class="nt">(self, tr_loss, grad_norm, model, trial, epoch, ignore_keys_for_eval)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3004</span>     <span class="n">metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evaluate</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">ignore_keys_for_eval</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3006</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="o">.</span><span class="n">should_save</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">3007</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_save_checkpoint</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3008</span>     <span class="bp">self</span><span class="o">.</span><span class="n">control</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback_handler</span><span class="o">.</span><span class="n">on_save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">control</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/transformers/trainer.py:3101,</span> in <span class="ni">Trainer._save_checkpoint</span><span class="nt">(self, model, trial, metrics)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3097</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">_internal_call</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3099</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">save_only_model</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3100</span>     <span class="c1"># Save optimizer and scheduler</span>
+<span class="ne">-&gt; </span><span class="mi">3101</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_save_optimizer_and_scheduler</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3102</span>     <span class="c1"># Save RNG state</span>
+<span class="g g-Whitespace">   </span><span class="mi">3103</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_save_rng_state</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/transformers/trainer.py:3247,</span> in <span class="ni">Trainer._save_optimizer_and_scheduler</span><span class="nt">(self, output_dir)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3242</span>     <span class="n">save_fsdp_optimizer</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3243</span>         <span class="bp">self</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">fsdp_plugin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">accelerator</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">output_dir</span>
+<span class="g g-Whitespace">   </span><span class="mi">3244</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3245</span> <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">should_save</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3246</span>     <span class="c1"># deepspeed.save_checkpoint above saves model/optim/sched</span>
+<span class="ne">-&gt; </span><span class="mi">3247</span>     <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">OPTIMIZER_NAME</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">3249</span> <span class="c1"># Save SCHEDULER &amp; SCALER</span>
+<span class="g g-Whitespace">   </span><span class="mi">3250</span> <span class="n">is_deepspeed_custom_scheduler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_deepspeed_enabled</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3251</span>     <span class="bp">self</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="p">,</span> <span class="n">DeepSpeedSchedulerWrapper</span>
+<span class="g g-Whitespace">   </span><span class="mi">3252</span> <span class="p">)</span>
+
+<span class="nn">File ~/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/torch/serialization.py:849,</span> in <span class="ni">save</span><span class="nt">(obj, f, pickle_module, pickle_protocol, _use_new_zipfile_serialization, _disable_byteorder_record)</span>
+<span class="g g-Whitespace">    </span><span class="mi">846</span> <span class="n">_check_save_filelike</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">848</span> <span class="k">if</span> <span class="n">_use_new_zipfile_serialization</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">849</span>     <span class="k">with</span> <span class="n">_open_zipfile_writer</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">as</span> <span class="n">opened_zipfile</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">850</span>         <span class="n">_save</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">851</span>             <span class="n">obj</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">852</span>             <span class="n">opened_zipfile</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">855</span>             <span class="n">_disable_byteorder_record</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">856</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">857</span>         <span class="k">return</span>
+
+<span class="nn">File ~/mambaforge/envs/ai_tools_fine_tuning/lib/python3.12/site-packages/torch/serialization.py:690,</span> in <span class="ni">_open_zipfile_writer_file.__exit__</span><span class="nt">(self, *args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">689</span> <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">690</span>     <span class="bp">self</span><span class="o">.</span><span class="n">file_like</span><span class="o">.</span><span class="n">write_end_of_file</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">691</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_stream</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">692</span>         <span class="bp">self</span><span class="o">.</span><span class="n">file_stream</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="ne">RuntimeError</span>: [enforce fail at inline_container.cc:603] . unexpected pos 130979648 vs 130979536
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

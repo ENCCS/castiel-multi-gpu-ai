@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code Review of the src/ Directory &mdash; CASTIEL2 Multi-GPU AI  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/sphinx_lesson.css?v=e9df6548" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/overrides.css?v=d560b895" />
+
+  
+    <link rel="shortcut icon" href="../../../../../../_static/favicon.ico"/>
+      <script src="../../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../../_static/documentation_options.js?v=187304be"></script>
+      <script src="../../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../../../_static/copybutton.js?v=35a8b989"></script>
+      <script src="../../../../../../_static/minipres.js?v=a0d29692"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../../../../_static/togglebutton.js?v=1ae7504c"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex/" />
+    <link rel="search" title="Search" href="../../../../../../search/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../../" class="icon icon-home">
+            CASTIEL2 Multi-GPU AI
+              <img src="../../../../../../_static/CASTIEL2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">The lesson materials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../it/leonardo/README/">1M: Access to Leonardo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../se/deep-learning-intro/">1A: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nl/">2M: PyTorch Distributed Data Parallel</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/">Instructor’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../directives/">Directives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../">CASTIEL2 Multi-GPU AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Code Review of the <code class="docutils literal notranslate"><span class="pre">src/</span></code> Directory</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/castiel-multi-gpu-ai/blob/main/content/be/mlops/source-code/dvc/experiment-management/comments.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="code-review-of-the-src-directory">
+<h1>Code Review of the <code class="docutils literal notranslate"><span class="pre">src/</span></code> Directory<a class="headerlink" href="#code-review-of-the-src-directory" title="Link to this heading"></a></h1>
+<p>Below is a high-level code review of everything under <code class="docutils literal notranslate"><span class="pre">src/</span></code>. Feedback is grouped into broad categories, with file-specific references.</p>
+<hr class="docutils" />
+<section id="project-wide-style-and-formatting">
+<h2>1. Project-wide style and formatting<a class="headerlink" href="#project-wide-style-and-formatting" title="Link to this heading"></a></h2>
+<section id="inconsistent-import-ordering-pep8">
+<h3>1.1 Inconsistent import ordering (PEP8)<a class="headerlink" href="#inconsistent-import-ordering-pep8" title="Link to this heading"></a></h3>
+<p>Several modules mix standard-library, third-party, and local imports out of order. PEP8 recommends grouping imports as:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># 1. Standard library
+import abc
+import copy
+
+# 2. Third-party
+import numpy as np
+import yaml
+
+# 3. Local application/library specific
+from measures import AbstractMeasure
+</pre></div>
+</div>
+<p>For example, in <strong>convergence.py</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">measures</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractMeasure</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+<p>【F:src/convergence.py†L1-L4】</p>
+<p>…and in <strong>simulation.py</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">convergence</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractIsConverged</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractStepper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">model</span><span class="w"> </span><span class="kn">import</span> <span class="n">IsingSystem</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">measures</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractMeasure</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</pre></div>
+</div>
+<p>【F:src/simulation.py†L1-L6】</p>
+<p>Reorder those to standard, third-party, then local imports.</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="abstraction-api-design">
+<h2>2. Abstraction &amp; API design<a class="headerlink" href="#abstraction-api-design" title="Link to this heading"></a></h2>
+<section id="wrong-decorator-on-abstract-method">
+<h3>2.1 Wrong decorator on abstract method<a class="headerlink" href="#wrong-decorator-on-abstract-method" title="Link to this heading"></a></h3>
+<p>In <strong>dynamics.py</strong>, the <code class="docutils literal notranslate"><span class="pre">update</span></code> method uses <code class="docutils literal notranslate"><span class="pre">&#64;abc.abstractclassmethod</span></code> instead of <code class="docutils literal notranslate"><span class="pre">&#64;abc.abstractmethod</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@abc</span><span class="o">.</span><span class="n">abstractclassmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ising</span><span class="p">,</span> <span class="n">nr_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="err">…</span>
+</pre></div>
+</div>
+<p>【F:src/dynamics.py†L58-L61】</p>
+<p>Change to:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ising</span><span class="p">,</span> <span class="n">nr_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="err">…</span>
+</pre></div>
+</div>
+</section>
+<section id="bug-in-headers-logic-of-abstractmeasure">
+<h3>2.2 Bug in headers logic of AbstractMeasure<a class="headerlink" href="#bug-in-headers-logic-of-abstractmeasure" title="Link to this heading"></a></h3>
+<p>In <strong>measures.py</strong>, the constructor ignores the <code class="docutils literal notranslate"><span class="pre">headers</span></code> when it is non-None:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span> <span class="o">=</span> <span class="n">name</span>
+<span class="k">if</span> <span class="n">headers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_headers</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,</span> <span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_sep</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p>【F:src/measures.py†L24-L30】</p>
+<p>It should handle both cases, e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">_headers</span> <span class="o">=</span> <span class="n">headers</span> <span class="k">if</span> <span class="n">headers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">,)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="performance-implementation-improvements">
+<h2>3. Performance &amp; implementation improvements<a class="headerlink" href="#performance-implementation-improvements" title="Link to this heading"></a></h2>
+<section id="vectorize-magnetization-and-energy-computations">
+<h3>3.1 Vectorize magnetization and energy computations<a class="headerlink" href="#vectorize-magnetization-and-energy-computations" title="Link to this heading"></a></h3>
+<p>In <strong>measures.py</strong>, loops over spins are implemented in Python, which is slow:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">magnetization</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="n">magnetization</span> <span class="o">+=</span> <span class="n">ising</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+<span class="k">return</span> <span class="n">magnetization</span><span class="o">/</span><span class="n">ising</span><span class="o">.</span><span class="n">N</span>
+</pre></div>
+</div>
+<p>【F:src/measures.py†L170-L174】</p>
+<p>Consider using NumPy directly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">ising</span><span class="o">.</span><span class="n">_spins</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="n">ising</span><span class="o">.</span><span class="n">N</span>
+</pre></div>
+</div>
+</section>
+<section id="use-a-dedicated-rng-instead-of-resetting-the-global-seed">
+<h3>3.2 Use a dedicated RNG instead of resetting the global seed<a class="headerlink" href="#use-a-dedicated-rng-instead-of-resetting-the-global-seed" title="Link to this heading"></a></h3>
+<p>In <strong>model.py</strong>, the constructor sets the global NumPy seed:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_spins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>【F:src/model.py†L28-L32】</p>
+<p>Prefer:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">_spins</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="robustness-error-handling">
+<h2>4. Robustness &amp; error handling<a class="headerlink" href="#robustness-error-handling" title="Link to this heading"></a></h2>
+<section id="validate-user-provided-configuration">
+<h3>4.1 Validate user-provided configuration<a class="headerlink" href="#validate-user-provided-configuration" title="Link to this heading"></a></h3>
+<p>In <strong>ising_simulation.py</strong>, missing keys in the YAML will raise a low-level <code class="docutils literal notranslate"><span class="pre">KeyError</span></code>. Add explicit checks early:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s1">&#39;ising&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Missing &#39;ising&#39; section in config&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>【F:src/ising_simulation.py†L60-L69】</p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="miscellaneous-enhancements">
+<h2>5. Miscellaneous enhancements<a class="headerlink" href="#miscellaneous-enhancements" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Topic</p></th>
+<th class="head"><p>Location</p></th>
+<th class="head"><p>Suggestion</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Module docstrings</p></td>
+<td><p><strong>all</strong> files</p></td>
+<td><p>Add a one- or two-line summary at top</p></td>
+</tr>
+<tr class="row-odd"><td><p>Unicode identifiers</p></td>
+<td><p><strong>dynamics.py</strong></p></td>
+<td><p>Rename <code class="docutils literal notranslate"><span class="pre">ΔH</span></code>, <code class="docutils literal notranslate"><span class="pre">ΔE</span></code> methods/vars to ASCII (<code class="docutils literal notranslate"><span class="pre">delta_h</span></code>, <code class="docutils literal notranslate"><span class="pre">delta_e</span></code>)</p></td>
+</tr>
+<tr class="row-even"><td><p>Type hints</p></td>
+<td><p><strong>throughout</strong></p></td>
+<td><p>Add function/method annotations for better readability &amp; static typing</p></td>
+</tr>
+<tr class="row-odd"><td><p>Logging raw metrics</p></td>
+<td><p><strong>simulation.py</strong></p></td>
+<td><p>Log numeric values to dvclive, not formatted strings</p></td>
+</tr>
+</tbody>
+</table>
+<hr class="docutils" />
+<section id="next-steps">
+<h3>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Run a formatter/linter (Black + isort) and clean up only touched files.</p></li>
+<li><p>Fix the core bugs (headers logic, abstract decorator, Unicode names).</p></li>
+<li><p>Add type hints and module docstrings.</p></li>
+<li><p>Refactor performance hotspots (vectorize loops, use local RNG).</p></li>
+<li><p>Harden the CLI (validate config, improve error messages).</p></li>
+</ol>
+<p>This will make the code more robust, readable, and maintainable. Let me know if you need help with any specific refactoring!</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

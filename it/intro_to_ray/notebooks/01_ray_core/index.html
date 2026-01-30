@@ -1,0 +1,905 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ray Core &mdash; CASTIEL2 Multi-GPU AI  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_lesson.css?v=e9df6548" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/overrides.css?v=d560b895" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=187304be"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=35a8b989"></script>
+      <script src="../../../../_static/minipres.js?v=a0d29692"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../../_static/togglebutton.js?v=1ae7504c"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex/" />
+    <link rel="search" title="Search" href="../../../../search/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../" class="icon icon-home">
+            CASTIEL2 Multi-GPU AI
+              <img src="../../../../_static/CASTIEL2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">The lesson materials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../leonardo/README/">1M: Access to Leonardo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../se/deep-learning-intro/">1A: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nl/">2M: PyTorch Distributed Data Parallel</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/">Instructor’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../directives/">Directives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../">CASTIEL2 Multi-GPU AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Ray Core</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/castiel-multi-gpu-ai/blob/main/content/it/intro_to_ray/notebooks/01_ray_core.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="ray-core">
+<h1>Ray Core<a class="headerlink" href="#ray-core" title="Link to this heading"></a></h1>
+<p>In this notebook we are going to explore the following topics:</p>
+<ul class="simple">
+<li><p>Introduction to Ray system architecture;</p></li>
+<li><p>Connecting to a Ray Cluster;</p></li>
+<li><p>Ray tasks and actors;</p></li>
+<li><p>The object storage;</p></li>
+<li><p>Specifying resources usage.</p></li>
+</ul>
+<section id="ray-architecture">
+<h2>Ray Architecture<a class="headerlink" href="#ray-architecture" title="Link to this heading"></a></h2>
+<p>A Ray cluster is made by the following components</p>
+<ul class="simple">
+<li><p>A single <strong>head node</strong>.</p></li>
+<li><p>Zero or more <strong>worker nodes</strong>.</p></li>
+</ul>
+<div style="text-align: center;">
+    <img src="Images/ray-cluster.svg" alt="Structure of a Ray Cluster" style="width:50%;">
+</div>
+<p>The <strong>head node is a special cluster node</strong>, which, additionally to worker processes, hosts processes responsible for cluster management (mainly the GCS, the Ray Autoscaler). Usually the Ray driver process, which is the program responsible to submit jobs, is run on the Ray head node, but it can also run on another computer, and connect to a remote cluster.<br />
+The <strong>GCS</strong> (Global Control Service) is a service used for monitoring resource availability and to dispatch changes to other workers. The GCS is also used to save remote function definitions.</p>
+<p>The <strong>worker nodes</strong> are regular nodes which do not run any cluster management process. These nodes simply contribute to the cluster by sharing their resources (CPUs, RAM, and GPUs) that will be used to execute the jobs. It is important to note that each node has a <strong>scheduler</strong> and an <strong>object store</strong>.<br />
+The nodes schedulers are used to schedule tasks and to evaluate if a worker has enough resources to execute a task. Similarly, the workers have an object store that is used to save intermediate results (i.e. variables and objects) to be used later. In case a node has no computing resources available but owns the data needed to execute the task, the data used will be serialized and sent to the worker node that was selected to execute the job.</p>
+<p>For a detailed and rich description of Ray architecture, consider reading <a class="reference external" href="https://docs.daocloud.io/en/blogs/2023/230612-ray">this</a>.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="connecting-to-a-ray-cluster">
+<h1>Connecting to a Ray cluster<a class="headerlink" href="#connecting-to-a-ray-cluster" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">ray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ray.util.actor_pool</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActorPool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sentence_transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceTransformer</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/leonardo_work/tra26_castiel2/mviscia1/ray_rag_venv/lib/python3.11/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+2026-01-29 08:02:12,109	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+</pre></div>
+</div>
+</div>
+</div>
+<p>We have already started our Ray cluster on Leonardo by running the jobscript <code class="docutils literal notranslate"><span class="pre">start_ray_interactive.sh</span></code>. We can now connect to it using ray.init() (since we have exported the environment variable RAY_ADDRESS)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ray</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">log_to_driver</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ignore_reinit_error</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">#os.environ[&quot;HF_HOME&quot;]=&quot;/leonardo_scratch/fast/tra25_bbs/rmioli00/models/hub&quot;</span>
+<span class="c1">#os.environ[&quot;HF_HUB_CACHE&quot;]=&quot;/leonardo_scratch/fast/tra25_bbs/rmioli00/models/hub&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;HF_OFFLINE&quot;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;1&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:04:01,966	INFO worker.py:1520 -- Using address 10.11.1.34:23707 set in the environment variable RAY_ADDRESS
+2026-01-29 08:04:01,966	INFO worker.py:1660 -- Connecting to existing Ray cluster at address: 10.11.1.34:23707...
+2026-01-29 08:04:01,975	INFO worker.py:1843 -- Connected to Ray cluster. View the dashboard at <span class=" -Color -Color-Bold -Color-Bold-Green">http://10.11.1.34:8265 </span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Yellow">(raylet)</span> WARNING: 32 PYTHON worker processes have been started on node: e53d35741c422e42b46106fa2989b8cda066fe1f3215f34430a55237 with address: 10.11.1.34. This could be a result of using a large number of actors, or due to tasks blocked in ray.get() calls (see https://github.com/ray-project/ray/issues/3644 for some discussion of workarounds).
+</pre></div>
+</div>
+</div>
+</div>
+<p>In a Ray cluster we have various types of resources:</p>
+<ul class="simple">
+<li><p>CPUs;</p></li>
+<li><p>GPUs;</p></li>
+<li><p>Memory (“execution memory” and object store memory).</p></li>
+</ul>
+<p>The difference between memory and object store memory is that the first one is the memory used by the workers during the execution of remote functions, datasets, etc; on the opposite, the object store memory is memory reserved to share objects between workers and to save “intermediate results”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resources</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">cluster_resources</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cluster has </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;CPU&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> CPUs, </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;GPU&#39;</span><span class="p">]</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">&#39;GPU&#39;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">resources</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="mi">0</span><span class="si">}</span><span class="s2"> GPUs, execution memory </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;memory&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-9</span><span class="si">}</span><span class="s2"> GBs, object storage memory </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;object_store_memory&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-9</span><span class="si">}</span><span class="s2"> GBs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cluster has 8.0 CPUs, 1.0 GPUs, execution memory 361.684707328 GBs, object storage memory 155.007731712 GBs
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="ray-core-tasks-actors-and-objects">
+<h1>Ray Core - Tasks, Actors and Objects<a class="headerlink" href="#ray-core-tasks-actors-and-objects" title="Link to this heading"></a></h1>
+<p>A program using Ray is called a job. In a job you usually make various operations (e.g. reading datasets, manipulating columns, training classifiers, etc), so this jobs are composed by “subtasks”. To accomplish the work, Ray offers two basic components: <strong>tasks and actors</strong></p>
+<section id="a-serial-workflow">
+<h2>A serial workflow<a class="headerlink" href="#a-serial-workflow" title="Link to this heading"></a></h2>
+<p>Suppose we have built a website or some sort of a platform that needs to retrieve user data and then, when all data is loaded, it greets the user. We can simulate five users logging to this website using the following function.<br />
+The users are served sequentially, but this represents a bottleneck due to the fact that the data retrival happens using a FIFO queue.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_people_data</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># We simulate a very long operation on a database</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Welcome back, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">! Your data was successfully loaded.&quot;</span>
+
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Domitilla&quot;</span><span class="p">,</span> <span class="s2">&quot;Eleonora&quot;</span><span class="p">,</span> <span class="s2">&quot;Laura&quot;</span><span class="p">,</span> <span class="s2">&quot;Michele&quot;</span><span class="p">,</span> <span class="s2">&quot;Riccardo&quot;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">load_people_data</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Welcome back, Domitilla! Your data was successfully loaded.
+Welcome back, Eleonora! Your data was successfully loaded.
+Welcome back, Laura! Your data was successfully loaded.
+Welcome back, Michele! Your data was successfully loaded.
+Welcome back, Riccardo! Your data was successfully loaded.
+CPU times: user 13.3 ms, sys: 3.51 ms, total: 16.8 ms
+Wall time: 10 s
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ray-tasks">
+<h2>Ray Tasks<a class="headerlink" href="#ray-tasks" title="Link to this heading"></a></h2>
+<p>We now define the same function, but we parallelize its execution with Ray Tasks. Ray can execute the user defined function in parallel by sending a copy of it to each worker process. The remote function will be then executed receiving as input the names of the users.</p>
+<p>Functions using the <code class="docutils literal notranslate"><span class="pre">&#64;ray.remote</span></code> decorator are called Ray remote functions and their execution is called a Ray Tasks. It’s important to note that <strong>tasks are stateless</strong>, which means that once a task is executed, the only thing that is saved is the output of the function in the object storage of the worker that executed the task.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="nd">@ray</span><span class="o">.</span><span class="n">remote</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_people_data</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># We simulate a very long operation on a database</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Welcome back, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">! Your data was successfully loaded.&quot;</span>
+
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">load_people_data</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ObjectRef(67a2e8cfa5a06db3ffffffffffffffffffffffff0200000001000000)
+ObjectRef(e082c90ab8422b00ffffffffffffffffffffffff0200000001000000)
+ObjectRef(e5cbd90b7f1fb776ffffffffffffffffffffffff0200000001000000)
+ObjectRef(39088be3736e590affffffffffffffffffffffff0200000001000000)
+ObjectRef(ce868e48e2fa9a94ffffffffffffffffffffffff0200000001000000)
+CPU times: user 26.1 ms, sys: 8.56 ms, total: 34.7 ms
+Wall time: 52.5 ms
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here we see that the execution time is on the order of milliseconds, which is obviously much less than the initial 10 seconds. Even if we had run the function in parallel, we couldn’t have retrieved the data for all the users in less than 10 seconds due to the <code class="docutils literal notranslate"><span class="pre">time.sleep(2)</span></code>!<br />
+What you have observed is called <strong>asynchronous execution</strong>. When you call a remote function, its execution is scheduled on some worker node and a “promise” (the Ray <code class="docutils literal notranslate"><span class="pre">ObjectRef</span></code>), an ID of the operations’ reuslt, is immediatly returned to the caller.<br />
+To get the actual results we can use <code class="docutils literal notranslate"><span class="pre">ray.get()</span></code> on the IDs of the results. Note that <code class="docutils literal notranslate"><span class="pre">ray.get()</span></code> on Ray task results will block until the task finished execution. For example, if you want to schedule the execution of tasks while waiting for some of them to finish, or if you want to monitor intermediate results of different computations and make a plot, you can use <code class="docutils literal notranslate"><span class="pre">ray.wait()</span></code>. <code class="docutils literal notranslate"><span class="pre">ray.wait()</span></code> returns two lists: list of completed ObjectRefs and list of not ready ObjectRefs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span> 
+
+<span class="n">refs</span> <span class="o">=</span> <span class="p">[</span><span class="n">load_people_data</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+
+<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">refs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">finished</span><span class="p">,</span> <span class="n">refs</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">refs</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">finished</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Welcome back, Eleonora! Your data was successfully loaded.&#39;]
+[&#39;Welcome back, Domitilla! Your data was successfully loaded.&#39;]
+[&#39;Welcome back, Laura! Your data was successfully loaded.&#39;]
+[&#39;Welcome back, Michele! Your data was successfully loaded.&#39;]
+[&#39;Welcome back, Riccardo! Your data was successfully loaded.&#39;]
+CPU times: user 12.6 ms, sys: 6.8 ms, total: 19.4 ms
+Wall time: 5.01 s
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="ray-actors">
+<h1>Ray Actors<a class="headerlink" href="#ray-actors" title="Link to this heading"></a></h1>
+<p>Let’s now suppose we want to keep track of the number of times a user has logged into the website.</p>
+<p>Tasks are stateless, to overcome this issue, we have actors. Actors are Python classes decorated with <code class="docutils literal notranslate"><span class="pre">&#64;ray.remote</span></code>, when we call <code class="docutils literal notranslate"><span class="pre">ClassName.remote()</span></code> the actor is scheduled on some worker and the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> function is executed to instantiate the actor. Then <strong>we can maintain state using actor’s instance variables</strong>.<br />
+This is also useful if the class has a long initialization tasks that must be performed once; for example, loading llm weights.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@ray</span><span class="o">.</span><span class="n">remote</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FakeDB</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_backend</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;MySQL&quot;</span><span class="p">,</span> <span class="n">server_id</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">access_no</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db_backend</span> <span class="o">=</span> <span class="n">db_backend</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">server_id</span> <span class="o">=</span> <span class="n">server_id</span>
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_people_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># We simulate a very long operation on a database</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">access_no</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">access_no</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">access_no</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Welcome back, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">! Your data was successfully loaded from </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">db_backend</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">server_id</span><span class="si">}</span><span class="s2">. Today you logged in </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">access_no</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="si">}</span><span class="s2"> times.&quot;</span>
+    
+<span class="n">db_actor</span> <span class="o">=</span> <span class="n">FakeDB</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">db_backend</span> <span class="o">=</span> <span class="s2">&quot;mongodb&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can launch the task on the actor.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">refs</span> <span class="o">=</span> <span class="p">[</span><span class="n">db_actor</span><span class="o">.</span><span class="n">load_people_data</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">refs</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">refs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">finished</span><span class="p">,</span> <span class="n">refs</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">refs</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">finished</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ObjectRef(4e42fef2e4fc2164e161e609afab3c6efb57ed330200000001000000), ObjectRef(a634bb3b3ca530f0e161e609afab3c6efb57ed330200000001000000), ObjectRef(d10410bd3222d6a4e161e609afab3c6efb57ed330200000001000000), ObjectRef(ca701c49794a1d14e161e609afab3c6efb57ed330200000001000000), ObjectRef(dd09e9796bb10db3e161e609afab3c6efb57ed330200000001000000)]
+[&#39;Welcome back, Domitilla! Your data was successfully loaded from mongodb_0. Today you logged in 1 times.&#39;]
+[&#39;Welcome back, Eleonora! Your data was successfully loaded from mongodb_0. Today you logged in 1 times.&#39;]
+[&#39;Welcome back, Laura! Your data was successfully loaded from mongodb_0. Today you logged in 1 times.&#39;]
+[&#39;Welcome back, Michele! Your data was successfully loaded from mongodb_0. Today you logged in 1 times.&#39;]
+[&#39;Welcome back, Riccardo! Your data was successfully loaded from mongodb_0. Today you logged in 1 times.&#39;]
+CPU times: user 15 ms, sys: 4.89 ms, total: 19.9 ms
+Wall time: 10.7 s
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see, the object refs were immediatly returned (i.e. the tasks were scheduled), but the actual execution required much more time.
+In this case, having a single actor constitutes a bottleneck because when the actor is executing the code for an user it’s “busy” and we can’t serve another user. However, this is the intended expected behaviour, and it’s because actors functions by default are single threaded.
+To overcome this issue we can create different actors, the methods called on the different actors will execute in parallel.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">actor_pool</span> <span class="o">=</span> <span class="n">ActorPool</span><span class="p">([</span><span class="n">FakeDB</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">db_backend</span> <span class="o">=</span> <span class="s2">&quot;mongodb&quot;</span><span class="p">,</span> <span class="n">server_id</span> <span class="o">=</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])</span>
+
+<span class="c1"># We map each actor to a value</span>
+<span class="n">mapped_jobs</span> <span class="o">=</span> <span class="n">actor_pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">actor</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">actor</span><span class="o">.</span><span class="n">load_people_data</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">names</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">mapped_jobs</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Welcome back, Domitilla! Your data was successfully loaded from mongodb_4. Today you logged in 1 times.&#39;, &#39;Welcome back, Eleonora! Your data was successfully loaded from mongodb_3. Today you logged in 1 times.&#39;, &#39;Welcome back, Laura! Your data was successfully loaded from mongodb_2. Today you logged in 1 times.&#39;, &#39;Welcome back, Michele! Your data was successfully loaded from mongodb_1. Today you logged in 1 times.&#39;, &#39;Welcome back, Riccardo! Your data was successfully loaded from mongodb_0. Today you logged in 1 times.&#39;]
+CPU times: user 8.82 ms, sys: 7.19 ms, total: 16 ms
+Wall time: 2.91 s
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="object-storage">
+<h1>Object storage<a class="headerlink" href="#object-storage" title="Link to this heading"></a></h1>
+<p>The distributed object storage is the sum of the portions of memory of the workers dedicated to save intermediate results originating from the executions of tasks and actors. By default, the <strong>30% of the memory of a worker</strong> will be used as object storage. When the space of the object storage finishes, the data in will be spilled to disk.</p>
+<p>The user can interact with the object storage with two commands:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ray.put</span></code>: save data in some worker’s memory;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ray.get</span></code>: retrieve data associated to an <code class="docutils literal notranslate"><span class="pre">ObjectRef</span></code> (Ray solves which workers has this data automatically).</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;EXAMPLE_0af8791jd91j651hgjalmnc&quot;</span>
+
+<span class="n">key_ref</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">api_key</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">key_ref</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ObjectRef(00ffffffffffffffffffffffffffffffffffffff0200000001e1f505)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key_ref</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>EXAMPLE_0af8791jd91j651hgjalmnc
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@ray</span><span class="o">.</span><span class="n">remote</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">APIHelper</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_key</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">api_key</span>
+        
+    <span class="k">def</span><span class="w"> </span><span class="nf">call_endpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+        
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Authentication succeded using </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="si">}</span><span class="s2">. Server returned </span><span class="si">{</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>When an <code class="docutils literal notranslate"><span class="pre">ObjectRef</span></code> is passed as input to tasks or actors, Ray will call automatically the <code class="docutils literal notranslate"><span class="pre">.get</span></code> method.
+api_actor = APIHelper.remote(key_ref)
+ray.get(api_actor.call_endpoint.remote())</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">api_actor</span> <span class="o">=</span> <span class="n">APIHelper</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">key_ref</span><span class="p">)</span>
+<span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">api_actor</span><span class="o">.</span><span class="n">call_endpoint</span><span class="o">.</span><span class="n">remote</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Authentication succeded using EXAMPLE_0af8791jd91j651hgjalmnc. Server returned 1&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="specifying-resources-for-tasks-and-actors">
+<h1>Specifying resources for Tasks and Actors<a class="headerlink" href="#specifying-resources-for-tasks-and-actors" title="Link to this heading"></a></h1>
+<p>When defining tasks and actors in Ray, <strong>you can specify the resources</strong> required for their execution. The Ray scheduler uses this information to determine which worker node is suitable for running the task.
+This feature is particularly useful as it provides a high-level yet powerful <strong>mechanism to control resource allocation</strong>. It helps prevent issues such as crashes due to out-of-memory (OOM) errors by ensuring tasks are only assigned to nodes with sufficient resources.</p>
+<p>Here is an example: Suppose you have a cluster with 16 GB per GPU and you want to execute several LLMs (each using 8 GB of GPU memory). You can instantiate actors by specifying that they must use 0.5 GPUs. This will ensure that a maximum of two LLM actors are executed per node.
+Similarly, if you have functions that require a certain amount of memory and CPU cores to execute, you can specify them in the same way. These tasks can be scheduled on the same nodes that execute LLM actors, because LLM actors only use GPU resources and CPU cores and memory are available.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Two cpu cores, and 500MiB of RAM</span>
+<span class="nd">@ray</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">num_cpus</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">memory</span><span class="o">=</span><span class="mi">500</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">example_task</span><span class="p">():</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+    
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Even if num_cpus is 2, the task sees </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;CPU&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> CPUs. Resources are logical!&quot;</span>
+
+<span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">example_task</span><span class="o">.</span><span class="n">remote</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Even if num_cpus is 2, the task sees 8.0 CPUs. Resources are logical!&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>An important note is that <strong>Ray resources are “logical”</strong>, meaning that the number of CPU cores, or GPUs specified are not enforced by Ray.<br />
+Going back to the previous example, if the GPU memory occupied by the LLMs is greater than 8GB, specifiying that each actor must use 0.5 GPUs will not be beneficial because two actors will be scheduled on the workers, incurring in an OOM error.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="exercises">
+<h1>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>What happens if you set <code class="docutils literal notranslate"><span class="pre">num_gpus</span> <span class="pre">=</span> <span class="pre">3</span></code> to the previous <code class="docutils literal notranslate"><span class="pre">example_task</span></code> function? Can you explain why?</p></li>
+<li><p>What happens if you set <code class="docutils literal notranslate"><span class="pre">num_cpus</span> <span class="pre">=</span> <span class="pre">5</span></code> to the task <code class="docutils literal notranslate"><span class="pre">load_people_data</span></code>? Can you explain why?</p></li>
+<li><p>Create a calculator actor which supports addition and subtraction operations between two operands. The calculator needs to support a history of the results and a way to retrieve the last three calculations.</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="embeddings-workflow">
+<h1>Embeddings workflow<a class="headerlink" href="#embeddings-workflow" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@ray</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">num_cpus</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_gpus</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Embedder</span><span class="p">():</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">sentence_transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">SentenceTransformer</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/leonardo_scratch/fast/tra26_castiel2/models/all-mpnet-base-v2&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedder</span> <span class="o">=</span> <span class="n">SentenceTransformer</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+        
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_path</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+        <span class="c1"># Read the txt file associated to the canto</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">input_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+            
+        <span class="c1"># Extract the number of the canto    </span>
+        <span class="n">canto</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">input_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        
+        <span class="c1"># Calculate the embeddings</span>
+        <span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedder</span><span class="o">.</span><span class="n">encode</span><span class="p">([</span><span class="n">data</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="c1"># Return a tuple with the number of the canto and the embeddings</span>
+        <span class="n">return_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;canto&quot;</span><span class="p">:</span> <span class="n">canto</span> <span class="p">}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)):</span>
+            <span class="n">return_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">embeddings</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">return_dict</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s load a bunch of files, which contain the full Dante’s Divine Comedy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">files</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s2">&quot;/leonardo_scratch/fast/tra26_castiel2/data/ray_core/*&quot;</span><span class="p">)</span>
+<span class="n">files</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;/leonardo_scratch/fast/tra26_castiel2/mviscia1/data/ray_core/canto_81.txt&#39;,
+ &#39;/leonardo_scratch/fast/tra26_castiel2/mviscia1/data/ray_core/canto_71.txt&#39;,
+ &#39;/leonardo_scratch/fast/tra26_castiel2/mviscia1/data/ray_core/canto_86.txt&#39;,
+ &#39;/leonardo_scratch/fast/tra26_castiel2/mviscia1/data/ray_core/canto_60.txt&#39;,
+ &#39;/leonardo_scratch/fast/tra26_castiel2/mviscia1/data/ray_core/canto_56.txt&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here we create an ActorPool with 10 embedders. We could create more than 10, but we set num_gpus 0.10 and we have only one GPU in this job.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ray.util.actor_pool</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActorPool</span>
+
+<span class="c1"># We instantiate 20 actors - always check the number of actors you schedule fit on the available gpu memory</span>
+<span class="n">actor_pool</span> <span class="o">=</span> <span class="n">ActorPool</span><span class="p">([</span><span class="n">Embedder</span><span class="o">.</span><span class="n">remote</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">actor_pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">actor</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">actor</span><span class="o">.</span><span class="fm">__call__</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">files</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 109 ms, sys: 32.7 ms, total: 142 ms
+Wall time: 33.1 s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>canto</th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>...</th>
+      <th>758</th>
+      <th>759</th>
+      <th>760</th>
+      <th>761</th>
+      <th>762</th>
+      <th>763</th>
+      <th>764</th>
+      <th>765</th>
+      <th>766</th>
+      <th>767</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>81</td>
+      <td>-0.000924</td>
+      <td>-0.013673</td>
+      <td>-0.042178</td>
+      <td>0.020039</td>
+      <td>-0.012347</td>
+      <td>0.008459</td>
+      <td>-0.047387</td>
+      <td>0.033142</td>
+      <td>-0.020576</td>
+      <td>...</td>
+      <td>-0.064089</td>
+      <td>-0.014925</td>
+      <td>0.020101</td>
+      <td>-0.022937</td>
+      <td>-0.045240</td>
+      <td>0.069715</td>
+      <td>-0.009456</td>
+      <td>0.010452</td>
+      <td>0.071358</td>
+      <td>-0.037445</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>71</td>
+      <td>0.016341</td>
+      <td>0.020545</td>
+      <td>-0.035634</td>
+      <td>0.000869</td>
+      <td>-0.014652</td>
+      <td>0.030680</td>
+      <td>-0.046138</td>
+      <td>0.067697</td>
+      <td>-0.007474</td>
+      <td>...</td>
+      <td>-0.020258</td>
+      <td>0.030111</td>
+      <td>-0.001424</td>
+      <td>-0.022194</td>
+      <td>0.000098</td>
+      <td>0.003161</td>
+      <td>-0.009550</td>
+      <td>0.030902</td>
+      <td>0.055947</td>
+      <td>-0.047270</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>86</td>
+      <td>0.022221</td>
+      <td>0.018050</td>
+      <td>-0.022917</td>
+      <td>0.034534</td>
+      <td>-0.004871</td>
+      <td>0.025595</td>
+      <td>-0.065609</td>
+      <td>0.037637</td>
+      <td>-0.023134</td>
+      <td>...</td>
+      <td>-0.059692</td>
+      <td>-0.006871</td>
+      <td>-0.001749</td>
+      <td>-0.017815</td>
+      <td>-0.019615</td>
+      <td>0.031071</td>
+      <td>-0.034607</td>
+      <td>0.025230</td>
+      <td>0.038682</td>
+      <td>-0.024533</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>60</td>
+      <td>0.014424</td>
+      <td>-0.051991</td>
+      <td>-0.022669</td>
+      <td>0.003660</td>
+      <td>-0.003718</td>
+      <td>0.031651</td>
+      <td>0.004777</td>
+      <td>0.032315</td>
+      <td>-0.020957</td>
+      <td>...</td>
+      <td>-0.055458</td>
+      <td>-0.006090</td>
+      <td>-0.020694</td>
+      <td>-0.003623</td>
+      <td>-0.041768</td>
+      <td>-0.014294</td>
+      <td>-0.023965</td>
+      <td>0.041703</td>
+      <td>0.002475</td>
+      <td>-0.056352</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>56</td>
+      <td>0.018417</td>
+      <td>-0.032619</td>
+      <td>-0.012547</td>
+      <td>0.008214</td>
+      <td>0.014980</td>
+      <td>0.042901</td>
+      <td>-0.014164</td>
+      <td>0.053587</td>
+      <td>-0.012052</td>
+      <td>...</td>
+      <td>-0.039766</td>
+      <td>0.021823</td>
+      <td>0.030155</td>
+      <td>-0.004375</td>
+      <td>-0.032736</td>
+      <td>0.008290</td>
+      <td>-0.005280</td>
+      <td>0.035342</td>
+      <td>0.051874</td>
+      <td>-0.025414</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>8</td>
+      <td>0.005598</td>
+      <td>-0.029875</td>
+      <td>-0.030824</td>
+      <td>-0.024022</td>
+      <td>-0.003487</td>
+      <td>0.011112</td>
+      <td>0.008071</td>
+      <td>0.033106</td>
+      <td>-0.024023</td>
+      <td>...</td>
+      <td>-0.074173</td>
+      <td>0.004086</td>
+      <td>-0.013067</td>
+      <td>0.013031</td>
+      <td>-0.024527</td>
+      <td>0.022993</td>
+      <td>-0.015042</td>
+      <td>0.023245</td>
+      <td>0.020135</td>
+      <td>-0.034723</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>92</td>
+      <td>0.018613</td>
+      <td>-0.013663</td>
+      <td>-0.023569</td>
+      <td>0.030094</td>
+      <td>-0.014003</td>
+      <td>0.024391</td>
+      <td>-0.020590</td>
+      <td>0.022258</td>
+      <td>-0.045003</td>
+      <td>...</td>
+      <td>-0.044722</td>
+      <td>-0.006877</td>
+      <td>0.042726</td>
+      <td>-0.033205</td>
+      <td>-0.042823</td>
+      <td>0.045139</td>
+      <td>0.002348</td>
+      <td>0.025191</td>
+      <td>0.020137</td>
+      <td>-0.027508</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>2</td>
+      <td>-0.007506</td>
+      <td>0.034004</td>
+      <td>-0.024442</td>
+      <td>-0.032003</td>
+      <td>0.000467</td>
+      <td>0.027168</td>
+      <td>-0.022948</td>
+      <td>0.056362</td>
+      <td>-0.019632</td>
+      <td>...</td>
+      <td>-0.024906</td>
+      <td>0.007345</td>
+      <td>0.000835</td>
+      <td>-0.006021</td>
+      <td>-0.021256</td>
+      <td>0.007798</td>
+      <td>-0.045879</td>
+      <td>0.020427</td>
+      <td>0.028602</td>
+      <td>-0.029445</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>35</td>
+      <td>0.018430</td>
+      <td>0.016690</td>
+      <td>-0.034403</td>
+      <td>0.001225</td>
+      <td>0.006255</td>
+      <td>0.014304</td>
+      <td>-0.037441</td>
+      <td>0.014420</td>
+      <td>-0.071528</td>
+      <td>...</td>
+      <td>-0.055584</td>
+      <td>-0.014020</td>
+      <td>-0.013413</td>
+      <td>-0.006020</td>
+      <td>-0.033642</td>
+      <td>0.015155</td>
+      <td>-0.012674</td>
+      <td>0.021981</td>
+      <td>0.020901</td>
+      <td>-0.039151</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>94</td>
+      <td>0.021218</td>
+      <td>0.015439</td>
+      <td>-0.034840</td>
+      <td>-0.001295</td>
+      <td>0.018285</td>
+      <td>0.024491</td>
+      <td>-0.026345</td>
+      <td>0.038699</td>
+      <td>-0.034931</td>
+      <td>...</td>
+      <td>-0.032041</td>
+      <td>0.024194</td>
+      <td>0.028006</td>
+      <td>-0.042690</td>
+      <td>-0.038720</td>
+      <td>0.015914</td>
+      <td>-0.015520</td>
+      <td>0.013296</td>
+      <td>0.025424</td>
+      <td>-0.027422</td>
+    </tr>
+  </tbody>
+</table>
+<p>100 rows × 769 columns</p>
+</div></div></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="release-resources">
+<h1>Release resources<a class="headerlink" href="#release-resources" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ray</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

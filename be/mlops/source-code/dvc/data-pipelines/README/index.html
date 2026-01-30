@@ -1,0 +1,437 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DVC data pipelines &mdash; CASTIEL2 Multi-GPU AI  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/sphinx_lesson.css?v=e9df6548" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../../../../../../_static/overrides.css?v=d560b895" />
+
+  
+    <link rel="shortcut icon" href="../../../../../../_static/favicon.ico"/>
+      <script src="../../../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../../../_static/documentation_options.js?v=187304be"></script>
+      <script src="../../../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../../../_static/copybutton.js?v=35a8b989"></script>
+      <script src="../../../../../../_static/minipres.js?v=a0d29692"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../../../../_static/togglebutton.js?v=1ae7504c"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex/" />
+    <link rel="search" title="Search" href="../../../../../../search/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../../" class="icon icon-home">
+            CASTIEL2 Multi-GPU AI
+              <img src="../../../../../../_static/CASTIEL2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">The lesson materials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../it/leonardo/README/">1M: Access to Leonardo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../se/deep-learning-intro/">1A: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../nl/">2M: PyTorch Distributed Data Parallel</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../guide/">Instructor’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../../directives/">Directives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../../">CASTIEL2 Multi-GPU AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">DVC data pipelines</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/castiel-multi-gpu-ai/blob/main/content/be/mlops/source-code/dvc/data-pipelines/README.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="dvc-data-pipelines">
+<h1>DVC data pipelines<a class="headerlink" href="#dvc-data-pipelines" title="Link to this heading"></a></h1>
+<p>DVC (Data Version Control) can be used to manage data and model files in a
+machine learning project. It allows you to track changes, share datasets, and
+collaborate with others.  You can view DVC a no-fuss MLOps alternative.</p>
+<p>Note that a number of design decisions have been made to keep the project
+simple and easy to understand.  This is not a production-ready project, but
+rather a learning tool to understand how DVC can be used in a machine learning
+project.</p>
+<section id="what-is-it">
+<h2>What is it?<a class="headerlink" href="#what-is-it" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">environment.yml</span></code>: Conda environment file to create the environment with the
+required packages and software, including DVC.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">generate_data.py</span></code>: Python script to generate synthetic data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_data.py</span></code>: Python script to plot the data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data</span></code>: directory with the data files.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src</span></code>: directory with the Python scripts required to execute the workflow.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">params.yaml</span></code>: YAML file to store parameters for the scripts.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setup.sh</span></code>: Bash script to set up the environment (same functionality as setup.py).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>: Python requirements file to install the required packages.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">init_repository.sh</span></code>: shell script to initialize the project directory and
+set up the DVC remote storage.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">define_workflow.sh</span></code>: shell script to define the workflow and add the
+stages to DVC.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">img</span></code>: directory with images to visualize the pipeline in terms of stages and data.</p></li>
+</ul>
+</section>
+<section id="how-to-use-it">
+<h2>How to use it?<a class="headerlink" href="#how-to-use-it" title="Link to this heading"></a></h2>
+<section id="setting-up-the-project">
+<h3>Setting up the project<a class="headerlink" href="#setting-up-the-project" title="Link to this heading"></a></h3>
+<p>First, create the directory structure for the project.  Note that the directory
+you choose for this should not be a git repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mkdir<span class="w"> </span>~/dvc_project
+</pre></div>
+</div>
+<p>Then execute the <code class="docutils literal notranslate"><span class="pre">setup.sh</span></code> script to create the directory structure and
+copy the source code and data.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>bash<span class="w"> </span>setup.sh<span class="w"> </span>~/dvc_project
+</pre></div>
+</div>
+<p>Two directories are created in <code class="docutils literal notranslate"><span class="pre">~/dvc_project</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ml_project</span></code>: directory with the source code and data files.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dvc_data</span></code>: directory that will act as a remote for DVC.</p></li>
+</ul>
+<p>Next, change to the <code class="docutils literal notranslate"><span class="pre">ml_project</span></code> directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/dvc_project/ml_project
+</pre></div>
+</div>
+<p>Initialize it as a git repository:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>init
+</pre></div>
+</div>
+<p>Add the <code class="docutils literal notranslate"><span class="pre">src</span></code> directory, the <code class="docutils literal notranslate"><span class="pre">params.yaml</span></code>, and the <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> files
+to the git repository.  Do <strong>not</strong> add the <code class="docutils literal notranslate"><span class="pre">data</span></code> directory since this will
+under DVC control.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>src<span class="w"> </span>params.yaml<span class="w"> </span>requirements.txt
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Initial commit&#39;</span>
+</pre></div>
+</div>
+<p>Create a virtual environment and install the required packages:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>env
+$<span class="w"> </span><span class="nb">source</span><span class="w"> </span>env/bin/activate
+$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+<p>Add the <code class="docutils literal notranslate"><span class="pre">env</span></code> directory to the <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file to avoid committing the
+virtual environment to the git repository.  Add and commit the file to the repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;env/&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>.gitignore
+$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.gitignore
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Add .gitignore file&#39;</span>
+</pre></div>
+</div>
+<p>Initialize DVC so that it can manage the data files and model files in the
+project.  This will create a <code class="docutils literal notranslate"><span class="pre">.dvc/</span></code> directory in the root of the project
+directory, which will contain the DVC configuration files. It will also create
+a <code class="docutils literal notranslate"><span class="pre">.dvcignore</span></code> file to ignore files that should not be tracked by DVC, such as
+the virtual environment directory and other temporary files.  Commit the files
+to the git repository that were created and added by the <code class="docutils literal notranslate"><span class="pre">dvc</span> <span class="pre">init</span></code> command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dvc<span class="w"> </span>init
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Initialize DVC&#39;</span>
+</pre></div>
+</div>
+<p>Add a remote to DVC to store the data and model files. In this examples, you
+can use the local directory <code class="docutils literal notranslate"><span class="pre">dvc_data</span></code> as the remote storage.  This will allow you to
+store the data and model files in a separate directory, which can be useful for
+collaboration and sharing.  Run the following command to add the remote storage.  Since this changes the DVC configuration file, add and commit it to the git repository.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dvc<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>-d<span class="w"> </span>local_storage<span class="w"> </span>../dvc_data
+$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.dvc/config
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Add remote storage for DVC&#39;</span>
+</pre></div>
+</div>
+<p>Everything is now in place, and you can start using DVC to manage the data
+and model files in your project.</p>
+<p>All these steps can be executed by running the <code class="docutils literal notranslate"><span class="pre">init_repository.sh</span></code> script
+in the <code class="docutils literal notranslate"><span class="pre">ml_project</span></code> directory.</p>
+</section>
+<section id="adding-data-to-dvc">
+<h3>Adding data to DVC<a class="headerlink" href="#adding-data-to-dvc" title="Link to this heading"></a></h3>
+<p>To add the data files to DVC, run the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dvc<span class="w"> </span>add<span class="w"> </span>data/data.csv
+</pre></div>
+</div>
+<p>This will create a <code class="docutils literal notranslate"><span class="pre">.dvc</span></code> file in the <code class="docutils literal notranslate"><span class="pre">data</span></code> directory, which contains the
+metadata for the data file.  The actual data file will be stored in the remote
+storage directory <code class="docutils literal notranslate"><span class="pre">dvc_data</span></code>.  Add the <code class="docutils literal notranslate"><span class="pre">.dvc</span></code> file to the git repository and
+commit the changes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>data/data.csv.dvc
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Add data file to DVC&#39;</span>
+</pre></div>
+</div>
+<p>It is more convenient to let DVC automatically stage these files for you.  You
+can do this by configuring DVC to automatically stage the <code class="docutils literal notranslate"><span class="pre">.dvc</span></code> files when you
+run <code class="docutils literal notranslate"><span class="pre">dvc</span> <span class="pre">add</span></code>.  To do this, run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dvc<span class="w"> </span>config<span class="w"> </span>core.autostage<span class="w"> </span><span class="nb">true</span>
+</pre></div>
+</div>
+<p>Add the <code class="docutils literal notranslate"><span class="pre">.dvc/config</span></code> file to the git repository and commit the changes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>add<span class="w"> </span>.dvc/config
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Configure DVC to automatically stage .dvc files&#39;</span>
+</pre></div>
+</div>
+<p>You can now push the data files to the remote storage by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dvc<span class="w"> </span>push
+</pre></div>
+</div>
+</section>
+<section id="defining-the-workflow">
+<h3>Defining the workflow<a class="headerlink" href="#defining-the-workflow" title="Link to this heading"></a></h3>
+<p>Each step in the workflow is called a stage in DVC.  A stage is defined by a
+command that produces an output file.  The command can be a Python script, a
+shell command, or any other command that can be executed in the terminal.  The
+output file can be a data file, a model file, or any other file that is
+produced by the command.  The output can also be specified as a directory. The
+output file is stored in the remote storage directory, and the metadata for the
+stage is stored in a <code class="docutils literal notranslate"><span class="pre">.dvc</span></code> file in the project directory.</p>
+<p>The first stage is to split the data into training and test sets.  This is done by
+the <code class="docutils literal notranslate"><span class="pre">split_data.py</span></code> script, which takes the data file as input and produces two
+output files: <code class="docutils literal notranslate"><span class="pre">train.csv</span></code> and <code class="docutils literal notranslate"><span class="pre">test.csv</span></code>.  The script uses the parameters
+<code class="docutils literal notranslate"><span class="pre">test_size</span></code> and <code class="docutils literal notranslate"><span class="pre">random_state</span></code> from the <code class="docutils literal notranslate"><span class="pre">params.yaml</span></code> file to control the
+splitting of the data.  The command to add this stage to DVC is as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dvc<span class="w"> </span>stage<span class="w"> </span>add<span class="w"> </span>--name<span class="w"> </span>split_data<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>data/data.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>src/split_data.py<span class="w"> </span>--deps<span class="w"> </span>src/utils.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--params<span class="w"> </span>split_data.test_size,split_data.random_state<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--outs<span class="w"> </span>data/split_data/train.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--outs<span class="w"> </span>data/split_data/test.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>python<span class="w"> </span>src/split_data.py<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--data<span class="w"> </span>data/data.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--params<span class="w"> </span>params.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--output<span class="w"> </span>data/split_data/
+</pre></div>
+</div>
+<p>When the first stage is added, DVC will automatically create a file called
+<code class="docutils literal notranslate"><span class="pre">dvc.yaml</span></code> in the root of the project directory.  This file contains the
+metadata for the stage, as well as a <code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> file that ignores the
+artifacts produced by the stage.  The <code class="docutils literal notranslate"><span class="pre">dvc.yaml</span></code> is staged for commit, so you can
+add it to the git repository and commit the changes:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Add split_data stage to DVC&#39;</span>
+</pre></div>
+</div>
+<p>It is good practice to commit each time you add a new stage.</p>
+<p>The second stage is to train a preprocessor on the training data.  This is done by
+the <code class="docutils literal notranslate"><span class="pre">train_preprocessor.py</span></code> script, which takes the training data file as input
+and produces a preprocessor file <code class="docutils literal notranslate"><span class="pre">preprocessor.pkl</span></code>.  The preprocessor is used to
+transform the data before training the model.  The command to add this stage to
+DVC is as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dvc<span class="w"> </span>stage<span class="w"> </span>add<span class="w"> </span>--name<span class="w"> </span>train_preprocessor<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>data/split_data/train.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>src/train_preprocessor.py<span class="w"> </span>--deps<span class="w"> </span>src/utils.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--outs<span class="w"> </span>./preprocessor.pkl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>python<span class="w"> </span>src/train_preprocessor.py<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--data<span class="w"> </span>data/split_data/train.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--output<span class="w"> </span>preprocessor.pkl
+</pre></div>
+</div>
+<p>The third stage is to preprocess the training data using the preprocessor file
+<code class="docutils literal notranslate"><span class="pre">preprocessor.pkl</span></code>.  This is done by the <code class="docutils literal notranslate"><span class="pre">preprocess.py</span></code> script, which takes the
+training data file and the preprocessor file as input and produces a preprocessed
+training data file <code class="docutils literal notranslate"><span class="pre">train.csv</span></code> in the <code class="docutils literal notranslate"><span class="pre">data/preprocessed/</span></code> directory.  The command
+to add this stage to DVC is as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dvc<span class="w"> </span>stage<span class="w"> </span>add<span class="w"> </span>--name<span class="w"> </span>preprocess_train<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>data/split_data/train.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>preprocessor.pkl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>src/preprocess.py<span class="w"> </span>--deps<span class="w"> </span>src/utils.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--outs<span class="w"> </span>data/preprocessed/train.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>python<span class="w"> </span>src/preprocess.py<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--data<span class="w"> </span>data/split_data/train.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--preprocessor<span class="w"> </span>preprocessor.pkl<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--output<span class="w"> </span>data/preprocessed/train.csv
+</pre></div>
+</div>
+<p>The fourth stage is to preprocess the test data, similar to the training data.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dvc<span class="w"> </span>stage<span class="w"> </span>add<span class="w"> </span>--name<span class="w"> </span>preprocess_test<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>data/split_data/test.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>preprocessor.pkl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>src/preprocess.py<span class="w"> </span>--deps<span class="w"> </span>src/utils.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--outs<span class="w"> </span>data/preprocessed/test.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>python<span class="w"> </span>src/preprocess.py<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--data<span class="w"> </span>data/split_data/test.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--preprocessor<span class="w"> </span>preprocessor.pkl<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--output<span class="w"> </span>data/preprocessed/test.csv
+</pre></div>
+</div>
+<p>The fifth stage is to train the model using the preprocessed training data.  This
+is done by the <code class="docutils literal notranslate"><span class="pre">train_model.py</span></code> script, which takes the preprocessed training data
+file and the parameters from the <code class="docutils literal notranslate"><span class="pre">params.yaml</span></code> file as input and produces a model
+file <code class="docutils literal notranslate"><span class="pre">model.pkl</span></code>.  The command to add this stage to DVC is as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dvc<span class="w"> </span>stage<span class="w"> </span>add<span class="w"> </span>--name<span class="w"> </span>train_model<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>data/preprocessed/train.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>src/train_model.py<span class="w"> </span>--deps<span class="w"> </span>src/utils.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--params<span class="w"> </span>train_model.penalty,train_model.C,train_model.solver<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--outs<span class="w"> </span>model.pkl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>python<span class="w"> </span>src/train_model.py<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--data<span class="w"> </span>data/preprocessed/train.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--params<span class="w"> </span>params.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--output<span class="w"> </span>model.pkl
+</pre></div>
+</div>
+<p>The sixth stage is to evaluate the model on the preprocessed training data.  This
+is done by the <code class="docutils literal notranslate"><span class="pre">evaluate_model.py</span></code> script, which takes the preprocessed training
+data file and the model file as input and produces a metrics file
+<code class="docutils literal notranslate"><span class="pre">metrics/train.yaml</span></code>.  The command to add this stage to DVC is as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dvc<span class="w"> </span>stage<span class="w"> </span>add<span class="w"> </span>--name<span class="w"> </span>compute_metrics_train<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>data/preprocessed/train.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>model.pkl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>src/compute_metrics.py<span class="w"> </span>--deps<span class="w"> </span>src/utils.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--metrics<span class="w"> </span>metrics/train.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>python<span class="w"> </span>src/compute_metrics.py<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--data<span class="w"> </span>data/preprocessed/train.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--model<span class="w"> </span>model.pkl<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--output<span class="w"> </span>metrics/train.yaml
+</pre></div>
+</div>
+<p>The seventh stage is to evaluate the model on the preprocessed test data, similar to
+the training data.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dvc<span class="w"> </span>stage<span class="w"> </span>add<span class="w"> </span>--name<span class="w"> </span>compute_metrics_test<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>data/preprocessed/test.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>model.pkl<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--deps<span class="w"> </span>src/compute_metrics.py<span class="w"> </span>--deps<span class="w"> </span>src/utils.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--metrics<span class="w"> </span>metrics/test.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>python<span class="w"> </span>src/compute_metrics.py<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--data<span class="w"> </span>data/preprocessed/test.csv<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--model<span class="w"> </span>model.pkl<span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--output<span class="w"> </span>metrics/test.yaml
+</pre></div>
+</div>
+<p>The stages are defined in the shell script <code class="docutils literal notranslate"><span class="pre">define_workflow.sh</span></code> to make it
+easier to add them to DVC.  You can run the script to add all the stages to
+DVC at once.</p>
+<p>All these commands simply define the workflow without executing it.  To
+execute the workflow, you can run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dvc<span class="w"> </span>repro
+</pre></div>
+</div>
+<p>This will execute all the stages in the workflow in the correct order, based on
+the dependencies defined in the <code class="docutils literal notranslate"><span class="pre">dvc.yaml</span></code> file.  DVC will automatically
+download the data files from the remote storage, execute the commands. The
+output files will be stored in the remote storage directory <code class="docutils literal notranslate"><span class="pre">dvc_data</span></code>, and the
+metadata for the stages will be stored in the <code class="docutils literal notranslate"><span class="pre">dvc.yaml</span></code> file.  You can add the
+<code class="docutils literal notranslate"><span class="pre">-f</span></code> flag to force DVC to execute the stages even if the output files already
+exist.  This can be useful if you want to re-execute the stages with different
+parameters or if you want to re-execute the stages after making changes to the
+source code.</p>
+<p>When the workflow finishes, you should commit the files that DVC has created
+to the git repositoryh, and you can push the results to the remote storage by
+running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Run workflow&#39;</span>
+$<span class="w"> </span>dvc<span class="w"> </span>push
+</pre></div>
+</div>
+<p>You can view the status of the DVC repository by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dvc<span class="w"> </span>dag
+</pre></div>
+</div>
+</section>
+<section id="changing-things">
+<h3>Changing things<a class="headerlink" href="#changing-things" title="Link to this heading"></a></h3>
+<p>When you change something to the workflow, such as the parameters in the
+<code class="docutils literal notranslate"><span class="pre">params.yaml</span></code> file, you can run the <code class="docutils literal notranslate"><span class="pre">dvc</span> <span class="pre">repro</span></code> command again to re-execute the
+stages that depend on the changed parameters.  DVC will automatically detect
+the changes and re-execute the stages in the correct order.  You can also
+force DVC to re-execute all the stages by running the <code class="docutils literal notranslate"><span class="pre">dvc</span> <span class="pre">repro</span> <span class="pre">-f</span></code> command.</p>
+<p>For instance, if you change the <code class="docutils literal notranslate"><span class="pre">train_model.penalty</span></code> parameter in the
+<code class="docutils literal notranslate"><span class="pre">params.yaml</span></code> file to <code class="docutils literal notranslate"><span class="pre">'l2'</span></code>, you can run the following command to re-execute the
+stages that depend on this parameter:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-a<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Change train_model.penalty parameter to l2&#39;</span>
+$<span class="w"> </span>dvc<span class="w"> </span>repro
+$<span class="w"> </span>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;Rerun for change train_model.penalty&#39;</span>
+$<span class="w"> </span>dvc<span class="w"> </span>push
+</pre></div>
+</div>
+<p>This will re-execute the <code class="docutils literal notranslate"><span class="pre">train_model</span></code> stage and all the stages that depend on
+it, such as <code class="docutils literal notranslate"><span class="pre">compute_metrics_train</span></code> and <code class="docutils literal notranslate"><span class="pre">compute_metrics_test</span></code>.</p>
+<p>You can now easily compare the metrics of the old and new runs by
+first finding the commit hash of the old run using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">log</span></code> and then
+using the <code class="docutils literal notranslate"><span class="pre">dvc</span> <span class="pre">metrics</span> <span class="pre">diff</span></code> command to compare the metrics of the two runs:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>log
+$<span class="w"> </span>dvc<span class="w"> </span>metrics<span class="w"> </span>diff<span class="w"> </span>&lt;old_commit_hash&gt;<span class="w"> </span>HEAD
+</pre></div>
+</div>
+<p>Similarly, you can compare the parameters of the two runs by using the
+<code class="docutils literal notranslate"><span class="pre">dvc</span> <span class="pre">params</span> <span class="pre">diff</span></code> command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>dvc<span class="w"> </span>params<span class="w"> </span>diff<span class="w"> </span>&lt;old_commit_hash&gt;<span class="w"> </span>HEAD
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

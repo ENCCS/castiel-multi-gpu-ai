@@ -1,0 +1,2161 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ray Data &mdash; CASTIEL2 Multi-GPU AI  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_lesson.css?v=e9df6548" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/overrides.css?v=d560b895" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=187304be"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=35a8b989"></script>
+      <script src="../../../../_static/minipres.js?v=a0d29692"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../../_static/togglebutton.js?v=1ae7504c"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex/" />
+    <link rel="search" title="Search" href="../../../../search/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../" class="icon icon-home">
+            CASTIEL2 Multi-GPU AI
+              <img src="../../../../_static/CASTIEL2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">The lesson materials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../leonardo/README/">1M: Access to Leonardo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../se/deep-learning-intro/">1A: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nl/">2M: PyTorch Distributed Data Parallel</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/">Instructor’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../directives/">Directives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../">CASTIEL2 Multi-GPU AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Ray Data</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/castiel-multi-gpu-ai/blob/main/content/it/intro_to_ray/notebooks/02_ray_data.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="ray-data">
+<h1>Ray Data<a class="headerlink" href="#ray-data" title="Link to this heading"></a></h1>
+<p>In this notebook we are going to explore the following topics:</p>
+<ul class="simple">
+<li><p>Ray Datasets;</p></li>
+<li><p>Ray Data - Api (Read, add columns, groupby operations, etc);</p></li>
+</ul>
+<p>The dataset used in this notebook is in the following dir <code class="docutils literal notranslate"><span class="pre">/leonardo_scratch/fast/tra26_castiel2/data/ray_data</span></code>.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="introduction-to-ray-data">
+<h1>Introduction to Ray Data<a class="headerlink" href="#introduction-to-ray-data" title="Link to this heading"></a></h1>
+<p>Ray data is a Ray component based on the Ray Core functionalities presented in the notebook <code class="docutils literal notranslate"><span class="pre">1_ray_core.ipynb</span></code>. Ray data provides functions for scalable data processing, batch inference, and distributed training. For an example about video processing, check <a class="reference external" href="https://www.anyscale.com/blog/streaming-distributed-execution-across-cpus-and-gpus">this</a>.</p>
+<p>The basic building block of Ray Data are Ray Datasets. Datasets are abstractions used to represent a distributed data collection.</p>
+<p>IMPORTANT NOTE: At the moment, Ray Data doesn’t support the presence of a Ray Client connecting to a remote cluster. To solve this issue, all <code class="docutils literal notranslate"><span class="pre">ray.data</span></code> operations will be encapsuled inside Ray tasks. In this way, the task will be sent to the cluster and the ray data operations will be executed by the worker nodes.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="imports">
+<h1>Imports<a class="headerlink" href="#imports" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">ray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ray.util.actor_pool</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActorPool</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ray.data</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/leonardo_work/tra26_castiel2/mviscia1/ray_rag_venv/lib/python3.11/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+2026-01-29 08:02:15,848	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+2026-01-29 08:02:33,850	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="environment-configuration">
+<h1>Environment configuration<a class="headerlink" href="#environment-configuration" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ray</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">log_to_driver</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ignore_reinit_error</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Notebook started </span><span class="si">{</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:02:37,326	INFO worker.py:1520 -- Using address 10.11.1.34:23707 set in the environment variable RAY_ADDRESS
+2026-01-29 08:02:37,327	INFO worker.py:1660 -- Connecting to existing Ray cluster at address: 10.11.1.34:23707...
+2026-01-29 08:02:37,336	INFO worker.py:1843 -- Connected to Ray cluster. View the dashboard at <span class=" -Color -Color-Bold -Color-Bold-Green">http://10.11.1.34:8265 </span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Notebook started 2026-01-29 08:02:38.866136
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resources</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">cluster_resources</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cluster has </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;CPU&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> CPUs, </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;GPU&#39;</span><span class="p">]</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">&#39;GPU&#39;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">resources</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="mi">0</span><span class="si">}</span><span class="s2"> GPUs, execution memory </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;memory&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-9</span><span class="si">}</span><span class="s2"> GBs, object storage memory </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;object_store_memory&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-9</span><span class="si">}</span><span class="s2"> GBs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cluster has 8.0 CPUs, 1.0 GPUs, execution memory 361.684707328 GBs, object storage memory 155.007731712 GBs
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="ray-data-datasets">
+<h1>Ray Data - Datasets<a class="headerlink" href="#ray-data-datasets" title="Link to this heading"></a></h1>
+<p>Ray Data supports data ingestion out of the box for the most common data formats (i.e. parquet, csv, json files, images, binary files, etc), and it supports reading data from cloud storage devices.<br />
+To speed up the reading operations, you want your data in a location readable from all workers. In this way, the loading will be parallelized using all the available workers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DATA_PATH</span> <span class="o">=</span> <span class="s2">&quot;/leonardo_scratch/fast/tra26_castiel2/data/ray_data&quot;</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">DATA_PATH</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span><span class="o">.</span><span class="n">repartition</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">resources</span><span class="p">[</span><span class="s2">&quot;CPU&quot;</span><span class="p">]))</span><span class="o">.</span><span class="n">materialize</span><span class="p">()</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:02:47,655	INFO streaming_executor.py:108 -- Starting execution of Dataset. Full logs are in /tmp/ray/session_2026-01-29_07-44-12_707538_3508558/logs/ray-data
+2026-01-29 08:02:47,656	INFO streaming_executor.py:109 -- Execution plan of Dataset: InputDataBuffer[Input] -&gt; TaskPoolMapOperator[ReadCSV] -&gt; LimitOperator[limit=1000000.0] -&gt; AllToAllOperator[Repartition]
+Running 0: 0.00 row [00:00, ? row/s]
+eadCSV 1: 0.00 row [00:00, ? row/s]
+
+t=1000000.0 2: 0.00 row [00:00, ? row/s]
+
+
+tion 3: 0.00 row [00:00, ? row/s]
+
+
+
+Running Dataset. Active &amp; requested resources: 5/8 CPU, 1.2GB/72.2GB object store: : 0.00 row [00:01, ? row/s]
+eadCSV: Tasks: 5 [backpressured]; Queued blocks: 1253; Resources: 5.0 CPU, 1.2GB object store: : 0.00 row [00:01, ? row/s]
+eadCSV: Tasks: 5 [backpressured]; Queued blocks: 1253; Resources: 5.0 CPU, 1.2GB object store: : 0.00 row [00:01, ? row/s]
+
+t=1000000.0: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: : 0.00 row [00:01, ? row/s]
+
+t=1000000.0: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: : 0.00 row [00:01, ? row/s]
+
+
+tion: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store; 0 rows output: : 0.00 row [00:01, ? row/s]
+
+
+Running Dataset. Active &amp; requested resources: 5/8 CPU, 1.2GB/72.2GB object store: : 0.00 row [00:02, ? row/s]0:01, ? row/s]
+eadCSV: Tasks: 5 [backpressured]; Queued blocks: 1253; Resources: 5.0 CPU, 1.2GB object store: : 0.00 row [00:02, ? row/s]
+
+t=1000000.0: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: : 0.00 row [00:02, ? row/s]
+
+
+Running Dataset. Active &amp; requested resources: 5/8 CPU, 1.2GB/72.2GB object store: : 0.00 row [00:03, ? row/s]0:02, ? row/s]
+
+
+
+epartition:   0%|          | 0.00/1.00 [00:03&lt;?, ? row/s]
+
+
+
+epartition:   0%|          | 0.00/1.00M [00:03&lt;?, ? row/s]
+
+
+
+epartition: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 285k row/s]
+
+
+
+epartition: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 285k row/s]
+eadCSV: Tasks: 5 [backpressured]; Queued blocks: 1248; Resources: 5.0 CPU, 489.9MB object store: : 0.00 row [00:03, ? row/s]
+eadCSV: Tasks: 5 [backpressured]; Queued blocks: 1248; Resources: 5.0 CPU, 489.9MB object store: : 8.93M row [00:03, 2.54M row/s]
+eadCSV: Tasks: 5 [backpressured]; Queued blocks: 1248; Resources: 5.0 CPU, 489.9MB object store: : 8.93M row [00:03, 2.54M row/s]
+
+t=1000000.0: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 54.9MB object store: : 0.00 row [00:03, ? row/s]
+
+t=1000000.0: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 54.9MB object store:   0%|          | 0.00/1.00M [00:03&lt;?, ? row/s]
+
+t=1000000.0: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 54.9MB object store: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 284k row/s]
+
+t=1000000.0: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 54.9MB object store: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 284k row/s]
+
+
+tion: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store; 1000000.0 rows output: : 0.00 row [00:03, ? row/s]
+
+
+                                                                                                                row [00:03, ? row/s]
+                                                                                                                                 
+
+                                                                                                                                        
+
+
+                                                                                                                           
+
+
+
+✔️  Dataset execution finished in 4.19 seconds: 100%|██████████| 1.00M/1.00M [00:04&lt;00:00, 239k row/s]
+
+eadCSV: Tasks: 5 [backpressured]; Queued blocks: 1248; Resources: 5.0 CPU, 489.9MB object store: : 8.93M row [00:03, 2.54M row/s]
+
+t=1000000.0: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 54.9MB object store: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 284k row/s]
+
+
+tion: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store; 1000000.0 rows output: : 0.00 row [00:03, ? row/s]
+
+
+
+epartition: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 285k row/s]
+eadCSV: Tasks: 0; Queued blocks: 1248; Resources: 0.0 CPU, 489.9MB object store: : 8.93M row [00:03, 2.54M row/s]                
+eadCSV: Tasks: 0; Queued blocks: 1248; Resources: 0.0 CPU, 489.9MB object store:  50%|█████     | 8.93M/17.9M [00:03&lt;00:03, 2.54M row/s]
+eadCSV: Tasks: 0; Queued blocks: 1248; Resources: 0.0 CPU, 489.9MB object store: 100%|██████████| 17.9M/17.9M [00:03&lt;00:00, 2.54M row/s]
+                                                                                                                                        
+
+                                                                                                                                        
+
+
+                                                                                                                           
+
+
+
+- ReadCSV: Tasks: 0; Queued blocks: 1248; Resources: 0.0 CPU, 489.9MB object store: 100%|██████████| 17.9M/17.9M [00:03&lt;00:00, 5.03M row/s]
+
+
+t=1000000.0: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 54.9MB object store: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 284k row/s]
+
+
+tion: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store; 1000000.0 rows output: : 0.00 row [00:03, ? row/s]
+
+
+
+epartition: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 285k row/s]
+
+t=1000000.0: Tasks: 0; Queued blocks: 5; Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 284k row/s]  
+
+t=1000000.0: Tasks: 0; Queued blocks: 5; Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 284k row/s]
+
+                                                                                                                                      
+
+
+                                                                                                                           
+
+
+
+- limit=1000000.0: Tasks: 0; Queued blocks: 5; Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 281k row/s]
+
+
+
+tion: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store; 1000000.0 rows output: : 0.00 row [00:03, ? row/s]
+
+
+
+epartition: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 285k row/s]
+
+
+tion: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 54.9MB object store; 1000000 rows output: : 0.00 row [00:03, ? row/s]
+
+
+tion: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 54.9MB object store; 1000000 rows output:   0%|          | 0.00/1.00M [00:03&lt;?, ? row/s]
+
+
+tion: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 54.9MB object store; 1000000 rows output: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 281k row/s]
+
+
+tion: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 54.9MB object store; 1000000 rows output: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 281k row/s]
+
+
+                                                                                                                                                      
+
+
+
+- Repartition: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 54.9MB object store; 1000000 rows output: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 280k row/s]
+
+
+
+
+epartition: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 285k row/s]
+
+
+
+epartition: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 285k row/s]
+
+
+
+  *- Split Repartition: 100%|██████████| 1.00M/1.00M [00:03&lt;00:00, 280k row/s]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MaterializedDataset(
+   num_blocks=8,
+   num_rows=1000000,
+   schema={
+      human_readable_ts: timestamp[s],
+      id: int64,
+      state: string,
+      transaction_amount: double,
+      transaction_category: string,
+      unix_timestamp: int64
+   }
+)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="ray-data-api">
+<h1>Ray Data - API<a class="headerlink" href="#ray-data-api" title="Link to this heading"></a></h1>
+<p>In the previous cells a million rows were read in parallell. By default all the operations on datasets are executed lazily, to force the ingestion of the dataset we can use the <code class="docutils literal notranslate"><span class="pre">materialize</span></code> method. This triggers the execution of the <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> method and pins the dataset blocks in the distributed object storage. Other operations which trigger data reading are operations like <code class="docutils literal notranslate"><span class="pre">take_batch</span></code>, <code class="docutils literal notranslate"><span class="pre">write_csv</span></code>, etc.</p>
+<p>Datasets in Ray are divided into blocks that are processed independently. Each block is read into memory as required, making it possible to handle datasets larger than memory by processing blocks in parallel on different workers.</p>
+<p>We can obtain information about the dataset using the following commands:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">.columns()</span></code>: get a list with the colnames;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.count()</span></code>: get a count of the rows included in the dataset;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.size_bytes()</span></code>: get the size in bytes of the dataset;</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.num_blocks()</span></code>: get the number of blocks in which the dataset is scattered.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">()</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="nb">bytes</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">size_bytes</span><span class="p">()</span>
+<span class="n">n_blocks</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">num_blocks</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span><span class="si">}</span><span class="s2"> columns, </span><span class="si">{</span><span class="n">rows</span><span class="si">}</span><span class="s2"> rows. Dataset memory occupation is </span><span class="si">{</span><span class="nb">bytes</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-9</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">GB and is scattered in </span><span class="si">{</span><span class="n">n_blocks</span><span class="si">}</span><span class="s2"> blocks.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Dataset has 6 columns, 1000000 rows. Dataset memory occupation is 0.06GB and is scattered in 8 blocks.
+</pre></div>
+</div>
+</div>
+</div>
+<p>With the <code class="docutils literal notranslate"><span class="pre">take_batch</span></code> method we can ask a batch of dataset rows, this is very useful if you need to debug something.<br />
+The <code class="docutils literal notranslate"><span class="pre">batch_format</span></code> parameters is used to express how you want your batch to be returned. Supported batch formats are:</p>
+<ul class="simple">
+<li><p>pandas;</p></li>
+<li><p>numpy;</p></li>
+<li><p>default (dictionay).</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">take_batch</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_format</span> <span class="o">=</span> <span class="s2">&quot;pandas&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:02:52,031	INFO streaming_executor.py:108 -- Starting execution of Dataset. Full logs are in /tmp/ray/session_2026-01-29_07-44-12_707538_3508558/logs/ray-data
+2026-01-29 08:02:52,032	INFO streaming_executor.py:109 -- Execution plan of Dataset: InputDataBuffer[Input] -&gt; LimitOperator[limit=10]
+Running 0: 0.00 row [00:00, ? row/s]
+                                                                             
+✔️  Dataset execution finished in 0.02 seconds: : 10.0 row [00:00, 531 row/s]
+
+imit=10 1: 0.00 row [00:00, ? row/s]
+imit=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 581.0B object store: : 0.00 row [00:00, ? row/s]
+imit=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 581.0B object store: : 10.0 row [00:00, 471 row/s]
+- limit=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 581.0B object store: : 10.0 row [00:00, 418 row/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>human_readable_ts</th>
+      <th>id</th>
+      <th>state</th>
+      <th>transaction_amount</th>
+      <th>transaction_category</th>
+      <th>unix_timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2011-01-04 12:26:51</td>
+      <td>445278366</td>
+      <td>Texas</td>
+      <td>48.804656</td>
+      <td>Utilities</td>
+      <td>1294140411</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2004-08-20 04:32:17</td>
+      <td>445278367</td>
+      <td>Mississippi</td>
+      <td>67.424309</td>
+      <td>Gas Station</td>
+      <td>1092969137</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1982-03-12 20:27:34</td>
+      <td>445278368</td>
+      <td>Wisconsin</td>
+      <td>29.831828</td>
+      <td>Electronics</td>
+      <td>384809254</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1985-07-16 02:22:11</td>
+      <td>445278369</td>
+      <td>Virginia</td>
+      <td>51.495818</td>
+      <td>Utilities</td>
+      <td>490321331</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2023-02-07 06:43:35</td>
+      <td>445278370</td>
+      <td>Ohio</td>
+      <td>53.365462</td>
+      <td>Electronics</td>
+      <td>1675748615</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1994-12-15 09:16:08</td>
+      <td>445278371</td>
+      <td>Maryland</td>
+      <td>66.733325</td>
+      <td>Gas Station</td>
+      <td>787479368</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1991-03-17 12:30:34</td>
+      <td>445278372</td>
+      <td>Pennsylvania</td>
+      <td>62.746037</td>
+      <td>Restaurant</td>
+      <td>669209434</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2020-01-26 14:08:10</td>
+      <td>445278373</td>
+      <td>Maryland</td>
+      <td>113.996035</td>
+      <td>Electronics</td>
+      <td>1580044090</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1987-07-04 21:31:10</td>
+      <td>445278374</td>
+      <td>Texas</td>
+      <td>66.904820</td>
+      <td>Restaurant</td>
+      <td>552425470</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2018-05-08 22:40:20</td>
+      <td>445278375</td>
+      <td>Georgia</td>
+      <td>80.782422</td>
+      <td>Supermarket</td>
+      <td>1525812020</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can drop useless columns with <code class="docutils literal notranslate"><span class="pre">drop_columns</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;bound method Dataset.columns of MaterializedDataset(
+   num_blocks=8,
+   num_rows=1000000,
+   schema={
+      human_readable_ts: timestamp[s],
+      id: int64,
+      state: string,
+      transaction_amount: double,
+      transaction_category: string,
+      unix_timestamp: int64
+   }
+)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_1</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop_columns</span><span class="p">([</span><span class="s2">&quot;unix_timestamp&quot;</span><span class="p">])</span>
+<span class="n">df_1</span><span class="o">.</span><span class="n">take_batch</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_format</span><span class="o">=</span><span class="s2">&quot;pandas&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:02:52,370	INFO streaming_executor.py:108 -- Starting execution of Dataset. Full logs are in /tmp/ray/session_2026-01-29_07-44-12_707538_3508558/logs/ray-data
+2026-01-29 08:02:52,370	INFO streaming_executor.py:109 -- Execution plan of Dataset: InputDataBuffer[Input] -&gt; TaskPoolMapOperator[MapBatches(drop_columns)] -&gt; LimitOperator[limit=10]
+Running 0: 0.00 row [00:00, ? row/s]
+apBatches(drop_columns) 1: 0.00 row [00:00, ? row/s]
+
+                                                                                                   
+                                                    
+
+✔️  Dataset execution finished in 0.08 seconds: 100%|██████████| 10.0/10.0 [00:00&lt;00:00, 117 row/s]
+
+apBatches(drop_columns) 1: 0.00 row [00:00, ? row/s]
+
+t=10 2: 0.00 row [00:00, ? row/s]
+apBatches(drop_columns): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: : 0.00 row [00:00, ? row/s]
+apBatches(drop_columns): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store:   0%|          | 0.00/1.00M [00:00&lt;?, ? row/s]
+apBatches(drop_columns): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 1.00M/1.00M [00:00&lt;00:00, 11.3M row/s]
+                                                                                                                                                   
+
+- MapBatches(drop_columns): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 1.00M/1.00M [00:00&lt;00:00, 10.9M row/s]
+
+
+t=10 2: 0.00 row [00:00, ? row/s]
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 501.0B object store: : 0.00 row [00:00, ? row/s]
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 501.0B object store:   0%|          | 0.00/10.0 [00:00&lt;?, ? row/s]
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 501.0B object store: 100%|██████████| 10.0/10.0 [00:00&lt;00:00, 107 row/s]
+
+- limit=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 501.0B object store: 100%|██████████| 10.0/10.0 [00:00&lt;00:00, 105 row/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>human_readable_ts</th>
+      <th>id</th>
+      <th>state</th>
+      <th>transaction_amount</th>
+      <th>transaction_category</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2011-01-04 12:26:51</td>
+      <td>445278366</td>
+      <td>Texas</td>
+      <td>48.804656</td>
+      <td>Utilities</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2004-08-20 04:32:17</td>
+      <td>445278367</td>
+      <td>Mississippi</td>
+      <td>67.424309</td>
+      <td>Gas Station</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1982-03-12 20:27:34</td>
+      <td>445278368</td>
+      <td>Wisconsin</td>
+      <td>29.831828</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1985-07-16 02:22:11</td>
+      <td>445278369</td>
+      <td>Virginia</td>
+      <td>51.495818</td>
+      <td>Utilities</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2023-02-07 06:43:35</td>
+      <td>445278370</td>
+      <td>Ohio</td>
+      <td>53.365462</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1994-12-15 09:16:08</td>
+      <td>445278371</td>
+      <td>Maryland</td>
+      <td>66.733325</td>
+      <td>Gas Station</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1991-03-17 12:30:34</td>
+      <td>445278372</td>
+      <td>Pennsylvania</td>
+      <td>62.746037</td>
+      <td>Restaurant</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2020-01-26 14:08:10</td>
+      <td>445278373</td>
+      <td>Maryland</td>
+      <td>113.996035</td>
+      <td>Electronics</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1987-07-04 21:31:10</td>
+      <td>445278374</td>
+      <td>Texas</td>
+      <td>66.904820</td>
+      <td>Restaurant</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2018-05-08 22:40:20</td>
+      <td>445278375</td>
+      <td>Georgia</td>
+      <td>80.782422</td>
+      <td>Supermarket</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can add new columns using the <code class="docutils literal notranslate"><span class="pre">add_column</span></code> function. Remember that also transformations in Ray Data are executed lazily, and are recorded in a computation graph. The actual execution only occurs when non-delayable operations are triggered (e.g. <code class="docutils literal notranslate"><span class="pre">write_csv</span></code>, <code class="docutils literal notranslate"><span class="pre">take_batch</span></code>, <code class="docutils literal notranslate"><span class="pre">materialize</span></code>, etc).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_2</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">add_column</span><span class="p">(</span><span class="s2">&quot;dollars&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;transaction_amount&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+<span class="n">df_2</span><span class="o">.</span><span class="n">take_batch</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_format</span><span class="o">=</span><span class="s2">&quot;pandas&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:02:52,483	INFO streaming_executor.py:108 -- Starting execution of Dataset. Full logs are in /tmp/ray/session_2026-01-29_07-44-12_707538_3508558/logs/ray-data
+2026-01-29 08:02:52,484	INFO streaming_executor.py:109 -- Execution plan of Dataset: InputDataBuffer[Input] -&gt; TaskPoolMapOperator[MapBatches(add_column)] -&gt; LimitOperator[limit=10]
+Running 0: 0.00 row [00:00, ? row/s]
+apBatches(add_column) 1: 0.00 row [00:00, ? row/s]
+
+                                                                                                    
+                                                  
+
+✔️  Dataset execution finished in 0.54 seconds: 100%|██████████| 10.0/10.0 [00:00&lt;00:00, 18.3 row/s]
+
+apBatches(add_column) 1: 0.00 row [00:00, ? row/s]
+
+t=10 2: 0.00 row [00:00, ? row/s]
+apBatches(add_column): Tasks: 2; Queued blocks: 0; Resources: 2.0 CPU, 37.1MB object store: : 0.00 row [00:00, ? row/s]
+apBatches(add_column): Tasks: 2; Queued blocks: 0; Resources: 2.0 CPU, 37.1MB object store:   0%|          | 0.00/750k [00:00&lt;?, ? row/s]
+apBatches(add_column): Tasks: 2; Queued blocks: 0; Resources: 2.0 CPU, 37.1MB object store: 100%|██████████| 750k/750k [00:00&lt;00:00, 1.37M row/s]
+apBatches(add_column): Tasks: 2; Queued blocks: 0; Resources: 2.0 CPU, 37.1MB object store: 100%|██████████| 750k/750k [00:00&lt;00:00, 1.37M row/s]
+                                                                                                                                                 
+
+- MapBatches(add_column): Tasks: 2; Queued blocks: 0; Resources: 2.0 CPU, 37.1MB object store: 100%|██████████| 750k/750k [00:00&lt;00:00, 1.36M row/s]
+
+
+t=10 2: 0.00 row [00:00, ? row/s]
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 1.7KB object store: : 0.00 row [00:00, ? row/s]
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 1.7KB object store:   0%|          | 0.00/10.0 [00:00&lt;?, ? row/s]
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 1.7KB object store: 100%|██████████| 10.0/10.0 [00:00&lt;00:00, 18.0 row/s]
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 1.7KB object store: 100%|██████████| 10.0/10.0 [00:00&lt;00:00, 18.0 row/s]
+
+- limit=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 1.7KB object store: 100%|██████████| 10.0/10.0 [00:00&lt;00:00, 17.9 row/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>human_readable_ts</th>
+      <th>id</th>
+      <th>state</th>
+      <th>transaction_amount</th>
+      <th>transaction_category</th>
+      <th>unix_timestamp</th>
+      <th>dollars</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2011-01-04 12:26:51</td>
+      <td>445278366</td>
+      <td>Texas</td>
+      <td>48.804656</td>
+      <td>Utilities</td>
+      <td>1294140411</td>
+      <td>48</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2004-08-20 04:32:17</td>
+      <td>445278367</td>
+      <td>Mississippi</td>
+      <td>67.424309</td>
+      <td>Gas Station</td>
+      <td>1092969137</td>
+      <td>67</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1982-03-12 20:27:34</td>
+      <td>445278368</td>
+      <td>Wisconsin</td>
+      <td>29.831828</td>
+      <td>Electronics</td>
+      <td>384809254</td>
+      <td>29</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1985-07-16 02:22:11</td>
+      <td>445278369</td>
+      <td>Virginia</td>
+      <td>51.495818</td>
+      <td>Utilities</td>
+      <td>490321331</td>
+      <td>51</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2023-02-07 06:43:35</td>
+      <td>445278370</td>
+      <td>Ohio</td>
+      <td>53.365462</td>
+      <td>Electronics</td>
+      <td>1675748615</td>
+      <td>53</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1994-12-15 09:16:08</td>
+      <td>445278371</td>
+      <td>Maryland</td>
+      <td>66.733325</td>
+      <td>Gas Station</td>
+      <td>787479368</td>
+      <td>66</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1991-03-17 12:30:34</td>
+      <td>445278372</td>
+      <td>Pennsylvania</td>
+      <td>62.746037</td>
+      <td>Restaurant</td>
+      <td>669209434</td>
+      <td>62</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2020-01-26 14:08:10</td>
+      <td>445278373</td>
+      <td>Maryland</td>
+      <td>113.996035</td>
+      <td>Electronics</td>
+      <td>1580044090</td>
+      <td>113</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1987-07-04 21:31:10</td>
+      <td>445278374</td>
+      <td>Texas</td>
+      <td>66.904820</td>
+      <td>Restaurant</td>
+      <td>552425470</td>
+      <td>66</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2018-05-08 22:40:20</td>
+      <td>445278375</td>
+      <td>Georgia</td>
+      <td>80.782422</td>
+      <td>Supermarket</td>
+      <td>1525812020</td>
+      <td>80</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>You can achieve the same results of the previous cell with better flexibility using map batches with a user defined function.<br />
+The function will receive a batch of data in the specified format. In this case, a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">parse_in_batches</span><span class="p">(</span><span class="n">df_batch</span><span class="p">):</span>
+    <span class="n">df_batch</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_batch</span><span class="p">[</span><span class="s2">&quot;human_readable_ts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">year</span><span class="p">)</span>
+    <span class="n">df_batch</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_batch</span><span class="p">[</span><span class="s2">&quot;human_readable_ts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">month</span><span class="p">)</span>
+    <span class="n">df_batch</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_batch</span><span class="p">[</span><span class="s2">&quot;human_readable_ts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+    <span class="n">df_batch</span><span class="p">[</span><span class="s2">&quot;is_leap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_batch</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_batch</span><span class="p">[</span><span class="s2">&quot;day&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">29</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df_batch</span>
+
+<span class="n">df_3</span> <span class="o">=</span> <span class="n">df_2</span><span class="o">.</span><span class="n">map_batches</span><span class="p">(</span><span class="n">parse_in_batches</span><span class="p">,</span> <span class="n">batch_format</span> <span class="o">=</span> <span class="s2">&quot;pandas&quot;</span><span class="p">)</span>
+<span class="n">df_3</span><span class="o">.</span><span class="n">take_batch</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_format</span><span class="o">=</span><span class="s2">&quot;pandas&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:02:53,061	INFO streaming_executor.py:108 -- Starting execution of Dataset. Full logs are in /tmp/ray/session_2026-01-29_07-44-12_707538_3508558/logs/ray-data
+2026-01-29 08:02:53,061	INFO streaming_executor.py:109 -- Execution plan of Dataset: InputDataBuffer[Input] -&gt; TaskPoolMapOperator[MapBatches(add_column)-&gt;MapBatches(parse_in_batches)] -&gt; LimitOperator[limit=10]
+Running 0: 0.00 row [00:00, ? row/s]
+apBatches(add_column)-&gt;MapBatches(parse_in_batches) 1: 0.00 row [00:00, ? row/s]
+
+t=10 2: 0.00 row [00:00, ? row/s]
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 1.9KB object store: : 0.00 row [00:01, ? row/s]
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 1.9KB object store:   0%|          | 0.00/10.0 [00:01&lt;?, ? row/s]
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 1.9KB object store: 100%|██████████| 10.0/10.0 [00:01&lt;00:00, 9.69 row/s]
+
+Running Dataset. Active &amp; requested resources: 2/8 CPU, 171.7MB/72.2GB object store: 100%|██████████| 10.0/10.0 [00:01&lt;00:00, 9.62 row/s]
+apBatches(add_column)-&gt;MapBatches(parse_in_batches): Tasks: 2; Queued blocks: 0; Resources: 2.0 CPU, 42.9MB object store: : 0.00 row [00:01, ? row/s]
+apBatches(add_column)-&gt;MapBatches(parse_in_batches): Tasks: 2; Queued blocks: 0; Resources: 2.0 CPU, 42.9MB object store:   0%|          | 0.00/1.00M [00:01&lt;?, ? row/s]
+apBatches(add_column)-&gt;MapBatches(parse_in_batches): Tasks: 2; Queued blocks: 0; Resources: 2.0 CPU, 42.9MB object store:  75%|███████▌  | 750k/1.00M [00:01&lt;00:00, 721k row/s]
+                                                                                                                                         ▌  | 750k/1.00M [00:01&lt;00:00, 721k row/s]
+                                                                                                                                                                               
+
+✔️  Dataset execution finished in 1.05 seconds: 100%|██████████| 10.0/10.0 [00:01&lt;00:00, 9.52 row/s]                                
+
+apBatches(add_column)-&gt;MapBatches(parse_in_batches): Tasks: 2; Queued blocks: 0; Resources: 2.0 CPU, 42.9MB object store:  75%|███████▌  | 750k/1.00M [00:01&lt;00:00, 721k row/s]
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 1.9KB object store: 100%|██████████| 10.0/10.0 [00:01&lt;00:00, 9.69 row/s]
+apBatches(add_column)-&gt;MapBatches(parse_in_batches): Tasks: 2; Queued blocks: 0; Resources: 2.0 CPU, 42.9MB object store: 100%|██████████| 750k/750k [00:01&lt;00:00, 721k row/s] 
+apBatches(add_column)-&gt;MapBatches(parse_in_batches): Tasks: 2; Queued blocks: 0; Resources: 2.0 CPU, 42.9MB object store: 100%|██████████| 750k/750k [00:01&lt;00:00, 721k row/s]
+                                                                                                                                                                              
+
+- MapBatches(add_column)-&gt;MapBatches(parse_in_batches): Tasks: 2; Queued blocks: 0; Resources: 2.0 CPU, 42.9MB object store: 100%|██████████| 750k/750k [00:01&lt;00:00, 713k row/s]
+
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 1.9KB object store: 100%|██████████| 10.0/10.0 [00:01&lt;00:00, 9.69 row/s]
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 10.0/10.0 [00:01&lt;00:00, 9.69 row/s] 
+
+t=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 10.0/10.0 [00:01&lt;00:00, 9.69 row/s]
+
+- limit=10: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 10.0/10.0 [00:01&lt;00:00, 9.49 row/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>human_readable_ts</th>
+      <th>id</th>
+      <th>state</th>
+      <th>transaction_amount</th>
+      <th>transaction_category</th>
+      <th>unix_timestamp</th>
+      <th>dollars</th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>is_leap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2011-01-04 12:26:51</td>
+      <td>445278366</td>
+      <td>Texas</td>
+      <td>48.804656</td>
+      <td>Utilities</td>
+      <td>1294140411</td>
+      <td>48</td>
+      <td>2011</td>
+      <td>1</td>
+      <td>4</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2004-08-20 04:32:17</td>
+      <td>445278367</td>
+      <td>Mississippi</td>
+      <td>67.424309</td>
+      <td>Gas Station</td>
+      <td>1092969137</td>
+      <td>67</td>
+      <td>2004</td>
+      <td>8</td>
+      <td>20</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1982-03-12 20:27:34</td>
+      <td>445278368</td>
+      <td>Wisconsin</td>
+      <td>29.831828</td>
+      <td>Electronics</td>
+      <td>384809254</td>
+      <td>29</td>
+      <td>1982</td>
+      <td>3</td>
+      <td>12</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1985-07-16 02:22:11</td>
+      <td>445278369</td>
+      <td>Virginia</td>
+      <td>51.495818</td>
+      <td>Utilities</td>
+      <td>490321331</td>
+      <td>51</td>
+      <td>1985</td>
+      <td>7</td>
+      <td>16</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2023-02-07 06:43:35</td>
+      <td>445278370</td>
+      <td>Ohio</td>
+      <td>53.365462</td>
+      <td>Electronics</td>
+      <td>1675748615</td>
+      <td>53</td>
+      <td>2023</td>
+      <td>2</td>
+      <td>7</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1994-12-15 09:16:08</td>
+      <td>445278371</td>
+      <td>Maryland</td>
+      <td>66.733325</td>
+      <td>Gas Station</td>
+      <td>787479368</td>
+      <td>66</td>
+      <td>1994</td>
+      <td>12</td>
+      <td>15</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1991-03-17 12:30:34</td>
+      <td>445278372</td>
+      <td>Pennsylvania</td>
+      <td>62.746037</td>
+      <td>Restaurant</td>
+      <td>669209434</td>
+      <td>62</td>
+      <td>1991</td>
+      <td>3</td>
+      <td>17</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2020-01-26 14:08:10</td>
+      <td>445278373</td>
+      <td>Maryland</td>
+      <td>113.996035</td>
+      <td>Electronics</td>
+      <td>1580044090</td>
+      <td>113</td>
+      <td>2020</td>
+      <td>1</td>
+      <td>26</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1987-07-04 21:31:10</td>
+      <td>445278374</td>
+      <td>Texas</td>
+      <td>66.904820</td>
+      <td>Restaurant</td>
+      <td>552425470</td>
+      <td>66</td>
+      <td>1987</td>
+      <td>7</td>
+      <td>4</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2018-05-08 22:40:20</td>
+      <td>445278375</td>
+      <td>Georgia</td>
+      <td>80.782422</td>
+      <td>Supermarket</td>
+      <td>1525812020</td>
+      <td>80</td>
+      <td>2018</td>
+      <td>5</td>
+      <td>8</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:02:54,146	WARNING progress_bar.py:120 -- Truncating long operator name to 100 characters. To disable this behavior, set `ray.data.DataContext.get_current().DEFAULT_ENABLE_PROGRESS_BAR_NAME_TRUNCATION = False`.
+
+apBatches(add_column)-&gt;...-&gt;MapBatches(drop_leap): Tasks: 8 [backpressured]; Queued blocks: 0; Resources: 8.0 CPU, 2.0GB object store: : 0.00 row [00:01, ? row/s]
+Running Dataset. Active &amp; requested resources: 8/8 CPU, 2.0GB/72.2GB object store: : 0.00 row [00:01, ? row/s].0 CPU, 2.0GB object store: : 0.00 row [00:01, ? row/s]
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can filter out rows based on few conditions using the <code class="docutils literal notranslate"><span class="pre">filter</span></code> function or using normal pandas functions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">drop_leap</span><span class="p">(</span><span class="n">df_batch</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">df_batch</span><span class="p">[</span><span class="o">~</span><span class="n">df_batch</span><span class="p">[</span><span class="s2">&quot;is_leap&quot;</span><span class="p">]]</span>
+
+<span class="n">df_4</span> <span class="o">=</span> <span class="n">df_3</span><span class="o">.</span><span class="n">map_batches</span><span class="p">(</span><span class="n">drop_leap</span><span class="p">,</span> <span class="n">batch_format</span> <span class="o">=</span> <span class="s2">&quot;pandas&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">materialize</span><span class="p">()</span>
+<span class="n">df_4</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:02:54,135	INFO streaming_executor.py:108 -- Starting execution of Dataset. Full logs are in /tmp/ray/session_2026-01-29_07-44-12_707538_3508558/logs/ray-data
+2026-01-29 08:02:54,135	INFO streaming_executor.py:109 -- Execution plan of Dataset: InputDataBuffer[Input] -&gt; TaskPoolMapOperator[MapBatches(add_column)-&gt;MapBatches(parse_in_batches)-&gt;MapBatches(drop_leap)]
+Running 0: 0.00 row [00:00, ? row/s]
+                                                                                                              
+✔️  Dataset execution finished in 1.10 seconds: 100%|██████████| 999k/999k [00:01&lt;00:00, 903k row/s]                                                                 
+
+apBatches(add_column)-&gt;...-&gt;MapBatches(drop_leap): Tasks: 8 [backpressured]; Queued blocks: 0; Resources: 8.0 CPU, 2.0GB object store: : 0.00 row [00:01, ? row/s]
+apBatches(add_column)-&gt;...-&gt;MapBatches(drop_leap): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 179.9MB object store: : 0.00 row [00:01, ? row/s]              
+apBatches(add_column)-&gt;...-&gt;MapBatches(drop_leap): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 179.9MB object store:   0%|          | 0.00/999k [00:01&lt;?, ? row/s]
+apBatches(add_column)-&gt;...-&gt;MapBatches(drop_leap): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 179.9MB object store: 100%|██████████| 999k/999k [00:01&lt;00:00, 904k row/s]
+apBatches(add_column)-&gt;...-&gt;MapBatches(drop_leap): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 179.9MB object store: 100%|██████████| 999k/999k [00:01&lt;00:00, 904k row/s]
+- MapBatches(add_column)-&gt;...-&gt;MapBatches(drop_leap): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 179.9MB object store: 100%|██████████| 999k/999k [00:01&lt;00:00, 902k row/s]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MaterializedDataset(
+   num_blocks=8,
+   num_rows=999304,
+   schema={
+      human_readable_ts: datetime64[s],
+      id: int64,
+      state: object,
+      transaction_amount: float64,
+      transaction_category: object,
+      unix_timestamp: int64,
+      dollars: int64,
+      year: int64,
+      month: int64,
+      day: int64,
+      is_leap: bool
+   }
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Total leap tx dropped</span>
+<span class="n">df_3</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">-</span> <span class="n">df_4</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:02:55,265	INFO streaming_executor.py:108 -- Starting execution of Dataset. Full logs are in /tmp/ray/session_2026-01-29_07-44-12_707538_3508558/logs/ray-data
+2026-01-29 08:02:55,266	INFO streaming_executor.py:109 -- Execution plan of Dataset: InputDataBuffer[Input] -&gt; TaskPoolMapOperator[MapBatches(add_column)-&gt;MapBatches(parse_in_batches)] -&gt; AggregateNumRows[AggregateNumRows]
+Running 0: 0.00 row [00:00, ? row/s]
+apBatches(add_column)-&gt;MapBatches(parse_in_batches) 1: 0.00 row [00:00, ? row/s]
+
+                                                                              
+                                                                                
+
+✔️  Dataset execution finished in 0.91 seconds: : 1.00 row [00:00, 1.09 row/s]
+
+apBatches(add_column)-&gt;MapBatches(parse_in_batches) 1: 0.00 row [00:00, ? row/s]
+
+egateNumRows 2: 0.00 row [00:00, ? row/s]
+apBatches(add_column)-&gt;MapBatches(parse_in_batches): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: : 0.00 row [00:00, ? row/s]
+apBatches(add_column)-&gt;MapBatches(parse_in_batches): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store:   0%|          | 0.00/1.00M [00:00&lt;?, ? row/s]
+apBatches(add_column)-&gt;MapBatches(parse_in_batches): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 1.00M/1.00M [00:00&lt;00:00, 1.09M row/s]
+apBatches(add_column)-&gt;MapBatches(parse_in_batches): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 1.00M/1.00M [00:00&lt;00:00, 1.09M row/s]
+                                                                                                                                                                               
+
+- MapBatches(add_column)-&gt;MapBatches(parse_in_batches): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store: 100%|██████████| 1.00M/1.00M [00:00&lt;00:00, 1.09M row/s]
+
+
+egateNumRows 2: 0.00 row [00:00, ? row/s]
+
+egateNumRows: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 8.0B object store: : 0.00 row [00:00, ? row/s]
+
+egateNumRows: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 8.0B object store: : 1.00 row [00:00, 1.09 row/s]
+
+egateNumRows: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 8.0B object store: : 1.00 row [00:00, 1.09 row/s]
+
+- AggregateNumRows: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 8.0B object store: : 1.00 row [00:00, 1.09 row/s]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>696
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_txs_specific_category</span><span class="p">(</span><span class="n">df_batch</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">category</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">df_batch</span><span class="p">[(</span><span class="n">df_batch</span><span class="p">[</span><span class="s2">&quot;transaction_category&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">category</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_batch</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1970</span><span class="p">)]</span>
+
+<span class="n">gas_expenses</span> <span class="o">=</span> <span class="n">df_4</span><span class="o">.</span><span class="n">map_batches</span><span class="p">(</span><span class="n">get_txs_specific_category</span><span class="p">,</span> <span class="n">batch_format</span> <span class="o">=</span> <span class="s2">&quot;pandas&quot;</span><span class="p">,</span> <span class="n">fn_args</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Gas Station&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">materialize</span><span class="p">()</span><span class="o">.</span><span class="n">take_all</span><span class="p">()</span>
+<span class="n">gas_expenses</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">gas_expenses</span><span class="p">)</span>
+<span class="n">gas_expenses</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:02:56,202	INFO streaming_executor.py:108 -- Starting execution of Dataset. Full logs are in /tmp/ray/session_2026-01-29_07-44-12_707538_3508558/logs/ray-data
+2026-01-29 08:02:56,202	INFO streaming_executor.py:109 -- Execution plan of Dataset: InputDataBuffer[Input] -&gt; TaskPoolMapOperator[MapBatches(get_txs_specific_category)]
+Running 0: 0.00 row [00:00, ? row/s]
+                                                                                                       
+✔️  Dataset execution finished in 0.04 seconds: 100%|██████████| 3.01k/3.01k [00:00&lt;00:00, 77.0k row/s]
+
+apBatches(get_txs_specific_category) 1: 0.00 row [00:00, ? row/s]
+apBatches(get_txs_specific_category): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 560.1KB object store: : 0.00 row [00:00, ? row/s]
+apBatches(get_txs_specific_category): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 560.1KB object store:   0%|          | 0.00/3.01k [00:00&lt;?, ? row/s]
+apBatches(get_txs_specific_category): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 560.1KB object store: 100%|██████████| 3.01k/3.01k [00:00&lt;00:00, 76.2k row/s]
+- MapBatches(get_txs_specific_category): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 560.1KB object store: 100%|██████████| 3.01k/3.01k [00:00&lt;00:00, 74.2k row/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 7.57 s, sys: 138 ms, total: 7.7 s
+Wall time: 7.74 s
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>human_readable_ts</th>
+      <th>id</th>
+      <th>state</th>
+      <th>transaction_amount</th>
+      <th>transaction_category</th>
+      <th>unix_timestamp</th>
+      <th>dollars</th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>is_leap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1970-05-18 10:46:30</td>
+      <td>445278450</td>
+      <td>Virginia</td>
+      <td>73.834990</td>
+      <td>Gas Station</td>
+      <td>11871990</td>
+      <td>73</td>
+      <td>1970</td>
+      <td>5</td>
+      <td>18</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1970-04-23 14:57:14</td>
+      <td>445279317</td>
+      <td>Wisconsin</td>
+      <td>69.104664</td>
+      <td>Gas Station</td>
+      <td>9727034</td>
+      <td>69</td>
+      <td>1970</td>
+      <td>4</td>
+      <td>23</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1970-04-01 08:58:56</td>
+      <td>445279906</td>
+      <td>California</td>
+      <td>68.527096</td>
+      <td>Gas Station</td>
+      <td>7804736</td>
+      <td>68</td>
+      <td>1970</td>
+      <td>4</td>
+      <td>1</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1970-10-17 00:57:52</td>
+      <td>445279952</td>
+      <td>Indiana</td>
+      <td>78.796898</td>
+      <td>Gas Station</td>
+      <td>24969472</td>
+      <td>78</td>
+      <td>1970</td>
+      <td>10</td>
+      <td>17</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1970-06-04 03:59:47</td>
+      <td>445280413</td>
+      <td>Wisconsin</td>
+      <td>73.422859</td>
+      <td>Gas Station</td>
+      <td>13316387</td>
+      <td>73</td>
+      <td>1970</td>
+      <td>6</td>
+      <td>4</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can apply groupby operations to our dataset using the <code class="docutils literal notranslate"><span class="pre">groupby</span></code> operator. However, consider that the grouped data must fit in the memory of a single node (i.e. it must be possible to store all the data referring to Alabama 1970 in a single node, etc.).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df_4</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">key</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">,</span> <span class="s2">&quot;year&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">take_all</span><span class="p">())</span>
+<span class="n">stats</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:03:03,962	INFO streaming_executor.py:108 -- Starting execution of Dataset. Full logs are in /tmp/ray/session_2026-01-29_07-44-12_707538_3508558/logs/ray-data
+2026-01-29 08:03:03,963	INFO streaming_executor.py:109 -- Execution plan of Dataset: InputDataBuffer[Input] -&gt; AllToAllOperator[Aggregate]
+Running 0: 0.00 row [00:00, ? row/s]
+ggregate 1: 0.00 row [00:00, ? row/s]
+
+ample 2:   0%|          | 0.00/1.00 [00:00&lt;?, ? row/s]
+
+
+ap 3:   0%|          | 0.00/1.00 [00:00&lt;?, ? row/s]
+
+
+
+ce 4:   0%|          | 0.00/1.00 [00:00&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:02&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:03&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:04&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:05&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:06&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:07&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:08&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:09&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:10&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:11&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:12&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:13&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:14&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:15&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:16&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:17&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:18&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:19&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:20&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:21&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:22&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:23&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:24&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:25&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:26&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:27&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:28&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:29&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:30&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:31&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:32&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:33&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:34&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:35&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:36&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/375k [00:37&lt;?, ? row/s]
+
+
+fle Map: 100%|██████████| 375k/375k [00:37&lt;00:00, 10.1k row/s]
+
+
+fle Map: 100%|██████████| 375k/375k [00:37&lt;00:00, 10.1k row/s]
+
+
+fle Map:  75%|███████▌  | 375k/500k [00:38&lt;00:12, 10.1k row/s]
+
+
+fle Map: 100%|██████████| 500k/500k [00:38&lt;00:00, 14.3k row/s]
+
+
+fle Map: 100%|██████████| 500k/500k [00:38&lt;00:00, 14.3k row/s]
+
+
+fle Map: 100%|██████████| 500k/500k [00:39&lt;00:00, 14.3k row/s]
+
+
+fle Map: 100%|██████████| 500k/500k [00:40&lt;00:00, 14.3k row/s]
+
+
+fle Map: 100%|██████████| 500k/500k [00:41&lt;00:00, 14.3k row/s]
+
+
+fle Map:  57%|█████▋    | 500k/874k [00:42&lt;00:26, 14.3k row/s]
+
+
+fle Map: 100%|██████████| 874k/874k [00:42&lt;00:00, 28.2k row/s]
+
+
+fle Map: 100%|██████████| 874k/874k [00:42&lt;00:00, 28.2k row/s]
+
+
+fle Map: 100%|██████████| 874k/874k [00:43&lt;00:00, 28.2k row/s]
+
+
+
+ Reduce:   0%|          | 0.00/1.00 [00:43&lt;?, ? row/s]
+
+
+
+ Reduce:   0%|          | 0.00/1.00 [00:43&lt;?, ? row/s]
+
+
+
+ Reduce:   0%|          | 0.00/107 [00:44&lt;?, ? row/s] 
+
+
+
+ Reduce: 100%|██████████| 107/107 [00:44&lt;00:00, 2.39 row/s]
+
+
+
+ Reduce: 100%|██████████| 107/107 [00:44&lt;00:00, 2.39 row/s]
+
+
+
+ Reduce:  12%|█▏        | 107/876 [00:45&lt;05:21, 2.39 row/s]
+
+
+
+ Reduce: 100%|██████████| 876/876 [00:45&lt;00:00, 26.1 row/s]
+
+
+
+ Reduce: 100%|██████████| 876/876 [00:45&lt;00:00, 26.1 row/s]
+
+
+
+ Reduce:  55%|█████▍    | 876/1.59k [00:46&lt;00:27, 26.1 row/s]
+
+
+
+ Reduce: 100%|██████████| 1.59k/1.59k [00:46&lt;00:00, 55.4 row/s]
+
+
+
+ Reduce: 100%|██████████| 1.59k/1.59k [00:46&lt;00:00, 55.4 row/s]
+
+
+
+ Reduce:  75%|███████▍  | 1.59k/2.13k [00:47&lt;00:09, 55.4 row/s]
+
+
+
+ Reduce: 100%|██████████| 2.13k/2.13k [00:47&lt;00:00, 83.1 row/s]
+
+
+
+ Reduce: 100%|██████████| 2.13k/2.13k [00:47&lt;00:00, 83.1 row/s]
+ggregate: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store; 0 rows output: : 0.00 row [00:48, ? row/s]
+                                                                                                             :48, ? row/s]
+                                                                                                                       
+
+                                                      
+
+
+                                                              
+
+
+
+✔️  Dataset execution finished in 48.26 seconds: 100%|██████████| 2.81k/2.81k [00:48&lt;00:00, 58.1 row/s]
+
+ggregate: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store; 0 rows output: : 0.00 row [00:48, ? row/s]
+
+ample 2:   0%|          | 0.00/1.00 [00:48&lt;?, ? row/s]
+
+
+fle Map: 100%|██████████| 874k/874k [00:48&lt;00:00, 28.2k row/s]
+
+
+
+ Reduce: 100%|██████████| 2.13k/2.13k [00:48&lt;00:00, 83.1 row/s]
+ggregate: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 203.1KB object store; 2805 rows output: : 0.00 row [00:48, ? row/s]
+ggregate: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 203.1KB object store; 2805 rows output:   0%|          | 0.00/2.81k [00:48&lt;?, ? row/s]
+ggregate: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 203.1KB object store; 2805 rows output: 100%|██████████| 2.81k/2.81k [00:48&lt;00:00, 58.1 row/s]
+ggregate: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 203.1KB object store; 2805 rows output: 100%|██████████| 2.81k/2.81k [00:48&lt;00:00, 58.1 row/s]
+                                                                                                                                                        
+
+                                                      
+
+
+                                                              
+
+
+
+- Aggregate: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 203.1KB object store; 2805 rows output: 100%|██████████| 2.81k/2.81k [00:48&lt;00:00, 58.1 row/s]
+
+
+ample 2:   0%|          | 0.00/1.00 [00:48&lt;?, ? row/s]
+
+
+fle Map: 100%|██████████| 874k/874k [00:48&lt;00:00, 28.2k row/s]
+
+
+
+ Reduce: 100%|██████████| 2.13k/2.13k [00:48&lt;00:00, 83.1 row/s]
+
+ort Sample:   0%|          | 0.00/1.00 [00:48&lt;?, ? row/s]
+
+ort Sample:   0%|          | 0.00/80.0 [00:48&lt;?, ? row/s]
+
+ort Sample: 100%|██████████| 80.0/80.0 [00:48&lt;00:00, 1.66 row/s]
+
+ort Sample: 100%|██████████| 80.0/80.0 [00:48&lt;00:00, 1.66 row/s]
+
+                                                                
+
+
+                                                              
+
+
+
+  *- Sort Sample: 100%|██████████| 80.0/80.0 [00:48&lt;00:00, 1.66 row/s]     
+
+
+
+fle Map: 100%|██████████| 874k/874k [00:48&lt;00:00, 28.2k row/s]
+
+
+
+ Reduce: 100%|██████████| 2.13k/2.13k [00:48&lt;00:00, 83.1 row/s]
+
+
+fle Map:  87%|████████▋ | 874k/999k [00:48&lt;00:04, 28.2k row/s]
+
+
+fle Map: 100%|██████████| 999k/999k [00:48&lt;00:00, 26.0k row/s]
+
+
+fle Map: 100%|██████████| 999k/999k [00:48&lt;00:00, 26.0k row/s]
+
+
+                                                              
+
+
+
+  *- Shuffle Map: 100%|██████████| 999k/999k [00:48&lt;00:00, 20.7k row/s]    
+
+
+
+
+ Reduce: 100%|██████████| 2.13k/2.13k [00:48&lt;00:00, 83.1 row/s]
+
+
+
+ Reduce:  76%|███████▌  | 2.13k/2.81k [00:48&lt;00:08, 83.1 row/s]
+
+
+
+ Reduce: 100%|██████████| 2.81k/2.81k [00:48&lt;00:00, 131 row/s] 
+
+
+
+ Reduce: 100%|██████████| 2.81k/2.81k [00:48&lt;00:00, 131 row/s]
+
+
+
+  *- Shuffle Reduce: 100%|██████████| 2.81k/2.81k [00:48&lt;00:00, 58.1 row/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>state</th>
+      <th>year</th>
+      <th>count()</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Alabama</td>
+      <td>1970</td>
+      <td>283</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Alabama</td>
+      <td>1971</td>
+      <td>252</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Alabama</td>
+      <td>1972</td>
+      <td>279</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Alabama</td>
+      <td>1973</td>
+      <td>280</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Alabama</td>
+      <td>1974</td>
+      <td>264</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>After processing the data using the Ray workers, we can move the results on the client and continue to do our work.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Texas&quot;</span><span class="p">,</span> <span class="s2">&quot;Wisconsin&quot;</span><span class="p">,</span> <span class="s2">&quot;Georgia&quot;</span><span class="p">]:</span>
+    <span class="n">subset</span> <span class="o">=</span> <span class="n">stats</span><span class="p">[</span><span class="n">stats</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">state</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">subset</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">],</span> <span class="n">subset</span><span class="p">[</span><span class="s2">&quot;count()&quot;</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">state</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Count&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Count of transactions over years&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/36bd39b970f9a8c32121699f60b76ae9302a19b09e236064462bfffe962187da.png" src="../../../../_images/36bd39b970f9a8c32121699f60b76ae9302a19b09e236064462bfffe962187da.png" />
+</div>
+</div>
+<p>Similarly to <code class="docutils literal notranslate"><span class="pre">map_batches</span></code> we can map arbitrarly complex functions to groups with <code class="docutils literal notranslate"><span class="pre">map_groups</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># For each year and tx category, get the state in which </span>
+<span class="c1"># it happened the first transaction of the year</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fist_transaction_of_year</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+    <span class="c1"># Sort by date</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;unix_timestamp&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+    
+<span class="n">first_of_the_year</span> <span class="o">=</span> <span class="n">df_4</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">,</span> <span class="s2">&quot;transaction_category&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">map_groups</span><span class="p">(</span><span class="n">fist_transaction_of_year</span><span class="p">,</span> <span class="n">batch_format</span> <span class="o">=</span> <span class="s2">&quot;pandas&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">take_all</span><span class="p">()</span>
+<span class="n">first_of_the_year</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">first_of_the_year</span><span class="p">)</span>
+<span class="n">first_of_the_year</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 08:03:54,569	INFO streaming_executor.py:108 -- Starting execution of Dataset. Full logs are in /tmp/ray/session_2026-01-29_07-44-12_707538_3508558/logs/ray-data
+2026-01-29 08:03:54,570	INFO streaming_executor.py:109 -- Execution plan of Dataset: InputDataBuffer[Input] -&gt; AllToAllOperator[Sort] -&gt; TaskPoolMapOperator[MapBatches(fist_transaction_of_year)]
+Running 0: 0.00 row [00:00, ? row/s]
+ort 1: 0.00 row [00:00, ? row/s]
+
+ample 2:   0%|          | 0.00/1.00 [00:00&lt;?, ? row/s]
+
+
+ap 3:   0%|          | 0.00/1.00 [00:00&lt;?, ? row/s]
+
+
+
+ce 4:   0%|          | 0.00/1.00 [00:00&lt;?, ? row/s]
+
+
+
+
+                                                                                                 
+                                
+
+                                                      
+
+
+                                                   
+
+
+
+                                                   
+
+
+
+
+✔️  Dataset execution finished in 1.03 seconds: 100%|██████████| 330/330 [00:01&lt;00:00, 243 row/s]
+
+ort 1: 0.00 row [00:01, ? row/s]
+
+ample 2:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+ap 3:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+
+ce 4:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+
+
+st_transaction_of_year) 5: 0.00 row [00:01, ? row/s]
+ort: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store; 999304 rows output: : 0.00 row [00:01, ? row/s]
+ort: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store; 999304 rows output:   0%|          | 0.00/999k [00:01&lt;?, ? row/s]
+ort: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store; 999304 rows output: 100%|██████████| 999k/999k [00:01&lt;00:00, 735k row/s]
+ort: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store; 999304 rows output: 100%|██████████| 999k/999k [00:01&lt;00:00, 735k row/s]
+                                                                                                                                                
+
+                                                      
+
+
+                                                   
+
+
+
+                                                   
+
+
+
+
+- Sort: Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 0.0B object store; 999304 rows output: 100%|██████████| 999k/999k [00:01&lt;00:00, 731k row/s]
+
+
+ample 2:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+ap 3:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+
+ce 4:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+
+
+st_transaction_of_year) 5: 0.00 row [00:01, ? row/s]
+
+ort Sample:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+ort Sample:   0%|          | 0.00/80.0 [00:01&lt;?, ? row/s]
+
+ort Sample: 100%|██████████| 80.0/80.0 [00:01&lt;00:00, 58.4 row/s]
+
+ort Sample: 100%|██████████| 80.0/80.0 [00:01&lt;00:00, 58.4 row/s]
+
+                                                                
+
+
+                                                   
+
+
+
+                                                   
+
+
+
+
+  *- Sort Sample: 100%|██████████| 80.0/80.0 [00:01&lt;00:00, 58.2 row/s]
+
+
+
+ap 3:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+
+ce 4:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+
+
+st_transaction_of_year) 5: 0.00 row [00:01, ? row/s]
+
+
+fle Map:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+fle Map:   0%|          | 0.00/999k [00:01&lt;?, ? row/s]
+
+
+fle Map: 100%|██████████| 999k/999k [00:01&lt;00:00, 725k row/s]
+
+
+fle Map: 100%|██████████| 999k/999k [00:01&lt;00:00, 725k row/s]
+
+
+                                                             
+
+
+
+                                                   
+
+
+
+
+  *- Shuffle Map: 100%|██████████| 999k/999k [00:01&lt;00:00, 724k row/s]
+
+
+
+
+ce 4:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+
+
+st_transaction_of_year) 5: 0.00 row [00:01, ? row/s]
+
+
+
+ Reduce:   0%|          | 0.00/1.00 [00:01&lt;?, ? row/s]
+
+
+
+ Reduce:   0%|          | 0.00/999k [00:01&lt;?, ? row/s]
+
+
+
+ Reduce: 100%|██████████| 999k/999k [00:01&lt;00:00, 723k row/s]
+
+
+
+ Reduce: 100%|██████████| 999k/999k [00:01&lt;00:00, 723k row/s]
+
+
+
+                                                             
+
+
+
+
+  *- Shuffle Reduce: 100%|██████████| 999k/999k [00:01&lt;00:00, 722k row/s]
+
+
+
+
+
+st_transaction_of_year) 5: 0.00 row [00:01, ? row/s]
+
+
+
+
+st_transaction_of_year): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 39.4KB object store: : 0.00 row [00:01, ? row/s]
+
+
+
+
+st_transaction_of_year): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 39.4KB object store:   0%|          | 0.00/330 [00:01&lt;?, ? row/s]
+
+
+
+
+st_transaction_of_year): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 39.4KB object store: 100%|██████████| 330/330 [00:01&lt;00:00, 238 row/s]
+
+
+
+
+st_transaction_of_year): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 39.4KB object store: 100%|██████████| 330/330 [00:01&lt;00:00, 238 row/s]
+
+
+
+
+- MapBatches(fist_transaction_of_year): Tasks: 0; Queued blocks: 0; Resources: 0.0 CPU, 39.4KB object store: 100%|██████████| 330/330 [00:01&lt;00:00, 238 row/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>human_readable_ts</th>
+      <th>id</th>
+      <th>state</th>
+      <th>transaction_amount</th>
+      <th>transaction_category</th>
+      <th>unix_timestamp</th>
+      <th>dollars</th>
+      <th>year</th>
+      <th>month</th>
+      <th>day</th>
+      <th>is_leap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1970-01-01 07:40:29</td>
+      <td>444992194</td>
+      <td>Maryland</td>
+      <td>2.029032</td>
+      <td>Bar</td>
+      <td>24029</td>
+      <td>2</td>
+      <td>1970</td>
+      <td>1</td>
+      <td>1</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1970-01-01 03:31:03</td>
+      <td>445241344</td>
+      <td>North Carolina</td>
+      <td>64.604061</td>
+      <td>Electronics</td>
+      <td>9063</td>
+      <td>64</td>
+      <td>1970</td>
+      <td>1</td>
+      <td>1</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1970-01-01 01:03:52</td>
+      <td>445081263</td>
+      <td>Tennessee</td>
+      <td>56.808570</td>
+      <td>Gas Station</td>
+      <td>232</td>
+      <td>56</td>
+      <td>1970</td>
+      <td>1</td>
+      <td>1</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1970-01-01 01:37:01</td>
+      <td>445347932</td>
+      <td>Tennessee</td>
+      <td>66.079686</td>
+      <td>Restaurant</td>
+      <td>2221</td>
+      <td>66</td>
+      <td>1970</td>
+      <td>1</td>
+      <td>1</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1970-01-01 04:39:12</td>
+      <td>445472208</td>
+      <td>California</td>
+      <td>83.857468</td>
+      <td>Supermarket</td>
+      <td>13152</td>
+      <td>83</td>
+      <td>1970</td>
+      <td>1</td>
+      <td>1</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Finally, when we are happy with our transformations we can write data on disk using <code class="docutils literal notranslate"><span class="pre">write_{something}</span></code> command. The same considerations made for <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> are valid also in this case.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#df_4.limit(100).write_csv(OUTPUT_PATH)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="exercises">
+<h1>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>Get the sum of all transactions about Restaurants for the state of Texas during 1970</p></li>
+<li><p>Get the std for the Gas Station transactions in Ohio during 1971</p></li>
+<li><p>How would you use an llm to create a description for the transactions? Try to write some code to accomplish this task following <a class="reference external" href="https://docs.ray.io/en/latest/data/batch_inference.html#end-to-end-offline-batch-inference">this</a> example.</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="release-resources">
+<h1>Release resources<a class="headerlink" href="#release-resources" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ray</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

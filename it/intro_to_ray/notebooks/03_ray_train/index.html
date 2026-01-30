@@ -1,0 +1,1685 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ray Train &mdash; CASTIEL2 Multi-GPU AI  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_lesson.css?v=e9df6548" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/overrides.css?v=d560b895" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=187304be"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=35a8b989"></script>
+      <script src="../../../../_static/minipres.js?v=a0d29692"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../../_static/togglebutton.js?v=1ae7504c"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex/" />
+    <link rel="search" title="Search" href="../../../../search/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../" class="icon icon-home">
+            CASTIEL2 Multi-GPU AI
+              <img src="../../../../_static/CASTIEL2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">The lesson materials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../leonardo/README/">1M: Access to Leonardo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../se/deep-learning-intro/">1A: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nl/">2M: PyTorch Distributed Data Parallel</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/">Instructor’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../directives/">Directives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../">CASTIEL2 Multi-GPU AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Ray Train</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/castiel-multi-gpu-ai/blob/main/content/it/intro_to_ray/notebooks/03_ray_train.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="ray-train">
+<h1>Ray Train<a class="headerlink" href="#ray-train" title="Link to this heading"></a></h1>
+<p>In this notebook we are going to explore the following topics:</p>
+<ul class="simple">
+<li><p>Introduction to Ray Train</p></li>
+<li><p>Core concepts</p></li>
+<li><p>Getting started with Ray Train: scaling PyTorch training</p></li>
+<li><p>Lightning Torch example</p></li>
+</ul>
+<p>Reference: https://docs.ray.io/en/latest/train/train.html</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="introduction-to-ray-train">
+<h1>Introduction to Ray Train<a class="headerlink" href="#introduction-to-ray-train" title="Link to this heading"></a></h1>
+<section id="what-is-ray-train">
+<h2>What is Ray Train?<a class="headerlink" href="#what-is-ray-train" title="Link to this heading"></a></h2>
+<p>Ray Train is a scalable machine learning library designed for distributed training and fine-tuning of models built on top of Ray framework. It simplifies the process of scaling model training from a single machine to a cluster, allowing for efficient handling of large datasets and models.</p>
+</section>
+<section id="why-use-ray-train">
+<h2>Why use Ray Train?<a class="headerlink" href="#why-use-ray-train" title="Link to this heading"></a></h2>
+<p>Existing distributed systems target different steps in ML. Ray provides one distributed framework to stitch them together, making MLops simpler.</p>
+<div style="text-align: center;">
+    <img src="Images/distributed_systems.png" alt="Existing Distributed Systems vs Ray Distributed System" style="width:50%;">
+    <p style="margin-top: 8px; text-align: center;"><em>Fig1: Existing Distributed Systems vs Ray Distributed System</em></p>
+</div>
+<p>Ray Train offers a combination of <strong>ease of use</strong>, <strong>scalability</strong>, <strong>performance</strong>, and <strong>integration capabilities</strong> that make it a compelling choice for distributed Machine Learning training. It is particularly well-suited for users who are already leveraging the Ray ecosystem for other distributed computing tasks or who need a flexible and scalable solution for their machine learning workloads.</p>
+<p>Ray Train provides support for many frameworks:</p>
+<ul class="simple">
+<li><p><strong>PyTorch ecosystem</strong></p>
+<ul>
+<li><p>PyTorch</p></li>
+<li><p>PyTorch Lightning</p></li>
+<li><p>Hugging Face Transformers</p></li>
+<li><p>Hugging Face Accelerate</p></li>
+<li><p>DeepSpeed</p></li>
+</ul>
+</li>
+</ul>
+<p>
+<ul class="simple">
+<li><p><strong>More frameworks</strong></p>
+<ul>
+<li><p>TensorFlow</p></li>
+<li><p>Keras</p></li>
+<li><p>Hugging Face Transformers</p></li>
+<li><p>Horovod</p></li>
+<li><p>XGBoost</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="core-concepts">
+<h2>Core concepts<a class="headerlink" href="#core-concepts" title="Link to this heading"></a></h2>
+<p>Four main concepts to understand Ray Train:</p>
+<ol class="arabic simple">
+<li><p><strong>Training Function</strong>: a user-defined Python function that contains the logic for your model training.</p></li>
+<li><p><strong>Workers</strong>: processes responsible for running the training function across the cluster. The number of workers determines the parallelism of the training job and can be configured using the <em>ScalingConfig</em>. Each worker executes a portion of the training workload, either on a CPU or GPU.</p></li>
+<li><p><strong>Scaling Configuration</strong>: specifies the number of workers and required compute resources (e.g., GPUs, CPUs).</p></li>
+<li><p><strong>Trainer</strong>: a class that integrates the training function, workers, and scaling configuration to manage and execute distributed training tasks.</p></li>
+</ol>
+<div style="text-align: center;">
+    <img src="Images/ray_train.png" alt="Ray Train overview" style="width:50%;">
+    <p style="margin-top: 8px; text-align: center;"><em>Fig2: Ray Train overview</em></p>
+</div><p>The final code of a basic training with Ray Train will be something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ray.train</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScalingConfig</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ray.train.torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">TorchTrainer</span>
+
+<span class="c1"># Training function</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">train_func</span><span class="p">():</span>
+    <span class="c1"># Your PyTorch training code here.</span>
+    <span class="o">...</span>
+
+<span class="c1"># Scaling configuration</span>
+<span class="n">scaling_config</span> <span class="o">=</span> <span class="n">ScalingConfig</span><span class="p">(</span><span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">use_gpu</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Trainer</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">TorchTrainer</span><span class="p">(</span><span class="n">train_func</span><span class="p">,</span> <span class="n">scaling_config</span><span class="o">=</span><span class="n">scaling_config</span><span class="p">)</span>
+
+<span class="c1"># Use the .fit() method to execute the training job</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="getting-started-with-ray-train-scaling-pytorch-training">
+<h2>Getting started with Ray Train: scaling PyTorch training<a class="headerlink" href="#getting-started-with-ray-train-scaling-pytorch-training" title="Link to this heading"></a></h2>
+<p>Now we are going to use the <strong>FashionMNIST dataset</strong>, which contains grayscale images of 10 different categories of clothing items (e.g., shirts, trousers, and shoes). The images have a resolution of 28x28 pixels. The dataset consists of:</p>
+<ul class="simple">
+<li><p>Training set: 60,000 images</p></li>
+<li><p>Test set: 10,000 images</p></li>
+</ul>
+<p>This dataset is often used as a benchmark for image classification tasks in machine learning.</p>
+<p>We will train a simple neural network model using PyTorch to <strong>classify</strong> these images. The model consists of two <strong>fully connected layers</strong> and uses the <strong>ReLU activation function</strong> to learn features from the input data. The model is optimized using the <strong>Adam optimizer</strong> and evaluates performance with <strong>CrossEntropyLoss</strong>. The focus of this example is to see how to scale the training of the model using Ray Train.</p>
+<div style="text-align: center;">
+    <img src="Images/FashionMNIST_example_1.png" alt="Fig3: Existing Distributed Systems vs Ray Distributed System" style="width:50%;">
+    <p><em>Fig3: Examples of images in the FashionMNIST dataset</em></p>
+</div><p>Label   Description</p>
+<p>0         T-shirt/top</p>
+<p>1         Trouser</p>
+<p>2         Pullover</p>
+<p>3         Dress</p>
+<p>4         Coat</p>
+<p>5         Sandal</p>
+<p>6         Shirt</p>
+<p>7         Sneaker</p>
+<p>8         Bag</p>
+<p>9         Ankle boot</p>
+<ul>
+<li><p class="rubric" id="environment-configuration">Environment configuration</p>
+</li>
+</ul>
+<p>Import the necessary libraries to start a remote Ray cluster.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Environment configuration</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ray</span>
+
+<span class="c1"># Ray Train</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ray.train</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ray.train.torch</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="kn">import</span> <span class="n">CrossEntropyLoss</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="kn">import</span> <span class="n">Adam</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">resnet18</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">FashionMNIST</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.transforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToTensor</span><span class="p">,</span> <span class="n">Normalize</span><span class="p">,</span> <span class="n">Compose</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/leonardo_work/tra26_castiel2/mviscia1/ray_rag_venv/lib/python3.11/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+2026-01-29 12:27:07,250	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+2026-01-29 12:27:26,725	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+2026-01-29 12:28:23,161	INFO util.py:154 -- Missing packages: [&#39;ipywidgets&#39;]. Run `pip install -U ipywidgets`, then restart the notebook server for rich notebook output.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>which<span class="w"> </span>python
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/leonardo_work/tra26_castiel2/mviscia1/ray_rag_venv/bin/python
+</pre></div>
+</div>
+</div>
+</div>
+<p>Connecting to the Ray cluster started previously.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ray</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">log_to_driver</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">ignore_reinit_error</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 12:28:51,963	INFO worker.py:1520 -- Using address 10.1.0.82:27667 set in the environment variable RAY_ADDRESS
+2026-01-29 12:28:51,963	INFO worker.py:1660 -- Connecting to existing Ray cluster at address: 10.1.0.82:27667...
+2026-01-29 12:28:52,289	INFO worker.py:1843 -- Connected to Ray cluster. View the dashboard at <span class=" -Color -Color-Bold -Color-Bold-Green">http://10.1.0.82:8265 </span>
+</pre></div>
+</div>
+<div class="output text_html"><div class="lm-Widget p-Widget lm-Panel p-Panel jp-Cell-outputWrapper">
+    <div style="margin-left: 50px;display: flex;flex-direction: row;align-items: center">
+        <div class="jp-RenderedHTMLCommon" style="display: flex; flex-direction: row;">
+  <svg viewBox="0 0 567 224" fill="none" xmlns="http://www.w3.org/2000/svg" style="height: 3em;">
+    <g clip-path="url(#clip0_4338_178347)">
+        <path d="M341.29 165.561H355.29L330.13 129.051C345.63 123.991 354.21 112.051 354.21 94.2307C354.21 71.3707 338.72 58.1807 311.88 58.1807H271V165.561H283.27V131.661H311.8C314.25 131.661 316.71 131.501 319.01 131.351L341.25 165.561H341.29ZM283.29 119.851V70.0007H311.82C331.3 70.0007 342.34 78.2907 342.34 94.5507C342.34 111.271 331.34 119.861 311.82 119.861L283.29 119.851ZM451.4 138.411L463.4 165.561H476.74L428.74 58.1807H416L367.83 165.561H380.83L392.83 138.411H451.4ZM446.19 126.601H398L422 72.1407L446.24 126.601H446.19ZM526.11 128.741L566.91 58.1807H554.35L519.99 114.181L485.17 58.1807H472.44L514.01 129.181V165.541H526.13V128.741H526.11Z" fill="var(--jp-ui-font-color0)"/>
+        <path d="M82.35 104.44C84.0187 97.8827 87.8248 92.0678 93.1671 87.9146C98.5094 83.7614 105.083 81.5067 111.85 81.5067C118.617 81.5067 125.191 83.7614 130.533 87.9146C135.875 92.0678 139.681 97.8827 141.35 104.44H163.75C164.476 101.562 165.622 98.8057 167.15 96.2605L127.45 56.5605C121.071 60.3522 113.526 61.6823 106.235 60.3005C98.9443 58.9187 92.4094 54.9203 87.8602 49.0574C83.3109 43.1946 81.0609 35.8714 81.5332 28.4656C82.0056 21.0599 85.1679 14.0819 90.4252 8.8446C95.6824 3.60726 102.672 0.471508 110.08 0.0272655C117.487 -0.416977 124.802 1.86091 130.647 6.4324C136.493 11.0039 140.467 17.5539 141.821 24.8501C143.175 32.1463 141.816 39.6859 138 46.0505L177.69 85.7505C182.31 82.9877 187.58 81.4995 192.962 81.4375C198.345 81.3755 203.648 82.742 208.33 85.3976C213.012 88.0532 216.907 91.9029 219.616 96.5544C222.326 101.206 223.753 106.492 223.753 111.875C223.753 117.258 222.326 122.545 219.616 127.197C216.907 131.848 213.012 135.698 208.33 138.353C203.648 141.009 198.345 142.375 192.962 142.313C187.58 142.251 182.31 140.763 177.69 138L138 177.7C141.808 184.071 143.155 191.614 141.79 198.91C140.424 206.205 136.44 212.75 130.585 217.313C124.731 221.875 117.412 224.141 110.004 223.683C102.596 223.226 95.6103 220.077 90.3621 214.828C85.1139 209.58 81.9647 202.595 81.5072 195.187C81.0497 187.779 83.3154 180.459 87.878 174.605C92.4405 168.751 98.9853 164.766 106.281 163.401C113.576 162.035 121.119 163.383 127.49 167.19L167.19 127.49C165.664 124.941 164.518 122.182 163.79 119.3H141.39C139.721 125.858 135.915 131.673 130.573 135.826C125.231 139.98 118.657 142.234 111.89 142.234C105.123 142.234 98.5494 139.98 93.2071 135.826C87.8648 131.673 84.0587 125.858 82.39 119.3H60C58.1878 126.495 53.8086 132.78 47.6863 136.971C41.5641 141.163 34.1211 142.972 26.7579 142.059C19.3947 141.146 12.6191 137.574 7.70605 132.014C2.79302 126.454 0.0813599 119.29 0.0813599 111.87C0.0813599 104.451 2.79302 97.2871 7.70605 91.7272C12.6191 86.1673 19.3947 82.5947 26.7579 81.6817C34.1211 80.7686 41.5641 82.5781 47.6863 86.7696C53.8086 90.9611 58.1878 97.2456 60 104.44H82.35ZM100.86 204.32C103.407 206.868 106.759 208.453 110.345 208.806C113.93 209.159 117.527 208.258 120.522 206.256C123.517 204.254 125.725 201.276 126.771 197.828C127.816 194.38 127.633 190.677 126.253 187.349C124.874 184.021 122.383 181.274 119.205 179.577C116.027 177.88 112.359 177.337 108.826 178.042C105.293 178.746 102.113 180.654 99.8291 183.44C97.5451 186.226 96.2979 189.718 96.3 193.32C96.2985 195.364 96.7006 197.388 97.4831 199.275C98.2656 201.163 99.4132 202.877 100.86 204.32ZM204.32 122.88C206.868 120.333 208.453 116.981 208.806 113.396C209.159 109.811 208.258 106.214 206.256 103.219C204.254 100.223 201.275 98.0151 197.827 96.97C194.38 95.9249 190.676 96.1077 187.348 97.4873C184.02 98.8669 181.274 101.358 179.577 104.536C177.879 107.714 177.337 111.382 178.041 114.915C178.746 118.448 180.653 121.627 183.439 123.911C186.226 126.195 189.717 127.443 193.32 127.44C195.364 127.443 197.388 127.042 199.275 126.259C201.163 125.476 202.878 124.328 204.32 122.88ZM122.88 19.4205C120.333 16.8729 116.981 15.2876 113.395 14.9347C109.81 14.5817 106.213 15.483 103.218 17.4849C100.223 19.4868 98.0146 22.4654 96.9696 25.9131C95.9245 29.3608 96.1073 33.0642 97.4869 36.3922C98.8665 39.7202 101.358 42.4668 104.535 44.1639C107.713 45.861 111.381 46.4036 114.914 45.6992C118.447 44.9949 121.627 43.0871 123.911 40.301C126.195 37.515 127.442 34.0231 127.44 30.4205C127.44 28.3772 127.038 26.3539 126.255 24.4664C125.473 22.5788 124.326 20.8642 122.88 19.4205ZM19.42 100.86C16.8725 103.408 15.2872 106.76 14.9342 110.345C14.5813 113.93 15.4826 117.527 17.4844 120.522C19.4863 123.518 22.4649 125.726 25.9127 126.771C29.3604 127.816 33.0638 127.633 36.3918 126.254C39.7198 124.874 42.4664 122.383 44.1635 119.205C45.8606 116.027 46.4032 112.359 45.6988 108.826C44.9944 105.293 43.0866 102.114 40.3006 99.8296C37.5145 97.5455 34.0227 96.2983 30.42 96.3005C26.2938 96.3018 22.337 97.9421 19.42 100.86ZM100.86 100.86C98.3125 103.408 96.7272 106.76 96.3742 110.345C96.0213 113.93 96.9226 117.527 98.9244 120.522C100.926 123.518 103.905 125.726 107.353 126.771C110.8 127.816 114.504 127.633 117.832 126.254C121.16 124.874 123.906 122.383 125.604 119.205C127.301 116.027 127.843 112.359 127.139 108.826C126.434 105.293 124.527 102.114 121.741 99.8296C118.955 97.5455 115.463 96.2983 111.86 96.3005C109.817 96.299 107.793 96.701 105.905 97.4835C104.018 98.2661 102.303 99.4136 100.86 100.86Z" fill="#00AEEF"/>
+    </g>
+    <defs>
+        <clipPath id="clip0_4338_178347">
+            <rect width="566.93" height="223.75" fill="white"/>
+        </clipPath>
+    </defs>
+  </svg>
+</div>
+
+        <table class="jp-RenderedHTMLCommon" style="border-collapse: collapse;color: var(--jp-ui-font-color1);font-size: var(--jp-ui-font-size1);">
+    <tr>
+        <td style="text-align: left"><b>Python version:</b></td>
+        <td style="text-align: left"><b>3.11.7</b></td>
+    </tr>
+    <tr>
+        <td style="text-align: left"><b>Ray version:</b></td>
+        <td style="text-align: left"><b>2.44.0</b></td>
+    </tr>
+    <tr>
+    <td style="text-align: left"><b>Dashboard:</b></td>
+    <td style="text-align: left"><b><a href="http://10.1.0.82:8265" target="_blank">http://10.1.0.82:8265</a></b></td>
+</tr>
+
+</table>
+
+    </div>
+</div>
+</div></div>
+</div>
+<p>Check cluster resources.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">resources</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">cluster_resources</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cluster has </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;CPU&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> CPUs, </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;GPU&#39;</span><span class="p">]</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="s1">&#39;GPU&#39;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">resources</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="mi">0</span><span class="si">}</span><span class="s2"> GPUs, execution memory </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;memory&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-9</span><span class="si">}</span><span class="s2"> GBs, object storage memory </span><span class="si">{</span><span class="n">resources</span><span class="p">[</span><span class="s1">&#39;object_store_memory&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-9</span><span class="si">}</span><span class="s2"> GBs&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Cluster has 16.0 CPUs, 2.0 GPUs, execution memory 359.45678684200004 GBs, object storage memory 154.05290864600002 GBs
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">resources</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;node:10.1.0.82&#39;: 1.0, &#39;GPU&#39;: 2.0, &#39;accelerator_type:A100&#39;: 1.0, &#39;memory&#39;: 359456786842.0, &#39;CPU&#39;: 16.0, &#39;object_store_memory&#39;: 154052908646.0, &#39;node:__internal_head__&#39;: 1.0}
+</pre></div>
+</div>
+</div>
+</div>
+<ul>
+<li><p class="rubric" id="define-all-the-ingredients-to-scale-the-training">Define all the ingredients to scale the training</p>
+</li>
+</ul>
+<section id="define-a-basic-training-loop-function">
+<h3>1) Define a basic training loop function<a class="headerlink" href="#define-a-basic-training-loop-function" title="Link to this heading"></a></h3>
+<p>The <strong>Training function</strong> defines the model training logic.</p>
+<p>The following conventions are used:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">train_func</span></code> is the function that contains the training code.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">train_func</span></code> is passed into the <em>Trainer</em>’s <code class="docutils literal notranslate"><span class="pre">train_loop_per_worker</span></code> parameter.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Training function executed by each worker in the distributed setup</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">train_func</span><span class="p">():</span>
+    
+    <span class="c1"># Define the Model architecture (ResNet18) and adjust for single-channel input (FashionMNIST is grayscale)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">resnet18</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span>
+        <span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+    <span class="c1"># 1) Prepare the model for distributed training</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">prepare_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span> <span class="c1"># ensures that the model is wrapped in DistributedDataParallel (DDP) when multiple workers (GPUs) are detected</span>
+    <span class="c1"># model.to(&quot;cuda&quot;)  # This is done by `prepare_model`</span>
+    <span class="c1"># Define loss function and optimizer</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">CrossEntropyLoss</span><span class="p">()</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+    <span class="c1"># Data preparation: apply normalization and create DataLoader</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">Compose</span><span class="p">([</span><span class="n">ToTensor</span><span class="p">(),</span> <span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))])</span>
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="s2">&quot;/leonardo_scratch/fast/tra26_castiel2/data/data_FashionMNIST&quot;</span>
+    <span class="n">train_data</span> <span class="o">=</span> <span class="n">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+    <span class="n">train_data_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># 2) Prepare the DataLoader for distributed training</span>
+    <span class="n">train_loader</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">prepare_data_loader</span><span class="p">(</span><span class="n">train_data_loader</span><span class="p">)</span> <span class="c1"># ensures correct data sharding and shuffling across workers.</span>
+    <span class="c1"># Training loop for 10 epochs</span>
+    <span class="n">metrics_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="n">epoch_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">num_batches</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Ensure epoch-based shuffling for DDP</span>
+        <span class="k">if</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">get_context</span><span class="p">()</span><span class="o">.</span><span class="n">get_world_size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">train_loader</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">set_epoch</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+    
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    
+            <span class="c1"># Accumulate loss</span>
+            <span class="n">epoch_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">num_batches</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+        <span class="c1"># Compute average loss for the epoch</span>
+        <span class="n">avg_loss</span> <span class="o">=</span> <span class="n">epoch_loss</span> <span class="o">/</span> <span class="n">num_batches</span>
+    
+        <span class="c1"># Report metrics and save checkpoint</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">avg_loss</span><span class="p">,</span> <span class="s2">&quot;epoch&quot;</span><span class="p">:</span> <span class="n">epoch</span><span class="p">}</span>
+    
+        <span class="n">checkpoint_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;/leonardo_scratch/large/userinternal/mviscia1/ray_checkpoint&quot;</span> <span class="sa">f</span><span class="s2">&quot;epoch_</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;module&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">,</span> <span class="s2">&quot;model.pt&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+    
+        <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">report</span><span class="p">(</span>
+            <span class="n">metrics</span><span class="p">,</span>
+            <span class="n">checkpoint</span><span class="o">=</span><span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Checkpoint</span><span class="o">.</span><span class="n">from_directory</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">),</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Your training function is running in a distributed setup using Ray Train and PyTorch Distributed Data Parallel (DDP). Inside each Ray worker, PyTorch’s Distributed Data Parallel (DDP) helps distribute training across multiple GPUs.
+When you call:</p>
+<p><code class="docutils literal notranslate"><span class="pre">model</span> <span class="pre">=</span> <span class="pre">ray.train.torch.prepare_model(model)</span></code></p>
+<ul class="simple">
+<li><p>Ray checks if multiple workers exist.</p></li>
+<li><p>If num_workers &gt; 1, Ray wraps the model in torch.nn.parallel.DistributedDataParallel (DDP).</p></li>
+</ul>
+<p>When you call:
+<code class="docutils literal notranslate"><span class="pre">train_loader</span> <span class="pre">=</span> <span class="pre">ray.train.torch.prepare_data_loader(train_data_loader)</span></code></p>
+<ul class="simple">
+<li><p>DDP splits the batch across GPUs and synchronizes gradients across workers.</p></li>
+</ul>
+<p>Each worker:</p>
+<ul class="simple">
+<li><p>Processes a different batch of data.</p></li>
+<li><p>Synchronizes gradients before updating model weights.</p></li>
+</ul>
+</section>
+<section id="define-scaling-configuration">
+<h3>2) Define scaling configuration<a class="headerlink" href="#define-scaling-configuration" title="Link to this heading"></a></h3>
+<p>The two basic parameters for worker parallelism and compute resources are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">num_workers</span></code>: the number of workers (Ray actors) to launch. Each worker will reserve 1 CPU by default. The number of CPUs reserved by each worker can be overridden with the <code class="docutils literal notranslate"><span class="pre">resources_per_worker</span></code> argument.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">use_gpu</span></code>: whether each worker should use a GPU or CPU. If True, training will be done on GPUs (1 per worker).</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 4) Configure scaling and resource requirements</span>
+<span class="n">scaling_config</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">ScalingConfig</span><span class="p">(</span><span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">use_gpu</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">resources_per_worker</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;CPU&quot;</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="s2">&quot;GPU&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span> <span class="c1"># try to change the number of workers</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="define-the-trainer-and-launch-the-distributed-training">
+<h3>3) Define the Trainer and launch the distributed training<a class="headerlink" href="#define-the-trainer-and-launch-the-distributed-training" title="Link to this heading"></a></h3>
+<p>The Trainer coordinates distributed training by combining the training function, worker processes, and scaling configuration. It launches workers based on the <code class="docutils literal notranslate"><span class="pre">scaling_config</span></code>, sets up the distributed environment, and runs the training function across all workers. Ray provides framework-specific Trainer classes, and calling the fit() method triggers the execution of the training job</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start timing</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">checkpoint_dir</span> <span class="o">=</span> <span class="s2">&quot;/leonardo_scratch/large/userinternal/mviscia1/ray_checkpoint&quot;</span> <span class="c1">### Change to &#39;/leonardo_scratch/large/userexternal/&lt;your HPC username&gt;&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Ensure the directory exists</span>
+
+<span class="c1"># 5) Launch distributed training job</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">TorchTrainer</span><span class="p">(</span>
+        <span class="n">train_func</span><span class="p">,</span>
+        <span class="n">scaling_config</span><span class="o">=</span><span class="n">scaling_config</span><span class="p">,</span>
+        <span class="n">run_config</span><span class="o">=</span><span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">RunConfig</span><span class="p">(</span>
+        <span class="n">storage_path</span><span class="o">=</span> <span class="n">checkpoint_dir</span> <span class="c1"># Change default storage</span>
+        <span class="p">)</span>
+        <span class="c1"># 5a) If running in a multi-node cluster, this is where you</span>
+        <span class="c1"># should configure the run&#39;s persistent storage that is accessible</span>
+        <span class="c1"># across all worker nodes. On Leonardo the storage is already accessible across all worker nodes.</span>
+        <span class="c1"># run_config=ray.train.RunConfig(storage_path=&quot;...&quot;),</span>
+    <span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span> <span class="c1"># trigger the execution of the training job</span>
+
+<span class="c1"># End timing</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">training_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 12:28:55,408	INFO tune.py:616 -- [output] This uses the legacy output and progress reporter, as Jupyter notebooks are not supported by the new engine, yet. For more information, please see https://github.com/ray-project/ray/issues/36949
+2026-01-29 12:28:55,415	INFO tensorboardx.py:193 -- pip install &quot;ray[tune]&quot; to see TensorBoard files.
+2026-01-29 12:28:55,416	WARNING callback.py:136 -- The TensorboardX logger cannot be instantiated because either TensorboardX or one of it&#39;s dependencies is not installed. Please make sure you have the latest version of TensorboardX installed: `pip install -U tensorboardx`
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>== Status ==
+Current time: 2026-01-29 12:28:55 (running for 00:00:00.34)
+Using FIFO scheduling algorithm.
+Logical resource usage: 0/16 CPUs, 0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 PENDING)
+
+
+== Status ==
+Current time: 2026-01-29 12:29:00 (running for 00:00:05.36)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 PENDING)
+
+
+== Status ==
+Current time: 2026-01-29 12:29:05 (running for 00:00:10.37)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 PENDING)
+
+
+== Status ==
+Current time: 2026-01-29 12:29:10 (running for 00:00:15.43)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:29:15 (running for 00:00:20.44)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:29:20 (running for 00:00:25.46)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:29:25 (running for 00:00:30.47)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:29:30 (running for 00:00:35.49)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:29:35 (running for 00:00:40.50)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:29:40 (running for 00:00:45.52)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:29:46 (running for 00:00:50.58)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:29:51 (running for 00:00:55.65)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:29:56 (running for 00:01:00.67)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:30:01 (running for 00:01:05.68)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:30:06 (running for 00:01:10.69)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:30:11 (running for 00:01:15.74)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:30:16 (running for 00:01:20.74)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:30:21 (running for 00:01:25.75)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:30:26 (running for 00:01:30.76)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:30:31 (running for 00:01:35.83)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:30:36 (running for 00:01:40.92)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:30:41 (running for 00:01:46.00)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 12:30:41,994	INFO tune.py:1009 -- Wrote the latest version of all result files and experiment state to &#39;/leonardo_scratch/large/userinternal/mviscia1/ray_checkpoint/TorchTrainer_2026-01-29_12-28-55&#39; in 0.0090s.
+2026-01-29 12:30:41,996	INFO tune.py:1041 -- Total run time: 106.59 seconds (106.57 seconds for the tuning loop).
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>== Status ==
+Current time: 2026-01-29 12:30:41 (running for 00:01:46.58)
+Using FIFO scheduling algorithm.
+Logical resource usage: 13.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-28-55/TorchTrainer_2026-01-29_12-28-55/driver_artifacts
+Number of trials: 1/1 (1 TERMINATED)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training Time: </span><span class="si">{</span><span class="n">training_time</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Time: 109.49142646789551 seconds
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple">
+<li><p>Ray spawns workers (depnding on num_workers) running train_func().</p></li>
+<li><p>Each worker loads a model and wraps it using prepare_model().</p></li>
+<li><p>Each worker gets a subset of data via prepare_data_loader().</p></li>
+<li><p>Each worker computes forward + backward passes independently.</p></li>
+<li><p>Gradients are synchronized across workers via PyTorch DDP.</p></li>
+<li><p>Model updates happen simultaneously in all workers.</p></li>
+<li><p>At the end of each epoch, Ray aggregates metrics and checkpoints.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Result(
+  metrics={&#39;loss&#39;: 0.11681061757213258, &#39;epoch&#39;: 9},
+  path=&#39;/leonardo_scratch/large/userinternal/mviscia1/ray_checkpoint/TorchTrainer_2026-01-29_12-28-55/TorchTrainer_b2288_00000_0_2026-01-29_12-28-55&#39;,
+  filesystem=&#39;local&#39;,
+  checkpoint=Checkpoint(filesystem=local, path=/leonardo_scratch/large/userinternal/mviscia1/ray_checkpoint/TorchTrainer_2026-01-29_12-28-55/TorchTrainer_b2288_00000_0_2026-01-29_12-28-55/checkpoint_000009)
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot Loss training progress</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">metrics_dataframe</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">],</span> <span class="n">results</span><span class="o">.</span><span class="n">metrics_dataframe</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training progress&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/0add7d704c9bf97cd9c57ae3630a0b947240e8ef4c92f59845aa4d03af9303db.png" src="../../../../_images/0add7d704c9bf97cd9c57ae3630a0b947240e8ef4c92f59845aa4d03af9303db.png" />
+</div>
+</div>
+<ul>
+<li><p class="rubric" id="test-the-model">Test the model</p>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a Ray Actor for inference</span>
+<span class="nd">@ray</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">num_cpus</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Use num_cpus=1 for CPU-based inference</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">InferenceWorker</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">checkpoint_path</span><span class="p">):</span>
+        <span class="c1"># Load model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">resnet18</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">checkpoint_path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+            <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">predicted</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+<span class="c1"># Path to trained model checkpoint </span>
+<span class="c1">### Change with the path you obtained from the previous cell with print(results))</span>
+<span class="n">checkpoint_path</span> <span class="o">=</span> <span class="s2">&quot;/leonardo_scratch/large/userinternal/mviscia1/ray_checkpoint/TorchTrainer_2026-01-28_14-14-51/TorchTrainer_5486a_00000_0_2026-01-28_14-14-51/checkpoint_000009/model.pt&quot;</span>
+
+<span class="c1"># Prepare test dataset</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">Compose</span><span class="p">([</span><span class="n">ToTensor</span><span class="p">(),</span> <span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))])</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s2">&quot;/leonardo_scratch/fast/tra26_castiel2/data/data_FashionMNIST&quot;</span>
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create multiple inference workers</span>
+<span class="n">num_workers</span> <span class="o">=</span> <span class="mi">12</span>  <span class="c1"># Adjust based on your resources</span>
+<span class="n">workers</span> <span class="o">=</span> <span class="p">[</span><span class="n">InferenceWorker</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">checkpoint_path</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_workers</span><span class="p">)]</span>
+
+<span class="c1"># Distribute inference across workers</span>
+<span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">labels_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_loader</span><span class="p">):</span>
+    <span class="n">worker</span> <span class="o">=</span> <span class="n">workers</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="n">num_workers</span><span class="p">]</span>  <span class="c1"># Distribute workload</span>
+    <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">worker</span><span class="o">.</span><span class="n">predict</span><span class="o">.</span><span class="n">remote</span><span class="p">(</span><span class="n">images</span><span class="p">))</span>
+    <span class="n">labels_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">labels</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gather predictions</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">futures</span><span class="p">)</span>
+
+<span class="c1"># Print first 10 predictions</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">pred</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">predictions</span><span class="p">[:</span><span class="mi">10</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: Predicted Label: </span><span class="si">{</span><span class="n">pred</span><span class="si">}</span><span class="s2">, Actual Label: </span><span class="si">{</span><span class="n">test_data</span><span class="o">.</span><span class="n">targets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Compute accuracy</span>
+<span class="n">correct</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="n">l</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">labels_list</span><span class="p">))</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">correct</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model Accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample 0: Predicted Label: 9, Actual Label: 9
+Sample 1: Predicted Label: 2, Actual Label: 2
+Sample 2: Predicted Label: 1, Actual Label: 1
+Sample 3: Predicted Label: 1, Actual Label: 1
+Sample 4: Predicted Label: 6, Actual Label: 6
+Sample 5: Predicted Label: 1, Actual Label: 1
+Sample 6: Predicted Label: 0, Actual Label: 4
+Sample 7: Predicted Label: 6, Actual Label: 6
+Sample 8: Predicted Label: 5, Actual Label: 5
+Sample 9: Predicted Label: 7, Actual Label: 7
+Model Accuracy: 90.74%
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="exercise">
+<h1>Exercise<a class="headerlink" href="#exercise" title="Link to this heading"></a></h1>
+<p>Change the the scaling configuration and check how the training scales. You can try the following configurations:</p>
+<ul class="simple">
+<li><p>1 worker with 6 CPUs and 4 GPUs</p></li>
+<li><p>4 workers with 6 CPUs and 1 GPU each</p></li>
+<li><p>2 workers with 6 CPUs and 1 GPU each</p></li>
+</ul>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="lightning-torch-example">
+<h1>Lightning Torch example<a class="headerlink" href="#lightning-torch-example" title="Link to this heading"></a></h1>
+<p><strong>PyTorch Lightning</strong> is a high-level framework built on top of PyTorch that reduces the code base and automates many aspects of training, such as the training loop, validation, checkpointing, and distributed training. It allows you to focus on model design, while Lightning handles repetitive tasks. It supports best practices for modularity, scalability, and reproducibility, making it easier to experiment with complex models and scale training across multiple GPUs or nodes. It integrates seamlessly with other tools for logging, hyperparameter tuning, and optimization.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pytorch_lightning</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">transforms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torchvision</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">ray.train.torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ray.train.lightning</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a PyTorch Lightning module for training a ResNet-18 model on the FashionMNIST dataset</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FashionMNISTModel</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FashionMNISTModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Define the model architecture (ResNet18)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">resnet18</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">stride</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">padding</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    
+    <span class="c1"># Define the training step that is called for each batch during training</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;train_loss&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">on_step</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">on_epoch</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Training function executed by each worker in the distributed setup</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">train_func</span><span class="p">():</span>
+
+    <span class="c1"># Initialize the Lightning model</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">FashionMNISTModel</span><span class="p">()</span>
+    
+    <span class="c1"># Data preparation: apply normalization and create DataLoader</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))])</span>
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="s2">&quot;/leonardo_scratch/fast/tra26_castiel2/data/data_FashionMNIST&quot;</span> 
+    <span class="n">train_data</span> <span class="o">=</span> <span class="n">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+    <span class="n">train_data_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>    
+
+    <span class="c1"># Use PyTorch Lightning Trainer for training</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                        <span class="n">strategy</span><span class="o">=</span><span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">lightning</span><span class="o">.</span><span class="n">RayDDPStrategy</span><span class="p">(),</span>
+                        <span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">lightning</span><span class="o">.</span><span class="n">RayLightningEnvironment</span><span class="p">()],</span>
+                        <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">lightning</span><span class="o">.</span><span class="n">RayTrainReportCallback</span><span class="p">()],</span>
+                        <span class="c1"># [1a] Optionally, disable the default checkpointing behavior</span>
+                        <span class="c1"># in favor of the `RayTrainReportCallback` above.</span>
+                        <span class="n">enable_checkpointing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="p">)</span>
+
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">lightning</span><span class="o">.</span><span class="n">prepare_trainer</span><span class="p">(</span><span class="n">trainer</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_dataloaders</span><span class="o">=</span><span class="n">train_data_loader</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start timing</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">checkpoint_dir</span> <span class="o">=</span> <span class="s2">&quot;/leonardo_scratch/large/userinternal/mviscia1/ray_checkpoint&quot;</span> <span class="c1">### Change to &#39;/leonardo_scratch/large/userexternal/&lt;your HPC username&gt;&#39;</span>
+
+<span class="c1"># Set up the scaling config for Ray Train</span>
+<span class="n">scaling_config</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">ScalingConfig</span><span class="p">(</span>
+    <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># Number of workers (adjust as needed)</span>
+    <span class="n">use_gpu</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Change to True if GPUs are available</span>
+<span class="p">)</span>
+
+<span class="c1"># Launch the distributed training job with Ray</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">TorchTrainer</span><span class="p">(</span>
+    <span class="n">train_func</span><span class="p">,</span> 
+    <span class="n">scaling_config</span><span class="o">=</span><span class="n">scaling_config</span><span class="p">,</span>
+    <span class="n">run_config</span><span class="o">=</span><span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">RunConfig</span><span class="p">(</span><span class="n">storage_path</span><span class="o">=</span><span class="n">checkpoint_dir</span><span class="p">)</span>
+<span class="p">)</span>
+    
+<span class="n">results</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>  <span class="c1"># Trigger training</span>
+
+<span class="c1"># End timing</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">training_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 12:36:16,185	INFO tune.py:616 -- [output] This uses the legacy output and progress reporter, as Jupyter notebooks are not supported by the new engine, yet. For more information, please see https://github.com/ray-project/ray/issues/36949
+2026-01-29 12:36:16,188	WARNING callback.py:136 -- The TensorboardX logger cannot be instantiated because either TensorboardX or one of it&#39;s dependencies is not installed. Please make sure you have the latest version of TensorboardX installed: `pip install -U tensorboardx`
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>== Status ==
+Current time: 2026-01-29 12:36:16 (running for 00:00:00.11)
+Using FIFO scheduling algorithm.
+Logical resource usage: 0/16 CPUs, 0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 PENDING)
+
+
+== Status ==
+Current time: 2026-01-29 12:36:21 (running for 00:00:05.15)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 PENDING)
+
+
+== Status ==
+Current time: 2026-01-29 12:36:26 (running for 00:00:10.16)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 PENDING)
+
+
+== Status ==
+Current time: 2026-01-29 12:36:31 (running for 00:00:15.18)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 PENDING)
+
+
+== Status ==
+Current time: 2026-01-29 12:36:36 (running for 00:00:20.20)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:36:41 (running for 00:00:25.21)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:36:46 (running for 00:00:30.23)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:36:51 (running for 00:00:35.24)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:36:56 (running for 00:00:40.34)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:37:01 (running for 00:00:45.35)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:37:06 (running for 00:00:50.41)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:37:11 (running for 00:00:55.48)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:37:16 (running for 00:01:00.51)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:37:21 (running for 00:01:05.52)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:37:26 (running for 00:01:10.58)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:37:31 (running for 00:01:15.66)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:37:36 (running for 00:01:20.74)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:37:41 (running for 00:01:25.75)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:37:46 (running for 00:01:30.81)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:37:52 (running for 00:01:35.89)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+
+
+== Status ==
+Current time: 2026-01-29 12:37:57 (running for 00:01:40.92)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 RUNNING)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-01-29 12:37:57,583	INFO tune.py:1009 -- Wrote the latest version of all result files and experiment state to &#39;/leonardo_scratch/large/userinternal/mviscia1/ray_checkpoint/TorchTrainer_2026-01-29_12-36-16&#39; in 0.0040s.
+2026-01-29 12:37:57,584	INFO tune.py:1041 -- Total run time: 101.40 seconds (101.39 seconds for the tuning loop).
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>== Status ==
+Current time: 2026-01-29 12:37:57 (running for 00:01:41.39)
+Using FIFO scheduling algorithm.
+Logical resource usage: 1.0/16 CPUs, 2.0/2 GPUs (0.0/1.0 accelerator_type:A100)
+Result logdir: /tmp/ray/session_2026-01-29_08-54-08_061617_2492228/artifacts/2026-01-29_12-36-16/TorchTrainer_2026-01-29_12-36-16/driver_artifacts
+Number of trials: 1/1 (1 TERMINATED)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training Time: </span><span class="si">{</span><span class="n">training_time</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training Time: 101.4308226108551 seconds
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Result(
+  metrics={&#39;train_loss&#39;: 0.12187564373016357, &#39;train_loss_step&#39;: 0.0626777783036232, &#39;train_loss_epoch&#39;: 0.12187564373016357, &#39;epoch&#39;: 9, &#39;step&#39;: 2350},
+  path=&#39;/leonardo_scratch/large/userinternal/mviscia1/ray_checkpoint/TorchTrainer_2026-01-29_12-36-16/TorchTrainer_b8e11_00000_0_2026-01-29_12-36-16&#39;,
+  filesystem=&#39;local&#39;,
+  checkpoint=Checkpoint(filesystem=local, path=/leonardo_scratch/large/userinternal/mviscia1/ray_checkpoint/TorchTrainer_2026-01-29_12-36-16/TorchTrainer_b8e11_00000_0_2026-01-29_12-36-16/checkpoint_000009)
+)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot Loss training progress</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">metrics_dataframe</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">],</span> <span class="n">results</span><span class="o">.</span><span class="n">metrics_dataframe</span><span class="p">[</span><span class="s1">&#39;train_loss_epoch&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training progress&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../../../_images/ede99a9403c93d95a6213796e698500f9ba971f374d378512c3d65f2ec633c56.png" src="../../../../_images/ede99a9403c93d95a6213796e698500f9ba971f374d378512c3d65f2ec633c56.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">metrics_dataframe</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>train_loss</th>
+      <th>train_loss_step</th>
+      <th>train_loss_epoch</th>
+      <th>epoch</th>
+      <th>step</th>
+      <th>timestamp</th>
+      <th>checkpoint_dir_name</th>
+      <th>should_checkpoint</th>
+      <th>done</th>
+      <th>training_iteration</th>
+      <th>trial_id</th>
+      <th>date</th>
+      <th>time_this_iter_s</th>
+      <th>time_total_s</th>
+      <th>pid</th>
+      <th>hostname</th>
+      <th>node_ip</th>
+      <th>time_since_restore</th>
+      <th>iterations_since_restore</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.416955</td>
+      <td>0.301048</td>
+      <td>0.416955</td>
+      <td>0</td>
+      <td>235</td>
+      <td>1769686614</td>
+      <td>checkpoint_000000</td>
+      <td>True</td>
+      <td>False</td>
+      <td>1</td>
+      <td>b8e11_00000</td>
+      <td>2026-01-29_12-36-54</td>
+      <td>21.141582</td>
+      <td>21.141582</td>
+      <td>2600688</td>
+      <td>lrdn0082.leonardo.local</td>
+      <td>10.1.0.82</td>
+      <td>21.141582</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.288522</td>
+      <td>0.192232</td>
+      <td>0.288522</td>
+      <td>1</td>
+      <td>470</td>
+      <td>1769686621</td>
+      <td>checkpoint_000001</td>
+      <td>True</td>
+      <td>False</td>
+      <td>2</td>
+      <td>b8e11_00000</td>
+      <td>2026-01-29_12-37-02</td>
+      <td>7.763780</td>
+      <td>28.905362</td>
+      <td>2600688</td>
+      <td>lrdn0082.leonardo.local</td>
+      <td>10.1.0.82</td>
+      <td>28.905362</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.248642</td>
+      <td>0.401121</td>
+      <td>0.248642</td>
+      <td>2</td>
+      <td>705</td>
+      <td>1769686628</td>
+      <td>checkpoint_000002</td>
+      <td>True</td>
+      <td>False</td>
+      <td>3</td>
+      <td>b8e11_00000</td>
+      <td>2026-01-29_12-37-08</td>
+      <td>6.670266</td>
+      <td>35.575629</td>
+      <td>2600688</td>
+      <td>lrdn0082.leonardo.local</td>
+      <td>10.1.0.82</td>
+      <td>35.575629</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.215748</td>
+      <td>0.138379</td>
+      <td>0.215748</td>
+      <td>3</td>
+      <td>940</td>
+      <td>1769686635</td>
+      <td>checkpoint_000003</td>
+      <td>True</td>
+      <td>False</td>
+      <td>4</td>
+      <td>b8e11_00000</td>
+      <td>2026-01-29_12-37-15</td>
+      <td>6.733796</td>
+      <td>42.309424</td>
+      <td>2600688</td>
+      <td>lrdn0082.leonardo.local</td>
+      <td>10.1.0.82</td>
+      <td>42.309424</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.199406</td>
+      <td>0.309622</td>
+      <td>0.199406</td>
+      <td>4</td>
+      <td>1175</td>
+      <td>1769686642</td>
+      <td>checkpoint_000004</td>
+      <td>True</td>
+      <td>False</td>
+      <td>5</td>
+      <td>b8e11_00000</td>
+      <td>2026-01-29_12-37-22</td>
+      <td>6.663811</td>
+      <td>48.973236</td>
+      <td>2600688</td>
+      <td>lrdn0082.leonardo.local</td>
+      <td>10.1.0.82</td>
+      <td>48.973236</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.181159</td>
+      <td>0.256965</td>
+      <td>0.181159</td>
+      <td>5</td>
+      <td>1410</td>
+      <td>1769686648</td>
+      <td>checkpoint_000005</td>
+      <td>True</td>
+      <td>False</td>
+      <td>6</td>
+      <td>b8e11_00000</td>
+      <td>2026-01-29_12-37-28</td>
+      <td>6.683479</td>
+      <td>55.656715</td>
+      <td>2600688</td>
+      <td>lrdn0082.leonardo.local</td>
+      <td>10.1.0.82</td>
+      <td>55.656715</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.164941</td>
+      <td>0.258945</td>
+      <td>0.164941</td>
+      <td>6</td>
+      <td>1645</td>
+      <td>1769686655</td>
+      <td>checkpoint_000006</td>
+      <td>True</td>
+      <td>False</td>
+      <td>7</td>
+      <td>b8e11_00000</td>
+      <td>2026-01-29_12-37-35</td>
+      <td>6.670319</td>
+      <td>62.327034</td>
+      <td>2600688</td>
+      <td>lrdn0082.leonardo.local</td>
+      <td>10.1.0.82</td>
+      <td>62.327034</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.146874</td>
+      <td>0.193392</td>
+      <td>0.146874</td>
+      <td>7</td>
+      <td>1880</td>
+      <td>1769686662</td>
+      <td>checkpoint_000007</td>
+      <td>True</td>
+      <td>False</td>
+      <td>8</td>
+      <td>b8e11_00000</td>
+      <td>2026-01-29_12-37-42</td>
+      <td>6.759127</td>
+      <td>69.086161</td>
+      <td>2600688</td>
+      <td>lrdn0082.leonardo.local</td>
+      <td>10.1.0.82</td>
+      <td>69.086161</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.130704</td>
+      <td>0.109167</td>
+      <td>0.130704</td>
+      <td>8</td>
+      <td>2115</td>
+      <td>1769686668</td>
+      <td>checkpoint_000008</td>
+      <td>True</td>
+      <td>False</td>
+      <td>9</td>
+      <td>b8e11_00000</td>
+      <td>2026-01-29_12-37-49</td>
+      <td>6.690054</td>
+      <td>75.776215</td>
+      <td>2600688</td>
+      <td>lrdn0082.leonardo.local</td>
+      <td>10.1.0.82</td>
+      <td>75.776215</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.121876</td>
+      <td>0.062678</td>
+      <td>0.121876</td>
+      <td>9</td>
+      <td>2350</td>
+      <td>1769686675</td>
+      <td>checkpoint_000009</td>
+      <td>True</td>
+      <td>False</td>
+      <td>10</td>
+      <td>b8e11_00000</td>
+      <td>2026-01-29_12-37-55</td>
+      <td>6.825975</td>
+      <td>82.602190</td>
+      <td>2600688</td>
+      <td>lrdn0082.leonardo.local</td>
+      <td>10.1.0.82</td>
+      <td>82.602190</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>Exercise<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>Use Ray Train to scale the training of the following model.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optim</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">transforms</span>
+
+<span class="c1"># Define a simple neural network</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SimpleNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+<span class="c1"># Prepare data</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))])</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="s2">&quot;/leonardo_scratch/fast/tra26_castiel2/data/data_FashionMNIST&quot;</span> 
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">FashionMNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Initialize the model, loss, and optimizer</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SimpleNN</span><span class="p">()</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+<span class="c1"># Training loop</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">, Loss: </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Solution</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span><span class="p">,</span> <span class="n">optim</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">transforms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ray.train.torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">TorchTrainer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ray.train</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScalingConfig</span>
+
+
+<span class="c1"># Definizione del modello</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SimpleNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span>  <span class="c1"># Flatten input</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="c1"># Funzione di training</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">train_func</span><span class="p">():</span>
+    <span class="c1"># Preparare il modello per il training distribuito</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">SimpleNN</span><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">prepare_model</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+    <span class="c1"># Definire la loss function e l&#39;ottimizzatore</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+    <span class="c1"># Preparazione dei dati</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+        <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,))</span>
+    <span class="p">])</span>
+    <span class="n">data_dir</span> <span class="o">=</span> <span class="s2">&quot;/leonardo_scratch/fast/tra26_castiel2/data/data_FashionMNIST&quot;</span>  <span class="c1"># Cambia con il percorso dei dati FashionMNIST</span>
+    <span class="n">train_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
+        <span class="n">root</span><span class="o">=</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span>
+    <span class="p">)</span>
+    <span class="n">train_data_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">train_loader</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">prepare_data_loader</span><span class="p">(</span><span class="n">train_data_loader</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="n">epoch_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">num_batches</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Ensure epoch-based shuffling for DDP</span>
+        <span class="k">if</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">get_context</span><span class="p">()</span><span class="o">.</span><span class="n">get_world_size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">train_loader</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">set_epoch</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+    
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    
+            <span class="c1"># Accumulate loss</span>
+            <span class="n">epoch_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">num_batches</span> <span class="o">+=</span> <span class="mi">1</span>
+    
+        <span class="c1"># Compute average loss for the epoch</span>
+        <span class="n">avg_loss</span> <span class="o">=</span> <span class="n">epoch_loss</span> <span class="o">/</span> <span class="n">num_batches</span>
+    
+        <span class="c1"># Report metrics and save checkpoint</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="n">avg_loss</span><span class="p">,</span> <span class="s2">&quot;epoch&quot;</span><span class="p">:</span> <span class="n">epoch</span><span class="p">}</span>
+    
+        <span class="n">checkpoint_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;/leonardo_scratch/large/userinternal/mviscia1/ray_checkpoint&quot;</span> <span class="sa">f</span><span class="s2">&quot;epoch_</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;module&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">,</span> <span class="s2">&quot;model.pt&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+    
+        <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">report</span><span class="p">(</span>
+            <span class="n">metrics</span><span class="p">,</span>
+            <span class="n">checkpoint</span><span class="o">=</span><span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Checkpoint</span><span class="o">.</span><span class="n">from_directory</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">),</span>
+        <span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start timing</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="c1"># 4) Configure scaling and resource requirements</span>
+<span class="n">scaling_config</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">ScalingConfig</span><span class="p">(</span><span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">use_gpu</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+
+<span class="c1"># 5) Launch distributed training job</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">ray</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">torch</span><span class="o">.</span><span class="n">TorchTrainer</span><span class="p">(</span>
+    <span class="n">train_func</span><span class="p">,</span>
+    <span class="n">scaling_config</span><span class="o">=</span><span class="n">scaling_config</span><span class="p">,</span>
+    <span class="c1"># 5a) If running in a multi-node cluster, this is where you</span>
+    <span class="c1"># should configure the run&#39;s persistent storage that is accessible</span>
+    <span class="c1"># across all worker nodes.</span>
+    <span class="c1"># run_config=ray.train.RunConfig(storage_path=&quot;s3://...&quot;),</span>
+<span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span> <span class="c1"># trigger the execution of the training job</span>
+
+<span class="c1"># End timing</span>
+<span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">training_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training Time: </span><span class="si">{</span><span class="n">training_time</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot Loss training progress</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">metrics_dataframe</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">],</span> <span class="n">results</span><span class="o">.</span><span class="n">metrics_dataframe</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training Progress&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="release-resources">
+<h1>Release resources<a class="headerlink" href="#release-resources" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Disconnect the worker, and terminate processes started by ray.init().</span>
+<span class="n">ray</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

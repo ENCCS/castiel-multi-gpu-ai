@@ -1,0 +1,256 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Castiel2 Multi-GPU AI Train the Trainer workshop &mdash; CASTIEL2 Multi-GPU AI  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx_lesson.css?v=e9df6548" />
+      <link rel="stylesheet" type="text/css" href="_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="_static/overrides.css?v=d560b895" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=187304be"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=35a8b989"></script>
+      <script src="_static/minipres.js?v=a0d29692"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="_static/togglebutton.js?v=1ae7504c"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex/" />
+    <link rel="search" title="Search" href="search/" />
+    <link rel="next" title="1M: Access to Leonardo" href="it/leonardo/README/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            CASTIEL2 Multi-GPU AI
+              <img src="_static/CASTIEL2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">The lesson materials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="it/leonardo/README/">1M: Access to Leonardo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="se/deep-learning-intro/">1A: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nl/">2M: PyTorch Distributed Data Parallel</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/">Instructor’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="directives/">Directives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">CASTIEL2 Multi-GPU AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Castiel2 Multi-GPU AI Train the Trainer workshop</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/castiel-multi-gpu-ai/blob/main/content/index.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="castiel2-multi-gpu-ai-train-the-trainer-workshop">
+<h1>Castiel2 Multi-GPU AI Train the Trainer workshop<a class="headerlink" href="#castiel2-multi-gpu-ai-train-the-trainer-workshop" title="Link to this heading"></a></h1>
+<div class="admonition-prerequisites prerequisites admonition" id="prerequisites-0">
+<p class="admonition-title">Prerequisites</p>
+<p>You are familiar with AI frameworks.</p>
+</div>
+<section id="schedule">
+<h2>Schedule<a class="headerlink" href="#schedule" title="Link to this heading"></a></h2>
+<p>The course will run across 5 days with a morning and afternoon session each day. Times in CET:</p>
+<ul class="simple">
+<li><p>📅 Dates: 30th January - 5th February, 2026</p></li>
+<li><p>🕘 Time: 9:30 AM – 5:30 PM daily</p></li>
+<li><p>🍴 Lunch Break: 1:00 PM – 2:00 PM</p></li>
+</ul>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><strong>Day</strong></p></td>
+<td><p><strong>Session</strong></p></td>
+<td><p><strong>Topic</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Morning</p></td>
+<td><p>Introduction to GPU architectures and Access to HPC infrastructure used</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Afternoon</p></td>
+<td><p>Introduction to deep learning</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>Morning</p></td>
+<td><p>Pytorch Distributed Data Parallel</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Afternoon</p></td>
+<td><p>Model parallelism with Pytorch</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Morning</p></td>
+<td><p>Pytorch Lightning</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>Afternoon</p></td>
+<td><p>LLM, Finetuning &amp; HuggingFace Accelerate, Deepspeed</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>Morning</p></td>
+<td><p>Computer Vision</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Afternoon</p></td>
+<td><p>MLops</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Morning</p></td>
+<td><p>Ray + Retrieval Augmented Generation (RAG)</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>Afternoon</p></td>
+<td><p>Hyperparameter tuning followed by Q&amp;A</p></td>
+</tr>
+</tbody>
+</table>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">The lesson materials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="it/leonardo/README/">1M: Access to Leonardo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="se/deep-learning-intro/">1A: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nl/">2M: PyTorch Distributed Data Parallel</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guide/">Instructor’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="directives/">Directives</a></li>
+</ul>
+</div>
+</section>
+<section id="who-is-the-course-for">
+<span id="learner-personas"></span><h2>Who is the course for?<a class="headerlink" href="#who-is-the-course-for" title="Link to this heading"></a></h2>
+<p>Scientists, engineers, and PhD students who need to scale AI models efficiently or optimize distributed training workflows.</p>
+</section>
+<section id="about-the-course">
+<h2>About the course<a class="headerlink" href="#about-the-course" title="Link to this heading"></a></h2>
+<section id="instructors-and-workshop-helpers">
+<h3>Instructors and workshop helpers<a class="headerlink" href="#instructors-and-workshop-helpers" title="Link to this heading"></a></h3>
+<p><strong>Instructors</strong></p>
+<ul class="simple">
+<li><p>Alberto Bocchinfuso (<a class="reference external" href="https://www.hpc.cineca.it/">CINECA</a>)</p></li>
+<li><p><a class="reference external" href="https://www.ri.se/en/person/ashwin-mohanan">Ashwin Mohanan</a> (<a class="reference external" href="https://ri.se/en">RISE</a> / <a class="reference external" href="https://enccs.se">ENCCS</a>)</p></li>
+<li><p><a class="reference external" href="https://pretalx.surf.nl/acud-2024/speaker/YAMLD3/">Caspar van Leeuwen</a> (<a class="reference external" href="https://www.surf.nl/">SURF</a>)</p></li>
+<li><p>Elena Paraschiv (<a class="reference external" href="https://www.ici.ro/en/competence-centers/romanian-national-hpc-competence-center-roncc/">RoNCC</a>)</p></li>
+<li><p><a class="reference external" href="https://www.ri.se/sv/person/francesco-fiusco">Francesco Fiusco</a> (<a class="reference external" href="https://ri.se/en">RISE</a> / <a class="reference external" href="https://enccs.se">ENCCS</a>)</p></li>
+<li><p><a class="reference external" href="https://www.uhasselt.be/en/who-is-who/detail/geertjan-bex">Prof. Dr. Geert Jan Bex</a> (<a class="reference external" href="https://www.uhasselt.be">UHASSELT</a>)</p></li>
+<li><p>Gyula Ujlaki (<a class="reference external" href="https://ncc.dkf.hu">NCC Hungary</a>)</p></li>
+<li><p><a class="reference external" href="https://www.hpc.cineca.it/staff/visciarelli-michele/">Michele Visciarelli</a> (<a class="reference external" href="https://www.hpc.cineca.it/">CINECA</a>)</p></li>
+<li><p>Oskar Taubert (<a class="reference external" href="https://csc.fi/">CSC</a>)</p></li>
+<li><p>Riccardo Scheda (<a class="reference external" href="https://www.hpc.cineca.it/">CINECA</a>)</p></li>
+<li><p><a class="reference external" href="https://enccs.se/yonglei-wang">Yonglei Wang</a> (<a class="reference external" href="https://liu.se/">LiU</a>)</p></li>
+</ul>
+<p><strong>Workshop helpers</strong></p>
+<ul class="simple">
+<li><p>Tobias Haas, HLRS</p></li>
+<li><p>Vlasta Petrovic, BSC / Castiel2</p></li>
+<li><p>Sima Barzegar, BSC / Castiel2</p></li>
+<li><p>Eleonora Bergamaschi, <a class="reference external" href="https://www.hpc.cineca.it/">CINECA</a></p></li>
+<li><p>… and many more</p></li>
+</ul>
+</section>
+<section id="course-pages">
+<h3>Course pages<a class="headerlink" href="#course-pages" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://hpc-portal.eu/training/short-courses/castiel2-multi-gpu-ai-train-the-trainer-workshop">https://hpc-portal.eu/training/short-courses/castiel2-multi-gpu-ai-train-the-trainer-workshop</a></p></li>
+<li><p><a class="reference external" href="https://www.hlrs.de/training/2026/castiel2-multigpu-ai-ttt">https://www.hlrs.de/training/2026/castiel2-multigpu-ai-ttt</a></p></li>
+</ul>
+</section>
+</section>
+<section id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+<p>…</p>
+</section>
+<section id="credits">
+<h2>Credits<a class="headerlink" href="#credits" title="Link to this heading"></a></h2>
+<p>…</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="it/leonardo/README/" class="btn btn-neutral float-right" title="1M: Access to Leonardo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

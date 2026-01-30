@@ -1,0 +1,248 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1M: Access to Leonardo &mdash; CASTIEL2 Multi-GPU AI  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_lesson.css?v=e9df6548" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/overrides.css?v=d560b895" />
+
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=187304be"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=35a8b989"></script>
+      <script src="../../../_static/minipres.js?v=a0d29692"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=1ae7504c"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex/" />
+    <link rel="search" title="Search" href="../../../search/" />
+    <link rel="next" title="1A: Introduction to Deep Learning" href="../../../se/deep-learning-intro/" />
+    <link rel="prev" title="Castiel2 Multi-GPU AI Train the Trainer workshop" href="../../../" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../" class="icon icon-home">
+            CASTIEL2 Multi-GPU AI
+              <img src="../../../_static/CASTIEL2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">The lesson materials</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1M: Access to Leonardo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#jupyter">Jupyter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#setting-up-python">Setting up Python</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-cineca-ai-module">The <code class="docutils literal notranslate"><span class="pre">cineca-ai</span></code> Module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#virtual-environment">Virtual environment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-jobs">Running jobs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../se/deep-learning-intro/">1A: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../nl/">2M: PyTorch Distributed Data Parallel</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guide/">Instructor’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../directives/">Directives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../">CASTIEL2 Multi-GPU AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">1M: Access to Leonardo</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/castiel-multi-gpu-ai/blob/main/content/it/leonardo/README.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="m-access-to-leonardo">
+<h1>1M: Access to Leonardo<a class="headerlink" href="#m-access-to-leonardo" title="Link to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can find general documentation for</p>
+<ul class="simple">
+<li><p>our HPC systems here: <a class="reference external" href="https://docs.hpc.cineca.it/hpc/hpc_intro.html">https://docs.hpc.cineca.it/hpc/hpc_intro.html</a>, and</p></li>
+<li><p>Leonardo specifics here: <a class="reference external" href="https://docs.hpc.cineca.it/hpc/leonardo.html#leonardo-card">https://docs.hpc.cineca.it/hpc/leonardo.html#leonardo-card</a></p></li>
+</ul>
+</div>
+<p>The project account on Leonardo Booster partition is <code class="docutils literal notranslate"><span class="pre">tra26_castiel2</span></code>. Two shared areas are available to all project collaborators: <code class="docutils literal notranslate"><span class="pre">$WORK</span></code> and <code class="docutils literal notranslate"><span class="pre">$FAST</span></code>, accessible via the corresponding commands <code class="docutils literal notranslate"><span class="pre">$WORK</span></code> and <code class="docutils literal notranslate"><span class="pre">$FAST</span></code>.
+Compute nodes do not have internet access. Any required models or data should therefore be downloaded in advance using the <code class="docutils literal notranslate"><span class="pre">lrd_all_serial</span></code> partition. The <code class="docutils literal notranslate"><span class="pre">$FAST</span></code> area provides faster I/O and already contains two folders, data and models. We recommend storing preloaded datasets and models there so they can be accessed directly by students.</p>
+<section id="jupyter">
+<span id="id1"></span><h2>Jupyter<a class="headerlink" href="#jupyter" title="Link to this heading"></a></h2>
+<p>To run jupyter notebooks on Leonardo we have to use double ssh tunnel. It is suggested to use jupyter notebooks within the node and use normal scripting and job submission for more than 1 nodes.</p>
+<p>To open a notebook directly on a compute node a double ssh tunnel is required following
+the steps below:</p>
+<ol class="arabic">
+<li><p>On <strong>localhost (local shell</strong> on your pc, for Windows users use Putty), open an ssh
+session to Leonardo login node (i.e: <code class="docutils literal notranslate"><span class="pre">login01-ext.leonardo.cineca.it</span></code>) with the
+command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> ssh USERNAME@login01-ext.leonardo.cineca.it
+</pre></div>
+</div>
+</li>
+<li><p>Once you have logged into Leonardo, enter the folder where you have saved the
+desired notebooks you want to use, and submit the job (see below for the jobscript):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> sbatch start_jupyter.sh
+</pre></div>
+</div>
+</li>
+<li><p>On a <strong>local shell</strong>, open an ssh double tunnel by copying the command written in the
+output file (.out) associated to the job (<strong>string A</strong>):</p></li>
+</ol>
+<p><img alt="" src="../../../_images/terminal_jupyter_via_ssh.png" /></p>
+<ol class="arabic simple" start="4">
+<li><p>Open a browser and go to the URL to connect the jupyter server (<strong>string B</strong>)</p></li>
+</ol>
+<p>The <code class="docutils literal notranslate"><span class="pre">start_jupyter.sh</span></code> jobscript:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="w">        </span>
+<span class="c1">#SBATCH --job-name=jupyter_environment</span>
+<span class="c1">#SBATCH --time=01:00:00 ### Change compute time based on your needs ###</span>
+<span class="c1">#SBATCH --account=tra26_castiel2</span>
+<span class="c1">#SBATCH --partition=boost_usr_prod</span>
+<span class="c1">#SBATCH --reservation= ### If you have a reservation, write it here ###</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --tasks-per-node=1 </span>
+<span class="c1">#SBATCH --cpus-per-task=8</span>
+<span class="c1">#SBATCH --gres=gpu:1</span>
+<span class="c1">#SBATCH --error jupyter-%j.err</span>
+<span class="c1">#SBATCH --output jupyter-%j.out</span>
+
+<span class="c1"># Load the cineca-ai module (module load cineca-ai) </span>
+<span class="c1"># Alternatively, load the python module you used to create your venv </span>
+module<span class="w"> </span>load<span class="w"> </span>python/3.11.6--gcc--8.5.0
+
+<span class="c1"># Activate your venv</span>
+<span class="nb">source</span><span class="w"> </span>.../bin/activate<span class="w"> </span><span class="c1">### Write here the path to your venv ###</span>
+
+
+<span class="c1"># Get the worker list associated to this slurm job</span>
+<span class="nv">worker_list</span><span class="o">=(</span><span class="k">$(</span>scontrol<span class="w"> </span>show<span class="w"> </span>hostnames<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_JOB_NODELIST</span><span class="s2">&quot;</span><span class="k">)</span><span class="o">)</span>
+
+<span class="c1"># Set the first worker as the head node and get his ip</span>
+<span class="nv">head_node</span><span class="o">=</span><span class="si">${</span><span class="nv">worker_list</span><span class="p">[0]</span><span class="si">}</span>
+<span class="nv">head_node_ip</span><span class="o">=</span><span class="k">$(</span>srun<span class="w"> </span>--nodes<span class="o">=</span><span class="m">1</span><span class="w"> </span>--ntasks<span class="o">=</span><span class="m">1</span><span class="w"> </span>-w<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$head_node</span><span class="s2">&quot;</span><span class="w"> </span>hostname<span class="w"> </span>--ip-address<span class="k">)</span>
+
+<span class="c1"># Open a SSH tunnel to the login node and then to the compute node from another shell on your local machine, copying and pasting the following instructions printed in the .out file.</span>
+<span class="c1"># Print ssh tunnel instruction</span>
+<span class="nv">jupyter_port</span><span class="o">=</span><span class="k">$((</span><span class="nv">$RANDOM</span><span class="o">%(</span><span class="m">64511</span><span class="o">-</span><span class="m">50000</span><span class="o">+</span><span class="m">1</span><span class="o">)+</span><span class="m">50000</span><span class="k">))</span>
+<span class="nv">jupyter_token</span><span class="o">=</span><span class="si">${</span><span class="nv">USER</span><span class="si">}</span>_<span class="si">${</span><span class="nv">jupyter_port</span><span class="si">}</span>
+<span class="nb">echo</span><span class="w"> </span><span class="o">===================================================</span>
+<span class="nb">echo</span><span class="w"> </span><span class="o">[</span>INFO<span class="o">]</span>:<span class="w"> </span>To<span class="w"> </span>access<span class="w"> </span>the<span class="w"> </span>Jupyter<span class="w"> </span>server,<span class="w"> </span>remember<span class="w"> </span>to<span class="w"> </span>open<span class="w"> </span>a<span class="w"> </span>ssh<span class="w"> </span>tunnel<span class="w"> </span>from<span class="w"> </span>your<span class="w"> </span><span class="nb">local</span><span class="w"> </span>machine<span class="w"> </span>with:<span class="w"> </span>
+<span class="nb">echo</span><span class="w"> </span>ssh<span class="w"> </span>-L<span class="w"> </span><span class="nv">$jupyter_port</span>:<span class="nv">$head_node_ip</span>:<span class="nv">$jupyter_port</span><span class="w"> </span><span class="si">${</span><span class="nv">USER</span><span class="si">}</span>@login02-ext.leonardo.cineca.it<span class="w"> </span>-N
+<span class="nb">echo</span><span class="w"> </span><span class="k">then</span><span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>connect<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>jupyter<span class="w"> </span>server<span class="w"> </span>at<span class="w"> </span>http://127.0.0.1:<span class="nv">$jupyter_port</span>/lab?token<span class="o">=</span><span class="nv">$jupyter_token</span>
+<span class="nb">echo</span><span class="w"> </span><span class="o">===================================================</span>
+
+<span class="c1"># Start the head node</span>
+<span class="nb">echo</span><span class="w"> </span><span class="o">[</span>INFO<span class="o">]</span>:<span class="w"> </span>Starting<span class="w"> </span>jupyter<span class="w"> </span>notebook<span class="w"> </span>server<span class="w"> </span>on<span class="w"> </span><span class="nv">$head_node</span><span class="w"> </span>
+
+<span class="c1"># Note that the jupyter notebook command is available only because we have enabled the venv</span>
+<span class="nv">command</span><span class="o">=</span><span class="s2">&quot;jupyter lab --ip=0.0.0.0 --port=</span><span class="si">${</span><span class="nv">jupyter_port</span><span class="si">}</span><span class="s2"> --NotebookApp.token=</span><span class="si">${</span><span class="nv">jupyter_token</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="o">[</span>INFO<span class="o">]</span>:<span class="w"> </span><span class="nv">$command</span>
+<span class="nv">$command</span><span class="w"> </span><span class="p">&amp;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="o">[</span>INFO<span class="o">]</span>:<span class="w"> </span>Your<span class="w"> </span>env<span class="w"> </span>is<span class="w"> </span>up<span class="w"> </span>and<span class="w"> </span>running.
+
+sleep<span class="w"> </span>infinity
+</pre></div>
+</div>
+</section>
+<section id="setting-up-python">
+<h2>Setting up Python<a class="headerlink" href="#setting-up-python" title="Link to this heading"></a></h2>
+<section id="the-cineca-ai-module">
+<h3>The <code class="docutils literal notranslate"><span class="pre">cineca-ai</span></code> Module<a class="headerlink" href="#the-cineca-ai-module" title="Link to this heading"></a></h3>
+<p>If you don’t require specific versions to run your hands-on sessions, we suggest to use the module <code class="docutils literal notranslate"><span class="pre">cineca-ai</span></code> available on Leonardo which already contains the most commonly used Python libraries for AI applications. You can find more information about how to use it here. <a class="reference external" href="https://docs.hpc.cineca.it/hpc/hpc_cineca-ai-hpyc.html">https://docs.hpc.cineca.it/hpc/hpc_cineca-ai-hpyc.html</a></p>
+</section>
+<section id="virtual-environment">
+<h3>Virtual environment<a class="headerlink" href="#virtual-environment" title="Link to this heading"></a></h3>
+<p>If you are creating a virtual environment for your scripts to run and not using the CINECA modules, please make sure that they can be loaded and modified (if the need arises) by students. You can also create a shared virtual environment on FAST area and have the file with required packages ready in case importing them takes too long. To create a virtual environment, we recommend loading the Python module and using Pip to install packages.</p>
+</section>
+</section>
+<section id="running-jobs">
+<h2>Running jobs<a class="headerlink" href="#running-jobs" title="Link to this heading"></a></h2>
+<p>If you need to run jobscripts that require fewer than 2 nodes and last less than 30 minutes, you can use the QoS debugging by specifying the SLURM directive <code class="docutils literal notranslate"><span class="pre">--qos</span> <span class="pre">boost_qos_dbg</span></code> (it has a higher priority and you can obtain your resources earlier).</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../../" class="btn btn-neutral float-left" title="Castiel2 Multi-GPU AI Train the Trainer workshop" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../../se/deep-learning-intro/" class="btn btn-neutral float-right" title="1A: Introduction to Deep Learning" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

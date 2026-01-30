@@ -1,0 +1,376 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>General &mdash; CASTIEL2 Multi-GPU AI  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_lesson.css?v=e9df6548" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/overrides.css?v=d560b895" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=187304be"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=35a8b989"></script>
+      <script src="../../../../_static/minipres.js?v=a0d29692"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../../_static/togglebutton.js?v=1ae7504c"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex/" />
+    <link rel="search" title="Search" href="../../../../search/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../" class="icon icon-home">
+            CASTIEL2 Multi-GPU AI
+              <img src="../../../../_static/CASTIEL2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">The lesson materials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../leonardo/README/">1M: Access to Leonardo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../se/deep-learning-intro/">1A: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../nl/">2M: PyTorch Distributed Data Parallel</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guide/">Instructor’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../directives/">Directives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../">CASTIEL2 Multi-GPU AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">General</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/castiel-multi-gpu-ai/blob/main/content/it/rag/notebooks/0_download_data.ipynb" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="general">
+<h1>General<a class="headerlink" href="#general" title="Link to this heading"></a></h1>
+<p>This notebook is used to scrape the data used for this tutorial from the HPC wiki.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="imports">
+<h1>Imports<a class="headerlink" href="#imports" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="env-config">
+<h1>Env config<a class="headerlink" href="#env-config" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t0</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Last execution </span><span class="si">{</span><span class="n">t0</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Endpoints</span>
+<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s2">&quot;https://docs.hpc.cineca.it/_sources&quot;</span>
+
+<span class="c1"># Paths</span>
+<span class="n">DUMP_POSITION</span> <span class="o">=</span> <span class="s2">&quot;../data/input&quot;</span>
+
+<span class="n">Path</span><span class="p">(</span><span class="n">DUMP_POSITION</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Last execution 2025-07-22 11:19:25.577657
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="scraping">
+<h1>Scraping<a class="headerlink" href="#scraping" title="Link to this heading"></a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the content of the index of the wiki</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">BASE_URL</span> <span class="o">+</span> <span class="s2">&quot;/index.rst.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">extract_urls_from_page</span><span class="p">(</span><span class="n">text</span><span class="p">:</span><span class="nb">str</span><span class="p">):</span>
+    <span class="c1"># Index items are preceeded by 3 spaces, then we search for letters + / + other chars + /n</span>
+    <span class="n">urls</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?:\.\.\stoctree::\n.*?)((\s</span><span class="si">{3}</span><span class="s2">[\w\/\-]+\n)+)&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+
+    <span class="n">cleaned_pages</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">pages</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">pages</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+                    <span class="n">cleaned_pages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">cleaned_pages</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">index_pages</span> <span class="o">=</span> <span class="n">extract_urls_from_page</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+<span class="n">index_pages</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;hpc/hpc_data_storage&#39;,
+ &#39;cloud/systems/index_system_specifics&#39;,
+ &#39;general/users_account&#39;,
+ &#39;specific_users/specific_users&#39;,
+ &#39;general/access&#39;,
+ &#39;cloud/os_overview/index_openstack_overview&#39;,
+ &#39;hpc/hpc_clusters&#39;,
+ &#39;hpc/hpc_scheduler&#39;,
+ &#39;cloud/tutorials/index_tutorials_and_repos&#39;,
+ &#39;cloud/tenant_adm/index_tenants_administration&#39;,
+ &#39;cloud/operative/index_operative_manual&#39;,
+ &#39;faq&#39;,
+ &#39;hpc/hpc_intro&#39;,
+ &#39;general/getting_started&#39;,
+ &#39;hpc/hpc_software&#39;,
+ &#39;services/services_and_tools&#39;,
+ &#39;hpc/hpc_enviroment&#39;,
+ &#39;cloud/general/general_info&#39;,
+ &#39;general/general_info&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="download-data">
+<h1>Download data<a class="headerlink" href="#download-data" title="Link to this heading"></a></h1>
+<p>Download data from each page. Check on each page if there are other links which were not in index, and add them to the list of pages we must scrape.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pages_to_be_visited</span> <span class="o">=</span> <span class="n">index_pages</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="k">while</span> <span class="n">pages_to_be_visited</span><span class="p">:</span>
+    <span class="n">page_url</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="n">pages_to_be_visited</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+    <span class="n">page_url</span> <span class="o">=</span> <span class="n">BASE_URL</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span>  <span class="n">page_url</span> <span class="o">+</span> <span class="s2">&quot;.rst.txt&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Visiting </span><span class="si">{</span><span class="n">page_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="n">page</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">page_url</span><span class="p">)</span>
+    
+    <span class="c1"># Search for additional urls in the page</span>
+    <span class="n">additional_pages</span> <span class="o">=</span> <span class="n">extract_urls_from_page</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+    
+    <span class="c1"># ADD THE HEAD OF THE URL, THE URLS ARE &quot;RELATIVE&quot; (? CHECK)</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">additional_pages</span><span class="p">:</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">4</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">item</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">index_pages</span><span class="p">:</span>
+            <span class="c1"># Do not include a page if this is already in the index. This is probably a loop.</span>
+            <span class="n">index_pages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">pages_to_be_visited</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Page </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2"> was not in index. Adding it to the list of pages to be dumped.&quot;</span><span class="p">)</span>
+    
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DUMP_POSITION</span><span class="p">,</span> <span class="n">page_url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Visiting https://docs.hpc.cineca.it/_sources/general/general_info.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/general/general_info.rst.txt
+Page cloud/general/budget_accounting was not in index. Adding it to the list of pages to be dumped.
+Page cloud/general/cineca_cloud_model was not in index. Adding it to the list of pages to be dumped.
+Page cloud/general/what_is_cloud was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/cloud/general/what_is_cloud.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/general/cineca_cloud_model.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/general/budget_accounting.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/hpc/hpc_enviroment.rst.txt
+Page hpc/hpc_cineca-ai-hpyc was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/hpc/hpc_cineca-ai-hpyc.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/services/services_and_tools.rst.txt
+Page services/interactive_computing was not in index. Adding it to the list of pages to be dumped.
+Page services/singularity was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/services/singularity.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/services/interactive_computing.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/hpc/hpc_software.rst.txt
+Page hpc/software/qe was not in index. Adding it to the list of pages to be dumped.
+Page hpc/software/matlab was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/hpc/software/matlab.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/hpc/software/qe.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/general/getting_started.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/hpc/hpc_intro.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/faq.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/index_operative_manual.rst.txt
+Page cloud/operative/db_ops/index_db_ops was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/network_ops/index_network_ops was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/shares_ops/index_shares_ops was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/compute_ops/index_compute_ops was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/storage_ops/index_storage_ops was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/lb_ops/index_lb_ops was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/lb_ops/index_lb_ops.rst.txt
+Page cloud/operative/lb_ops/lb_create was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/lb_ops/lb_create.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/storage_ops/index_storage_ops.rst.txt
+Page cloud/operative/storage_ops/volume_create was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/storage_ops/volume_create.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/compute_ops/index_compute_ops.rst.txt
+Page cloud/operative/compute_ops/instance_create was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/compute_ops/instance_snap_create was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/compute_ops/instance_deletion was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/compute_ops/instance_rescue was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/compute_ops/instance_resize was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/compute_ops/image_upload was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/compute_ops/instance_manage was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/compute_ops/instance_download was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/compute_ops/keypair_create was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/compute_ops/keypair_create.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/compute_ops/instance_download.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/compute_ops/instance_manage.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/compute_ops/image_upload.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/compute_ops/instance_resize.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/compute_ops/instance_rescue.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/compute_ops/instance_deletion.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/compute_ops/instance_snap_create.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/compute_ops/instance_create.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/shares_ops/index_shares_ops.rst.txt
+Page cloud/operative/shares_ops/cephfs_share_create was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/shares_ops/generic_share_create was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/shares_ops/generic_share_create.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/shares_ops/cephfs_share_create.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/network_ops/index_network_ops.rst.txt
+Page cloud/operative/network_ops/secgroups_create was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/network_ops/network_create was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/network_ops/network_create.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/network_ops/secgroups_create.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/db_ops/index_db_ops.rst.txt
+Page cloud/operative/db_ops/db_create was not in index. Adding it to the list of pages to be dumped.
+Page cloud/operative/db_ops/db_access was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/db_ops/db_access.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/operative/db_ops/db_create.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/tenant_adm/index_tenants_administration.rst.txt
+Page cloud/tenant_adm/store_sens_data was not in index. Adding it to the list of pages to be dumped.
+Page cloud/tenant_adm/security_guidelines was not in index. Adding it to the list of pages to be dumped.
+Page cloud/tenant_adm/dns_guidelines was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/cloud/tenant_adm/dns_guidelines.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/tenant_adm/security_guidelines.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/tenant_adm/store_sens_data.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/tutorials/index_tutorials_and_repos.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/hpc/hpc_scheduler.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/hpc/hpc_clusters.rst.txt
+Page hpc/leonardo was not in index. Adding it to the list of pages to be dumped.
+Page hpc/galileo was not in index. Adding it to the list of pages to be dumped.
+Page hpc/pitagora was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/hpc/pitagora.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/hpc/galileo.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/hpc/leonardo.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/os_overview/index_openstack_overview.rst.txt
+Page cloud/os_overview/os_components/load_balancers was not in index. Adding it to the list of pages to be dumped.
+Page cloud/os_overview/os_components/compute was not in index. Adding it to the list of pages to be dumped.
+Page cloud/os_overview/os_components/shares was not in index. Adding it to the list of pages to be dumped.
+Page cloud/os_overview/os_components/network was not in index. Adding it to the list of pages to be dumped.
+Page cloud/os_overview/os_components/database was not in index. Adding it to the list of pages to be dumped.
+Page cloud/os_overview/os_components/storage was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/cloud/os_overview/os_components/storage.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/os_overview/os_components/database.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/os_overview/os_components/network.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/os_overview/os_components/shares.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/os_overview/os_components/compute.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/os_overview/os_components/load_balancers.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/general/access.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/specific_users/specific_users.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/general/users_account.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/systems/index_system_specifics.rst.txt
+Page cloud/systems/gaia was not in index. Adding it to the list of pages to be dumped.
+Page cloud/systems/ada was not in index. Adding it to the list of pages to be dumped.
+Visiting https://docs.hpc.cineca.it/_sources/cloud/systems/ada.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/cloud/systems/gaia.rst.txt
+Visiting https://docs.hpc.cineca.it/_sources/hpc/hpc_data_storage.rst.txt
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
