@@ -5,6 +5,7 @@
 :maxdepth: 1
 :caption: Episodes
 
+setup
 1-introduction
 2-keras
 3-monitor-the-model

@@ -105,6 +105,14 @@ and type the command:
 jupyter lab
 ```
 
+If you are running in a supercomputer, you should run instead
+
+```shell
+jupyter lab --no-browser
+```
+
+And make an SSH tunnel from your laptops to the compute node which is allocated.
+
 ## Check your setup
 To check whether all packages installed correctly, start a jupyter notebook in jupyter lab as
 explained above. Run the following lines of code:
