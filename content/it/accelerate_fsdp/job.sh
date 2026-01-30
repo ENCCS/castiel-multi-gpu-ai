@@ -14,7 +14,7 @@
 
 ### Set environment ###
 
-source my_env/bin/activate
+source /leonardo_work/tra26_castiel2/rscheda0/my_env/bin/activate
 
 export WANDB_MODE=offline
 
