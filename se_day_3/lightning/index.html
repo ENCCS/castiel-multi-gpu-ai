@@ -1,0 +1,1168 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3M: PyTorch Lightning &mdash; CASTIEL2 Multi-GPU AI  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx_lesson.css?v=e9df6548" />
+      <link rel="stylesheet" type="text/css" href="../../_static/term_role_formatting.css?v=4194e21c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx_rtd_theme_ext_color_contrast.css?v=8e8ea19f" />
+      <link rel="stylesheet" type="text/css" href="../../_static/overrides.css?v=d560b895" />
+
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=187304be"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=35a8b989"></script>
+      <script src="../../_static/minipres.js?v=a0d29692"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../_static/togglebutton.js?v=1ae7504c"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" />
+    <link rel="next" title="3A: Fine-tuning neural networks" href="../../be/fine_tuning/README/" />
+    <link rel="prev" title="2A: Model parallelism with Pytorch" href="../../hu/" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../" class="icon icon-home">
+            CASTIEL2 Multi-GPU AI
+              <img src="../../_static/CASTIEL2.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search/" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">The lesson materials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../it/leonardo/README/">1M: Access to Leonardo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../se/deep-learning-intro/">1A: Introduction to Deep Learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../nl/">2M: PyTorch Distributed Data Parallel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hu/">2A: Model parallelism with Pytorch</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3M: PyTorch Lightning</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lightning-building-blocks">Lightning building blocks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lightning-data-modules">Lightning data modules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#exercises">Exercises</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#see-also">See also</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../be/fine_tuning/README/">3A: Fine-tuning neural networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../it/accelerate_fsdp/README/">3A: Accelerate FSDP Fine-Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ro/">4M: Computer Vision with CNN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../be/mlops/README/">4A: MLOps on HPC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../it/intro_to_ray/">5M: Introduction to Ray</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../it/rag/">5M: Retrieval Augmented Generation (RAG)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../fi/">5A: Hyperparameter tuning</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quick-reference/">Quick Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guide/">Instructor’s guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../directives/">Directives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../">CASTIEL2 Multi-GPU AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">3M: PyTorch Lightning</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/ENCCS/castiel-multi-gpu-ai/blob/main/content/se_day_3/lightning.md" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section class="tex2jax_ignore mathjax_ignore" id="m-pytorch-lightning">
+<h1>3M: PyTorch Lightning<a class="headerlink" href="#m-pytorch-lightning" title="Link to this heading"></a></h1>
+<div class="admonition-questions questions admonition" id="questions-0">
+<p class="admonition-title">Questions</p>
+<ul class="simple">
+<li><p>What is PyTorch lightning and what is it used for?</p></li>
+<li><p>How do I wrap a PyTorch model in Lightning?</p></li>
+<li><p>How do I parallelise a Lightning model on several GPUs?</p></li>
+</ul>
+</div>
+<div class="admonition-objectives objectives admonition" id="objectives-0">
+<p class="admonition-title">Objectives</p>
+<ul class="simple">
+<li><p>Learn about PyTorch Lightning and why it is useful</p></li>
+<li><p>Learn how to wrap a classical torch model in Lightning</p></li>
+<li><p>Train Lightning models on multiple GPUs on a SLURM cluster</p></li>
+</ul>
+</div>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">PyTorch Lightning</a> is a lightweight
+extension of PyTorch that provides structure, automation, and robustness while
+keeping full flexibility. It does not replace PyTorch, in the sense that you
+still write PyTorch models, layers, and logic, but it removes much of the
+repetitive “glue code” around them. Moreover, it simplifies parallelisation
+over multiple GPUs, requiring virtually no changes to the code if using
+Lightning types; different parallelisation strategies such as DeepSpeed, DDP
+and FSDP are readily available and require minimal configuration.
+In order to achieve this, Lightning requires the developer to wrap their
+network architecture and logic into Lightning types. This also benefits
+development since it improves readability of the code, clearly separating ML
+logic from engineering.</p>
+<p>Lightning focuses on three core ideas:</p>
+<ol class="arabic">
+<li><p><strong>Organize code cleanly</strong><br />
+Lightning separates the core components of a deep learning project
+operations:</p>
+<ul class="simple">
+<li><p>Models</p></li>
+<li><p>Data loading</p></li>
+<li><p>Training loop behavior</p></li>
+<li><p>Logging &amp; checkpointing</p></li>
+<li><p>Distributed execution</p></li>
+</ul>
+<p>This helps keeping the code modular, readable and more reusable.</p>
+</li>
+<li><p><strong>Automate engineering, keep architecture flexible</strong><br />
+The developer can focus on the model and experiments, while device
+placement or multiprocessing are transparently handled by Lightning.
+Lightning handles:</p>
+<ul class="simple">
+<li><p>Training and validation loops</p></li>
+<li><p>Mixed precision</p></li>
+<li><p>Gradient clipping</p></li>
+<li><p>Device and dtype configuration</p></li>
+<li><p>Multi‑GPU &amp; multi‑node launch logic</p></li>
+<li><p>Checkpointing</p></li>
+<li><p>Logging</p></li>
+</ul>
+</li>
+<li><p><strong>Make code portable across hardware and environments</strong><br />
+With Lightning, the same script can run:</p>
+<ul class="simple">
+<li><p>on CPU</p></li>
+<li><p>on a single GPU</p></li>
+<li><p>on multiple GPUs using DDP, FSDP or ZeRO</p></li>
+</ul>
+<p>Switching execution modes becomes a matter of changing a command‑line flag
+rather than rewriting the whole training script.</p>
+</li>
+</ol>
+<section id="lightning-building-blocks">
+<h3>Lightning building blocks<a class="headerlink" href="#lightning-building-blocks" title="Link to this heading"></a></h3>
+<p>The core API of Lightning rotates around two objects: <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>. <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code>  describes the architecture of the network,
+including forward pass, validation and test loops, optimisers and LR
+schedulers. Conversely, <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> handles the “engineering” side of things:
+running training, validation and test dataloaders, calling callbacks at the
+right time (e.g. checkpointing, logging), transparently handling device
+placement following the prescribed parallelisation strategy. In particular,
+<code class="docutils literal notranslate"><span class="pre">Callback</span></code>s are used to inject custom, non-essential code at appropriate times.
+This can be very useful for progress tracking, logging and checkpointing.</p>
+<div class="admonition-demo demo admonition" id="demo-0">
+<p class="admonition-title">Demo</p>
+<p>In this example, we will build a simple multilayer perceptron to classify
+flowers belonging to the Iris dataset based on a set of measurements
+(petal/sepal measurements). We will examine an example script creating this
+neural network one snippet at a time.</p>
+<p>The whole script can be found at <a class="reference download internal" download="" href="../../_downloads/ff5bcac17cd85af5631ec14cd99acf69/iris_example.py"><code class="xref download docutils literal notranslate"><span class="pre">code/iris/iris_example.py</span></code></a> and the
+submit script at <a class="reference download internal" download="" href="../../_downloads/483b7e2b100ad2d9a81a037d8e9c72f5/job.slurm"><code class="xref download docutils literal notranslate"><span class="pre">code/iris/job.slurm</span></code></a>. The code assumes the iris
+dataset has been downloaded into a <code class="docutils literal notranslate"><span class="pre">./data</span></code> folder. There are scripts to
+download it included.
+For people running on Leonardo, all the code and data can be found at
+<code class="docutils literal notranslate"><span class="pre">/leonardo/pub/userexternal/ffiusco0/code</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span> 
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span> 
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="kn">import</span> <span class="n">Adam</span> 
+<span class="kn">import</span><span class="w"> </span><span class="nn">lightning</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">L</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">lightning.pytorch.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callback</span> 
+</pre></div>
+</div>
+<p>Our basic imports, plus <code class="docutils literal notranslate"><span class="pre">Lighthing</span></code> and its <code class="docutils literal notranslate"><span class="pre">Callback</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">IrisClassifier</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Input: 4 features (sepal/petal measurements)</span>
+        <span class="c1"># Hidden: 16 neurons</span>
+        <span class="c1"># Output: 3 classes (Setosa, Versicolour, Virginica)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer_1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer_2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Standard Forward Pass</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layer_1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer_2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="c1"># 1. Unpack batch</span>
+        <span class="c1"># Tabular data usually comes as (features, labels)</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
+        
+        <span class="c1"># 2. Forward pass</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        
+        <span class="c1"># 3. Compute Loss</span>
+        <span class="c1"># CrossEntropyLoss expects logits for multi-class classification</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        
+        <span class="c1"># 4. Log the loss (so our Callback can see it later!)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">&quot;train_loss&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here is all that pertains architecture and behaviour of the network:</p>
+<ul class="simple">
+<li><p>In the constructor, we define the network itself (input layer + 16 hidden neurons + output layer)</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">forward()</span></code> method describes the forward pass, which in this case is just a ReLU of the first layer and the output</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">training_step</span></code> method defines the core logic of each training step: get the features and labels from the batch, do the forward pass, compute the loss and log it</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">configure_optimizers</span></code> step schedules an Adam optimiser with a certain learning rate.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">TensorDataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+
+<span class="n">iris</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;./data/iris.npz&quot;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">iris</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="c1"># Features</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">iris</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>  <span class="c1"># Labels (0, 1, 2)</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">IrisClassifier</span><span class="p">()</span>
+
+<span class="c1"># Initialize Trainer with the Callback</span>
+<span class="c1"># We plug a &quot;Spy&quot; Callback into the callbacks list</span>
+<span class="n">logger_callback</span> <span class="o">=</span> <span class="n">TrainingLogger</span><span class="p">()</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">logger_callback</span><span class="p">],</span> <span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span><span class="p">)</span>
+
+<span class="c1"># Train</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The first part of the snippet loads the Iris dataset from <code class="docutils literal notranslate"><span class="pre">sklearn</span></code> (not
+crucial, just an easily accessible source). It then converts it into a format
+digestible by PyTorch. The <code class="docutils literal notranslate"><span class="pre">IrisClassifier</span></code> model we created above is then
+instantiated.
+The Lightning <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> object takes care of the <em>engineering</em> of
+the flow: sets a number of epochs, which accelerator to use and possibly number
+of devices/nodes over which the job can be parallelised with a certain
+strategy. Note also the inclusion of a <code class="docutils literal notranslate"><span class="pre">logger_callback</span></code>: this exemplifies the use
+of callbacks to trigger the execution of arbitrary code at certain moments of
+the training cycle. In this case, our own <code class="docutils literal notranslate"><span class="pre">TrainingLogger</span></code> looks like the
+following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">TrainingLogger</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_train_epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">,</span> <span class="n">pl_module</span><span class="p">):</span>
+        <span class="c1"># This runs automatically at the end of every epoch</span>
+        <span class="c1"># We access the logged metrics from the module via trainer.callback_metrics</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">callback_metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;train_loss&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spy Report: Epoch </span><span class="si">{</span><span class="n">trainer</span><span class="o">.</span><span class="n">current_epoch</span><span class="si">}</span><span class="s2"> ended. Loss: </span><span class="si">{</span><span class="n">loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Lightning provides some plumbing to create <code class="docutils literal notranslate"><span class="pre">Callback</span></code>s and even some specific
+types (learning rate schedulers, gradient accumulation, etc.). In the snippet
+above, the training loss is printed after every epoch. A number of trigger
+events are available (fit end, fit start, checkpoint loading, test epoch
+start…).</p>
+</div>
+</section>
+<section id="lightning-data-modules">
+<h3>Lightning data modules<a class="headerlink" href="#lightning-data-modules" title="Link to this heading"></a></h3>
+<p>When training neural networks in PyTorch, it is usually needed to find/download
+the dataset, load it from disk, doing train/validation/test splits and a number
+of other preprocessing steps. In the previous example, these steps were
+performed in the launching snippet. In order to improve code organisation and
+reusability, Lightning introduces a <code class="docutils literal notranslate"><span class="pre">LightningDataModule</span></code>, which takes care of
+all these steps and returns the correct torch Dataloaders. A generic
+<code class="docutils literal notranslate"><span class="pre">LightningDataModule</span></code> features a number of hooks:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">DataModule</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">LightningDataModule</span><span class="p">):</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">prepare_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="o">...</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="o">...</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">train_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="o">...</span>
+  <span class="k">def</span><span class="w"> </span><span class="nf">val_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="o">...</span>
+
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">prepare_data()</span></code> runs once and is usually used to download and/or check
+files. It runs only on one process, even if multiple GPUs are used.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setup(stage)</span></code> runs on each rank and loads arrays and creates the datasets.
+The <code class="docutils literal notranslate"><span class="pre">stage</span></code> parameter can be used to prepare data for different steps of the
+training lifecycle (fit, validate, predict, test)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">train_dataloader(),</span> <span class="pre">val_dataloader(),</span> <span class="pre">test_dataloader()</span></code> return PyTorch
+dataloaders for the different splits.</p></li>
+</ul>
+<p>In the next example, we can see how to refactor the Iris training snippet to
+use a Lightning data module:</p>
+<div class="admonition-demo demo admonition" id="demo-1">
+<p class="admonition-title">Demo</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">IrisDataModule</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">LightningDataModule</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data_dir</span> <span class="o">=</span> <span class="s2">&quot;./data&quot;</span><span class="p">,</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+        <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">val_size</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">random_state</span> <span class="o">=</span> <span class="mi">42</span><span class="p">,</span>
+        <span class="n">shuffle</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">=</span> <span class="n">data_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="s2">&quot;iris.npz&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_size</span> <span class="o">=</span> <span class="n">val_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">random_state</span> <span class="o">=</span> <span class="n">random_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span> <span class="o">=</span> <span class="n">shuffle</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_ds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_ds</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_hyperparameters</span><span class="p">(</span><span class="n">ignore</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;num_workers&quot;</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">prepare_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Expected dataset at </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Run the download script provided to create it.&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_file</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>   <span class="c1"># shape (150, 4)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>     <span class="c1"># shape (150,)</span>
+
+        <span class="c1"># Train/val split (stratified to keep class balance)</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">val_size</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">random_state</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Convert to tensors</span>
+        <span class="n">X_train</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+        <span class="n">y_train</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+        <span class="n">X_val</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">X_val</span><span class="p">)</span>
+        <span class="n">y_val</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">y_val</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_ds</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_ds</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">train_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DataLoader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">train_ds</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">,</span>
+            <span class="n">num_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">val_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DataLoader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">val_ds</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">num_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>Now to train the network:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assume that IrisClassifier and TrainingLogger are available </span>
+
+<span class="n">dm</span> <span class="o">=</span> <span class="n">IrisDataModule</span><span class="p">(</span><span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;./data&quot;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">val_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">logger_callback</span> <span class="o">=</span> <span class="n">TrainingLogger</span><span class="p">()</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">logger_callback</span><span class="p">],</span> <span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">IrisClassifier</span><span class="p">()</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">datamodule</span><span class="o">=</span><span class="n">dm</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The whole script can be found at <a class="reference download internal" download="" href="../../_downloads/e35a1a7c21106277575d15eaefdb43e2/iris_with_datamodule.py"><code class="xref download docutils literal notranslate"><span class="pre">code/iris/iris_with_datamodule.py</span></code></a> and the submit script at <a class="reference download internal" download="" href="../../_downloads/483b7e2b100ad2d9a81a037d8e9c72f5/job.slurm"><code class="xref download docutils literal notranslate"><span class="pre">code/iris/job.slurm</span></code></a>.</p>
+</div>
+<p>Lightning works extremely well in SLURM-like environments since the number of
+nodes/devices and the parallelisation strategy can be passed as arguments to
+the <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> object and can be fed from SLURM environmental variables
+(<code class="docutils literal notranslate"><span class="pre">$SLURM_GPUS_PER_NODE</span></code>, <code class="docutils literal notranslate"><span class="pre">$SLURM_NNODES</span></code>). This effectively means that both the
+Python script itself and the submit script can stay the same. For example, the number of epochs, nodes, GPUs per node and parallelisation strategy can be parsed as arguments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pytorch_lightning.strategies</span><span class="w"> </span><span class="kn">import</span> <span class="n">FSDPStrategy</span>
+
+<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--gpus&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of GPUs per node&#39;</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--nodes&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;number of nodes&#39;</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--epochs&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;N&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;maximum number of epochs to run&#39;</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--accelerator&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;gpu&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;accelerator to use&#39;</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--strategy&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;ddp&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;distributed strategy to use&#39;</span><span class="p">)</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+<span class="c1"># Some work needed for FSDP</span>
+<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;fsdp&quot;</span><span class="p">:</span>
+    <span class="n">strategy</span> <span class="o">=</span> <span class="n">FSDPStrategy</span><span class="p">(</span>
+        <span class="n">sharding_strategy</span><span class="o">=</span><span class="s2">&quot;FULL_SHARD&quot;</span><span class="p">,</span>  
+        <span class="n">cpu_offload</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;fsdp1&quot;</span><span class="p">:</span>
+    <span class="n">strategy</span> <span class="o">=</span> <span class="n">FSDPStrategy</span><span class="p">(</span>
+        <span class="n">sharding_strategy</span><span class="o">=</span><span class="s2">&quot;SHARD_GRAD_OP&quot;</span><span class="p">,</span>  
+        <span class="n">cpu_offload</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>    
+<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;fsdp2&quot;</span><span class="p">:</span>
+    <span class="n">strategy</span> <span class="o">=</span> <span class="n">FSDPStrategy</span><span class="p">(</span>
+        <span class="n">sharding_strategy</span><span class="o">=</span><span class="s2">&quot;NO_SHARD&quot;</span><span class="p">,</span> 
+        <span class="n">cpu_offload</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">strategy</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">strategy</span> 
+</pre></div>
+</div>
+<p>and then passed to the Trainer object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trainer</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span>
+  <span class="n">devices</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">gpus</span><span class="p">,</span>
+  <span class="n">num_nodes</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">nodes</span><span class="p">,</span>
+  <span class="n">max_epochs</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">epochs</span><span class="p">,</span>
+  <span class="n">accelerator</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">accelerator</span><span class="p">,</span>
+  <span class="n">strategy</span><span class="o">=</span><span class="n">strategy</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="exercises">
+<h2>Exercises<a class="headerlink" href="#exercises" title="Link to this heading"></a></h2>
+<div class="admonition-resnet50-trained-on-the-cifar10-dataset exercise important admonition" id="exercise-0">
+<p class="admonition-title">ResNet50 trained on the Cifar10 dataset</p>
+<p>In the following example, a ResNet50 is trained on the Cifar10 image dataset to classify images into 10 categories. Fill in the <code class="docutils literal notranslate"><span class="pre">#TODO</span></code> lines and submit using the script at <a class="reference download internal" download="" href="../../_downloads/b85a725108240d0f59d0f89641e33af8/job.slurm"><code class="xref download docutils literal notranslate"><span class="pre">code/cifar10/job.slurm</span></code></a>. The submit script also allows you to test different parallelisation strategies.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># train_cifar10_pl_student.py</span>
+<span class="c1"># PyTorch Lightning training on CIFAR-10 with a ResNet50 backbone.</span>
+<span class="c1"># Assumes dataset is present in ./data (download disabled) and optional weights at ./model_weights/resnet50_imagenet.pth</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optim</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytorch_lightning</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">L</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytorch_lightning.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ModelCheckpoint</span><span class="p">,</span>
+    <span class="n">LearningRateMonitor</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytorch_lightning.loggers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TensorBoardLogger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytorch_lightning.strategies</span><span class="w"> </span><span class="kn">import</span> <span class="n">FSDPStrategy</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">models</span>
+
+<span class="c1"># Optional FSDP imports (no auto_wrap policy here)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">torch.distributed.fsdp</span><span class="w"> </span><span class="kn">import</span> <span class="n">ShardingStrategy</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="n">ShardingStrategy</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="c1"># -----------------------------</span>
+<span class="c1"># DataModule for CIFAR-10</span>
+<span class="c1"># -----------------------------</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CIFAR10DataModule</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">LightningDataModule</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;./data&quot;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">=</span> <span class="n">data_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span>
+
+        <span class="c1"># Normalize with ImageNet stats (works well with ResNet50 pretraining)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_transforms</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="mi">224</span><span class="p">),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">RandomHorizontalFlip</span><span class="p">(),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">RandomCrop</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span>
+                    <span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="n">std</span><span class="o">=</span><span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">]</span>
+                <span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_transforms</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="mi">224</span><span class="p">),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">CenterCrop</span><span class="p">(</span><span class="mi">224</span><span class="p">),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span>
+                    <span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="n">std</span><span class="o">=</span><span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">]</span>
+                <span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_set</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span>
+            <span class="n">root</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span>
+            <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">train_transforms</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_set</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span>
+            <span class="n">root</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span>
+            <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">val_transforms</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">train_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># TODO: return DataLoader for self.train_set with shuffle=True</span>
+        <span class="c1"># Use batch_size=self.batch_size and num_workers=self.num_workers</span>
+        <span class="c1"># OBS: remember to pass pin_memory=False to the dataloader</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;TODO: Implement train_dataloader()&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">val_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># TODO: return DataLoader for self.val_set with shuffle=False</span>
+        <span class="c1"># OBS: remember to pass pin_memory=False to the dataloader</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;TODO: Implement val_dataloader()&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># -----------------------------</span>
+<span class="c1"># LightningModule for ResNet50 on CIFAR-10</span>
+<span class="c1"># -----------------------------</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LitResNet50</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">weights_path</span><span class="o">=</span><span class="s2">&quot;./model_weights/resnet50_imagenet.pth&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_hyperparameters</span><span class="p">()</span>
+
+        <span class="n">backbone</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># do not trigger internet download</span>
+        <span class="n">in_features</span> <span class="o">=</span> <span class="n">backbone</span><span class="o">.</span><span class="n">fc</span><span class="o">.</span><span class="n">in_features</span>
+        <span class="n">backbone</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">backbone</span>
+
+        <span class="c1"># If weights exist, load them (ignore mismatched classifier with strict=False)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">weights_path</span><span class="p">):</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">weights_path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Remove fc layer from ImageNet since I have only 10 classes in the end</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;fc.&quot;</span><span class="p">)}</span>
+                <span class="n">missing</span><span class="p">,</span> <span class="n">unexpected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;[Info] Loaded weights from </span><span class="si">{</span><span class="n">weights_path</span><span class="si">}</span><span class="s2">. Missing: </span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s2">, Unexpected: </span><span class="si">{</span><span class="n">unexpected</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Warn] Could not load weights from </span><span class="si">{</span><span class="n">weights_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[Info] No external weights found at </span><span class="si">{</span><span class="n">weights_path</span><span class="si">}</span><span class="s2">. Using random initialization.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+
+        <span class="c1"># Fixed (not CLI) optimization hyperparameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_momentum</span> <span class="o">=</span> <span class="mf">0.9</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weight_decay</span> <span class="o">=</span> <span class="mf">1e-4</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">accuracy</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">preds</span> <span class="o">==</span> <span class="n">targets</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span>
+            <span class="n">lr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hparams</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span>
+            <span class="n">momentum</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_momentum</span><span class="p">,</span>
+            <span class="n">weight_decay</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_weight_decay</span><span class="p">,</span>
+            <span class="n">nesterov</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">scheduler</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">StepLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;optimizer&quot;</span><span class="p">:</span> <span class="n">optimizer</span><span class="p">,</span>
+            <span class="s2">&quot;lr_scheduler&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;scheduler&quot;</span><span class="p">:</span> <span class="n">scheduler</span><span class="p">,</span> <span class="s2">&quot;interval&quot;</span><span class="p">:</span> <span class="s2">&quot;epoch&quot;</span><span class="p">},</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="c1"># TODO: unpack batch, forward pass, compute loss (hint: the criterion() method above returns the cross entropy loss)</span>
+        <span class="n">acc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="s2">&quot;train_loss&quot;</span><span class="p">,</span>
+            <span class="n">loss</span><span class="p">,</span>
+            <span class="n">on_step</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">on_epoch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">prog_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">sync_dist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="s2">&quot;train_acc&quot;</span><span class="p">,</span>
+            <span class="n">acc</span><span class="p">,</span>
+            <span class="n">on_step</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">on_epoch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">prog_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">sync_dist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="c1"># TODO: implement validation pass with accuracy metric as above</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="s2">&quot;val_loss&quot;</span><span class="p">,</span>
+            <span class="n">val_loss</span><span class="p">,</span>
+            <span class="n">on_step</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">on_epoch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">prog_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">sync_dist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="s2">&quot;val_acc&quot;</span><span class="p">,</span>
+            <span class="n">val_acc</span><span class="p">,</span>
+            <span class="n">on_step</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">on_epoch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">prog_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">sync_dist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="c1"># -----------------------------</span>
+<span class="c1"># Utility to build strategy</span>
+<span class="c1"># -----------------------------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_strategy</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Map string to Lightning&#39;s strategy or FSDPStrategy.</span>
+<span class="sd">    Options:</span>
+<span class="sd">      - &#39;ddp&#39;</span>
+<span class="sd">      - &#39;fsdp_full&#39;</span>
+<span class="sd">      - &#39;fsdp_shard_grad&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;ddp&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;ddp&quot;</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;fsdp&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">FSDPStrategy</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">ShardingStrategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;FSDP strategy requested but not available in this environment.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;fsdp_full&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">FSDPStrategy</span><span class="p">(</span><span class="n">sharding_strategy</span><span class="o">=</span><span class="n">ShardingStrategy</span><span class="o">.</span><span class="n">FULL_SHARD</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;fsdp_shard_grad&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">FSDPStrategy</span><span class="p">(</span><span class="n">sharding_strategy</span><span class="o">=</span><span class="n">ShardingStrategy</span><span class="o">.</span><span class="n">SHARD_GRAD_OP</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown strategy &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># -----------------------------</span>
+<span class="c1"># Main</span>
+<span class="c1"># -----------------------------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_args</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Train ResNet50 on CIFAR-10 with Lightning.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--data_dir&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./data&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--weights_path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./model_weights/resnet50_imagenet.pth&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--batch_size&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--num_workers&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--lr&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="c1"># Cluster-related args</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--devices&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of GPUs to use per node.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--num_nodes&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of nodes.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--strategy&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;ddp&quot;</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ddp&quot;</span><span class="p">,</span> <span class="s2">&quot;fsdp_full&quot;</span><span class="p">,</span> <span class="s2">&quot;fsdp_shard_grad&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--max_epochs&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--log_dir&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./lightning_logs&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="c1"># Fixed seed (not controlled by CLI)</span>
+    <span class="n">L</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">datamodule</span> <span class="o">=</span> <span class="n">CIFAR10DataModule</span><span class="p">(</span>
+        <span class="n">data_dir</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span>
+        <span class="n">num_workers</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">LitResNet50</span><span class="p">(</span>
+        <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">lr</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span>
+        <span class="n">weights_path</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">weights_path</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">strategy</span> <span class="o">=</span> <span class="n">build_strategy</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">strategy</span><span class="p">)</span>
+
+    <span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">ModelCheckpoint</span><span class="p">(</span>
+            <span class="n">dirpath</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">strategy</span><span class="p">,</span> <span class="s2">&quot;checkpoints&quot;</span><span class="p">),</span>
+            <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;epoch</span><span class="si">{epoch:03d}</span><span class="s2">-valacc</span><span class="si">{val_acc:.4f}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_acc&quot;</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span>
+            <span class="n">save_top_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">save_last</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">auto_insert_metric_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">LearningRateMonitor</span><span class="p">(</span><span class="n">logging_interval</span><span class="o">=</span><span class="s2">&quot;epoch&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">TensorBoardLogger</span><span class="p">(</span><span class="n">save_dir</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">strategy</span><span class="p">)</span>
+
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span>
+        <span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span><span class="p">,</span>
+        <span class="n">devices</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">devices</span><span class="p">,</span>
+        <span class="n">num_nodes</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span>
+        <span class="n">strategy</span><span class="o">=</span><span class="n">strategy</span><span class="p">,</span>
+        <span class="n">max_epochs</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">max_epochs</span><span class="p">,</span>
+        <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">,</span>
+        <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">,</span>
+        <span class="n">deterministic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">gradient_clip_val</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">datamodule</span><span class="o">=</span><span class="n">datamodule</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition-solution solution important dropdown admonition" id="solution-0">
+<p class="admonition-title">Solution</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># train_cifar10_pl_solution.py</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optim</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytorch_lightning</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">L</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lightning.pytorch.callbacks</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ModelCheckpoint</span><span class="p">,</span>
+    <span class="n">LearningRateMonitor</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytorch_lightning.loggers</span><span class="w"> </span><span class="kn">import</span> <span class="n">TensorBoardLogger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pytorch_lightning.strategies</span><span class="w"> </span><span class="kn">import</span> <span class="n">FSDPStrategy</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">transforms</span><span class="p">,</span> <span class="n">models</span>
+
+<span class="c1"># Optional FSDP imports (no auto_wrap policy here)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">torch.distributed.fsdp</span><span class="w"> </span><span class="kn">import</span> <span class="n">ShardingStrategy</span>
+<span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+    <span class="n">ShardingStrategy</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="c1"># -----------------------------</span>
+<span class="c1"># DataModule</span>
+<span class="c1"># -----------------------------</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CIFAR10DataModule</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">LightningDataModule</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="s2">&quot;./data&quot;</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">=</span> <span class="n">data_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">=</span> <span class="n">num_workers</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_transforms</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="mi">224</span><span class="p">),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">RandomHorizontalFlip</span><span class="p">(),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">RandomCrop</span><span class="p">(</span><span class="mi">224</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span>
+                    <span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="n">std</span><span class="o">=</span><span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">]</span>
+                <span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_transforms</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">Resize</span><span class="p">(</span><span class="mi">224</span><span class="p">),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">CenterCrop</span><span class="p">(</span><span class="mi">224</span><span class="p">),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+                <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">(</span>
+                    <span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span> <span class="n">std</span><span class="o">=</span><span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">]</span>
+                <span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_set</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span>
+            <span class="n">root</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span>
+            <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">train_transforms</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_set</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">CIFAR10</span><span class="p">(</span>
+            <span class="n">root</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span>
+            <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">val_transforms</span><span class="p">,</span>
+            <span class="n">download</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">train_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DataLoader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">train_set</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">num_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
+            <span class="n">pin_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">val_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DataLoader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">val_set</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">num_workers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
+            <span class="n">pin_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="c1"># -----------------------------</span>
+<span class="c1"># LightningModule</span>
+<span class="c1"># -----------------------------</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LitResNet50</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">weights_path</span><span class="o">=</span><span class="s2">&quot;./model_weights/resnet50_imagenet.pth&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_hyperparameters</span><span class="p">()</span>
+
+        <span class="n">backbone</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">resnet50</span><span class="p">(</span><span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># do not trigger internet download</span>
+        <span class="n">in_features</span> <span class="o">=</span> <span class="n">backbone</span><span class="o">.</span><span class="n">fc</span><span class="o">.</span><span class="n">in_features</span>
+        <span class="n">backbone</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">backbone</span>
+
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">weights_path</span><span class="p">):</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">weights_path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Remove fc layer from ImageNet since I have only 10 classes in the end</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;fc.&quot;</span><span class="p">)}</span>
+                <span class="c1"># allow mismatched classifier layer</span>
+                <span class="n">missing</span><span class="p">,</span> <span class="n">unexpected</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;[Info] Loaded weights from </span><span class="si">{</span><span class="n">weights_path</span><span class="si">}</span><span class="s2">. Missing: </span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s2">, Unexpected: </span><span class="si">{</span><span class="n">unexpected</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Warn] Could not load weights from </span><span class="si">{</span><span class="n">weights_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[Info] No external weights found at </span><span class="si">{</span><span class="n">weights_path</span><span class="si">}</span><span class="s2">. Using random initialization.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+
+        <span class="c1"># Fixed optimization hyperparameters (not exposed via CLI)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_momentum</span> <span class="o">=</span> <span class="mf">0.9</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weight_decay</span> <span class="o">=</span> <span class="mf">1e-4</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">accuracy</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">preds</span> <span class="o">==</span> <span class="n">targets</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">configure_optimizers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span>
+            <span class="n">lr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hparams</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span>
+            <span class="n">momentum</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_momentum</span><span class="p">,</span>
+            <span class="n">weight_decay</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_weight_decay</span><span class="p">,</span>
+            <span class="n">nesterov</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">scheduler</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">StepLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;optimizer&quot;</span><span class="p">:</span> <span class="n">optimizer</span><span class="p">,</span>
+            <span class="s2">&quot;lr_scheduler&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;scheduler&quot;</span><span class="p">:</span> <span class="n">scheduler</span><span class="p">,</span> <span class="s2">&quot;interval&quot;</span><span class="p">:</span> <span class="s2">&quot;epoch&quot;</span><span class="p">},</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">acc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="s2">&quot;train_loss&quot;</span><span class="p">,</span>
+            <span class="n">loss</span><span class="p">,</span>
+            <span class="n">on_step</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">on_epoch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">prog_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">sync_dist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="s2">&quot;train_acc&quot;</span><span class="p">,</span>
+            <span class="n">acc</span><span class="p">,</span>
+            <span class="n">on_step</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">on_epoch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">prog_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">sync_dist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">validation_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">val_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">criterion</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">val_acc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="s2">&quot;val_loss&quot;</span><span class="p">,</span>
+            <span class="n">val_loss</span><span class="p">,</span>
+            <span class="n">on_step</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">on_epoch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">prog_bar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">sync_dist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+            <span class="s2">&quot;val_acc&quot;</span><span class="p">,</span>
+            <span class="n">val_acc</span><span class="p">,</span>
+            <span class="n">on_step</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">on_epoch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">prog_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">sync_dist</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="c1"># -----------------------------</span>
+<span class="c1"># Strategy builder</span>
+<span class="c1"># -----------------------------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_strategy</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;ddp&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;ddp&quot;</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;fsdp&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">FSDPStrategy</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">ShardingStrategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s2">&quot;FSDP strategy requested but not available in this environment.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;fsdp_full&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">FSDPStrategy</span><span class="p">(</span><span class="n">sharding_strategy</span><span class="o">=</span><span class="n">ShardingStrategy</span><span class="o">.</span><span class="n">FULL_SHARD</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;fsdp_shard_grad&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">FSDPStrategy</span><span class="p">(</span><span class="n">sharding_strategy</span><span class="o">=</span><span class="n">ShardingStrategy</span><span class="o">.</span><span class="n">SHARD_GRAD_OP</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown strategy &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+
+<span class="c1"># -----------------------------</span>
+<span class="c1"># Main</span>
+<span class="c1"># -----------------------------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_args</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Train ResNet50 on CIFAR-10 with Lightning.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--data_dir&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./data&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--weights_path&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./model_weights/resnet50_imagenet.pth&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--batch_size&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--num_workers&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--lr&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="c1"># Cluster-related args</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--devices&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of GPUs to use per node.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--num_nodes&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of nodes.&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--strategy&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;ddp&quot;</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ddp&quot;</span><span class="p">,</span> <span class="s2">&quot;fsdp_full&quot;</span><span class="p">,</span> <span class="s2">&quot;fsdp_shard_grad&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--max_epochs&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;--log_dir&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./lightning_logs&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="c1"># Fixed seed (not exposed via CLI)</span>
+    <span class="n">L</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">datamodule</span> <span class="o">=</span> <span class="n">CIFAR10DataModule</span><span class="p">(</span>
+        <span class="n">data_dir</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">batch_size</span><span class="p">,</span>
+        <span class="n">num_workers</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">num_workers</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">LitResNet50</span><span class="p">(</span>
+        <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">lr</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">lr</span><span class="p">,</span>
+        <span class="n">weights_path</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">weights_path</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">strategy</span> <span class="o">=</span> <span class="n">build_strategy</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">strategy</span><span class="p">)</span>
+
+    <span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">ModelCheckpoint</span><span class="p">(</span>
+            <span class="n">dirpath</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">strategy</span><span class="p">,</span> <span class="s2">&quot;checkpoints&quot;</span><span class="p">),</span>
+            <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;epoch</span><span class="si">{epoch:03d}</span><span class="s2">-valacc</span><span class="si">{val_acc:.4f}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">monitor</span><span class="o">=</span><span class="s2">&quot;val_acc&quot;</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span>
+            <span class="n">save_top_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">save_last</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">auto_insert_metric_name</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">LearningRateMonitor</span><span class="p">(</span><span class="n">logging_interval</span><span class="o">=</span><span class="s2">&quot;epoch&quot;</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">TensorBoardLogger</span><span class="p">(</span><span class="n">save_dir</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">log_dir</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">strategy</span><span class="p">)</span>
+
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span>
+        <span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span><span class="p">,</span>
+        <span class="n">devices</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">devices</span><span class="p">,</span>
+        <span class="n">num_nodes</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span>
+        <span class="n">strategy</span><span class="o">=</span><span class="n">strategy</span><span class="p">,</span>
+        <span class="n">max_epochs</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">max_epochs</span><span class="p">,</span>
+        <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">,</span>
+        <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">,</span>
+        <span class="n">deterministic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">gradient_clip_val</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">enable_checkpointing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">datamodule</span><span class="o">=</span><span class="n">datamodule</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Try to run this example while changing parallelisation strategy/number of
+resources from the submit script!</p>
+</div>
+</div>
+<div class="admonition-bonus-add-logging-of-wall-time-per-epoch exercise important admonition" id="exercise-1">
+<p class="admonition-title">Bonus: add logging of wall time per epoch</p>
+<p>You can create a custom callback to plot time per epoch to compare the different approaches.
+<em>Hint: you can use the <code class="docutils literal notranslate"><span class="pre">on_train_epoch_start()</span></code> and <code class="docutils literal notranslate"><span class="pre">on_train_epoch_end()</span></code> hooks</em>.</p>
+<div class="admonition-solution solution important dropdown admonition" id="solution-1">
+<p class="admonition-title">Solution</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">EpochTimingCallback</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">Callback</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_train_epoch_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">,</span> <span class="n">pl_module</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epoch_start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_train_epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">,</span> <span class="n">pl_module</span><span class="p">):</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">epoch_start_time</span>
+        <span class="n">trainer</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log_metrics</span><span class="p">({</span><span class="s2">&quot;epoch_time_sec&quot;</span><span class="p">:</span> <span class="n">duration</span><span class="p">},</span> <span class="n">step</span><span class="o">=</span><span class="n">trainer</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Timing] Epoch </span><span class="si">{</span><span class="n">trainer</span><span class="o">.</span><span class="n">current_epoch</span><span class="si">}</span><span class="s2"> took </span><span class="si">{</span><span class="n">duration</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+
+</pre></div>
+</div>
+<p>Remember to add this to the list of callbacks and to import the <code class="docutils literal notranslate"><span class="pre">time</span></code> module!</p>
+</div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading"></a></h2>
+<p>PyTorch Lightning can be used to produce more organised, reusable code to train neural network by clearly separating architecture, data and plumbing by taking advantage of <code class="docutils literal notranslate"><span class="pre">LightningModule</span></code>, <code class="docutils literal notranslate"><span class="pre">LightningDataModule</span></code> and <code class="docutils literal notranslate"><span class="pre">Trainer</span></code> respectively. Parallelising over several GPUs/nodes is made transparent and requires virtually no changes to the code.</p>
+</section>
+<section id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Pytorch Lightning <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">documentation</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../hu/" class="btn btn-neutral float-left" title="2A: Model parallelism with Pytorch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../be/fine_tuning/README/" class="btn btn-neutral float-right" title="3A: Fine-tuning neural networks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, The contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
